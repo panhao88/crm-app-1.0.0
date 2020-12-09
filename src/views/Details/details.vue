@@ -1,5 +1,5 @@
 <template>
-  <div >
+  <div>
     <!-- 头部导航 -->
     <div>
       <van-nav-bar :fixed="true" :z-index="3" title="数据操纵">
@@ -22,31 +22,18 @@
       >
         <div class="box1">
           <div class="box2">{{ item.name }}</div>
-<<<<<<< HEAD
-          <!-- <div class="box3">（{{ item.LangthNum }}）</div> -->
-=======
-          <div class="box3">（{{ item.LangthNum }}）</div>
->>>>>>> 9768ab3aa21d177de27ec0de9446be7b4763eacb
         </div>
       </div>
-    </div>
-    <!-- 客户详情 -->
-    <div>
       <div>
+         <!-- 客户详情 -->
         <div class="love-a">
           <div class="love-b">基本信息：</div>
-<<<<<<< HEAD
           <div class="love-c" >
-            <div v-if="details.followupAt">最近更新</div>
-            <div>录入时间: {{details.entryTime}}</div>
-=======
-          <div class="love-c">
-            <div>最近更新: {{Details.followupAt}}</div>
-            <div>录入时间: {{Details.entryTime}}</div>
->>>>>>> 9768ab3aa21d177de27ec0de9446be7b4763eacb
-          </div>
+            <div>最近更新{{Details.followupAt}}</div>
+            <div>录入时间:{{Details.entryTime}}</div>
+            </div>
         </div>
-        <!-- <table>
+        <table>
           <tr>
             <td class="boedee-a">客户名称:</td>
             <td class="boedee-b">{{Details.name}}</td>
@@ -128,20 +115,18 @@
             <td class="boedee-a">备注:</td>
             <td class="boedee-b"></td>
           </tr>
-        </table> -->
-      </div>
+        </table>
       <div class="placeholder"></div>
       <div>
         <van-button  class="Shutdown" @click="previous ">关闭</van-button>
       </div>
+      </div>
     </div>
+   
   </div>
 </template>
 
 <script>
-import { createNamespacedHelpers } from "vuex";
-const userModule = createNamespacedHelpers("user");
-const { mapState: userState, mapActions: userActions } = userModule;
 export default {
   name: "",
   props: {},
@@ -217,16 +202,23 @@ export default {
         },
       ],
       current: 1, //颜色选择
-<<<<<<< HEAD
       ids: '', //详情id
-=======
-      ids: '', //详情id1111111111111111111
       Details:{}
->>>>>>> 9768ab3aa21d177de27ec0de9446be7b4763eacb
     };
   },
   methods: {
-     ...userActions(["details"]),
+     //详情数据
+    getdata() {
+      this.$api
+        .details(this.ids)
+        .then((res) => {
+          this.Details = res.data
+          console.log(this.Details );
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    },
     //点击选择数据
     qblist() {},
     //   返回首页
@@ -245,34 +237,14 @@ export default {
     homepage(){
       this.$router.push('/home')
     },
-    //详情数据
-<<<<<<< HEAD
+   
   },
   mounted() {
     this.ids = this.$route.query.id;
-    this.details({id:this.ids}); //详情数据
-=======
-    getdata() {
-      console.log(this.ids);
-      this.$api
-        .details(this.ids)
-        .then((res) => {
-          this.Details = res.data
-          console.log(this.Details );
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-    },
-  },
-  mounted() {
-    this.ids = this.$route.query.id;
-    this.getdata(); //详情数据
->>>>>>> 9768ab3aa21d177de27ec0de9446be7b4763eacb
+    this.getdata() //详情数据
   },
   watch: {},
   computed: {
-     ...userState(["details"]),
   },
 };
 </script>
@@ -294,6 +266,8 @@ export default {
   width: 100%;
   background: #505050;
   bottom: 0px;
+  color: #fff;
+  font-size: 16px;
 }
 .placeholder{
   height: 50px;

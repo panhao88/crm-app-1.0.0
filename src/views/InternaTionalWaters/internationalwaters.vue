@@ -14,11 +14,10 @@
       </div>
       <!-- 头部点击高亮 11-->
       <div class="Heels central">
-        <div
-          class="Heel_a"
+        <div class="Heel_a"
           v-for="(item, index) in titlelist"
           :key="index"
-          :class="item.bacolor === akp ? 'bgColors' : ''"
+          :class="index === akp ? 'bgColors' : ''"
           @click="qblist(index)"
         >
           <div class="box1">
@@ -34,12 +33,7 @@
     </div> -->
      <!-- 搜索框33 -->
       <div class="Heel_c">
-        <input
-          type="text"
-          v-model="value"
-          placeholder="客户名称、手机号码"
-          @keydown.enter="kenter"
-        /><button @click="search">搜索</button>
+        <input type="text" v-model="value" placeholder="客户名称、手机号码" @keydown.enter="kenter"/><button @click="search">搜索</button>
       </div>
       <!-- 客户数量限制： -->
       <!-- <div class="maxnumtip">
@@ -85,52 +79,13 @@
               <span> 最后更新: {{ item.entryTime }}</span>
               <span> 业务员: <font color="red">{{ item.followRecord }}</font></span>
               <span></span>
-              <van-checkbox
-                v-model="item.flag"
-                shape="square"
-                class="todo"
-                @change="radio"
+              <van-checkbox v-model="item.flag" shape="square" class="todo" @change="radio"
               ></van-checkbox>
               <span class="w100">
-                <button
-                  class="btn1 btnduanx"
-                  data-width="900"
-                  data-height="500"
-                  href="#"
-                  disabled
-                >
-                  短信
-                </button>
-
-                <button
-                  class="btn1 btnduanx"
-                  data-width="900"
-                  data-height="500"
-                  href="#"
-                  disabled
-                >
-                  发邮件
-                </button>
+                <button class="btn1 btnduanx" data-height="500" href="#" disabled >获取信息</button>
               </span>
               <span> (编号: {{ item.id }} )</span>
-
               <div class="clear"></div>
-            </div>
-            <div class="m-list-bottom">
-              <span class="m-l-b-num">
-                <span class="lianxi">联系人 </span><span> (0)</span>
-              </span>
-              <span class="m-l-b-num">
-                <span class="lianxi" @click="Sing_go(item.id)">跟单管理 </span>
-                <span v-if="item.recordNum == null"> (0)</span>
-                <span v-else> ({{ item.recordNum }})</span>
-              </span>
-              <span class="m-l-b-num">
-                <span class="lianxi">订单管理 </span><span>(0) </span>
-              </span>
-              <span class="m-l-b-num">
-                <span class="lianxi">合同管理 </span> <span>(0)</span>
-              </span>
             </div>
           </div>
         </div>
@@ -140,8 +95,7 @@
         <van-checkbox
           v-model="checked"
           checked-color="#07c160"
-          shape="square"
-          icon-size="16px"
+          icon-size="25px"
           @click="checkAllfalse"
           >你可以将选中信息:
           <div v-if="checked === false"></div>
@@ -224,22 +178,28 @@ export default {
           LangthNum: "",
         },
       ],
-      akp:0,
+      akp:0, //头部高亮
       value: "", // 输入框数据
-      mobile: "",
       checked: false, //选择框
       currentPage: 1, //当前页数
       username: {}, //获取用户信息
       usernameId: 0, //获取用户id
       pageNum: 1, //当前页分页
-      pageSize: 3, //当前多少条
+      pageSize: 10, //当前多少条
     };
   },
   methods: {
      ...userActions(["customerseas"]),
-    // 单选
-    radio(){
-
+     //导航点击事件
+    qblist(index){
+      this.akp = index
+    },
+      //去详情页
+    godetails(index) {
+      this.$router.push({
+        path: "/details",
+        query: { id: this.listseas[index].id },
+      });
     },
     //跟单管理
     Sing_go(){
@@ -247,13 +207,13 @@ export default {
     },
     // 全选
     checkAllfalse() {
-      this.listing.map((item) => {
+      this.listseas.map((item) => {
         item.flag = this.checked;
       });
     },
     //单选
     radio() {
-      this.checked = this.listing.every((item) => {
+      this.checked = this.listseas.every((item) => {
         return item.flag === true;
       });
     },
@@ -272,26 +232,12 @@ export default {
 
     },
     paging(e) {
-      // this.pageNum = e;
-      // console.log(e);
-      // this.$api
-      //   .seas(this.pageNum, this.pageSize)
-      //   .then((res) => {
-      //     console.log(res);
-      //     this.lists = res.list;
-      //     this.total = res.totalRow;
-      //   })
-      //   .catch((err) => {
-      //     console.log(err);
-      //   });
-    },
-    //去详情页
-    godetail(index) {
-      // console.log(index)
-      // this.$router.push({
-      //   path: "/details",
-      //   query: { id: this.lists[index].id },
-      // });
+      this.pageNum = e;
+       this.$store.dispatch("user/customerseas", {
+        name:this.value,
+        pageNum:this.pageNum,
+        pageSize:this.pageSize
+      });
     },
   },
   mounted() {

@@ -22,11 +22,10 @@
           v-for="(item, index) in titlelist"
           :key="index"
           :class="item.bacolor === akp ? 'bgColors' : ''"
-          @click="qblist(index)"
+          @click="qblist(item.bacolor)"
         >
           <div class="box1">
             <div class="box2">{{ item.name }}</div>
-            <div class="box3">{{ item.LangthNum }}</div>
           </div>
         </div>
         <div class="Heel_a backF5" @click="retreat">返回系统主页</div>
@@ -58,12 +57,6 @@
             :key="index"
           >
             <div class="m-list-title clearfix goto">
-              <van-checkbox
-                v-model="item.flag"
-                shape="square"
-                class="todo"
-                @change="radio"
-              ></van-checkbox>
               <span @click="godetails(index)">{{ item.name }}</span>
             </div>
             <div class="m-list-con clearfix">
@@ -98,43 +91,26 @@
               <span>搜索词:</span><span>微信号:{{ item.wechatCode }}</span>
               <span>预计到校时间:</span><span>网络面试时间:</span>
               <span> 录入者:{{ item.reporter }} </span>
-
               <span> 录入时间: {{ item.entryTime }}</span>
-
               <span>
                 最后更新:
-
                 <font color="red">{{ item.followRecord }}</font>
-
                 分前
               </span>
-
               <span> 业务员: </span>
-
-              <span class="w100">
-                <button
-                  class="btn1 btnduanx"
-                  data-width="900"
-                  data-height="500"
-                  href="#"
-                  disabled
-                >
-                  短信
-                </button>
-
-                <button
-                  class="btn1 btnduanx"
-                  data-width="900"
-                  data-height="500"
-                  href="#"
-                  disabled
-                >
-                  发邮件
-                </button>
-              </span>
-              <span> (编号: {{ item.id }} )</span>
-
-              <div class="clear"></div>
+             <span> <div  class="gonghaiyy">
+               <div>
+                   <van-checkbox
+                v-model="item.flag"
+                shape="square"
+                class="todo"
+                @change="radio"
+              ></van-checkbox>
+               </div>
+                <button class="gonghaipp" @click="gonghai(item)">加入公海</button>
+              </div></span>
+              <!-- (编号: {{ item.id }} ) -->
+              <span></span>
             </div>
             <div class="m-list-bottom">
               <span class="m-l-b-num">
@@ -191,7 +167,7 @@
         </div>
         <div class="zhuanyi">
           <van-button type="info" size="mini">转移</van-button>
-          <van-button type="primary" size="mini">转入公海</van-button>
+          <van-button type="primary" size="mini" @click="Thesea">转入公海</van-button>
         </div>
       </div>
       <!-- 转入公海 -->
@@ -291,19 +267,18 @@ export default {
           LangthNum: "",
         },
       ],
-      current: "",
       akp: -1,
       values1: "", // 输入框数据
-      mobile: "",
-      // listing: [], //客户列表
       checked: false, //选择框
       currentPage: 1, //当前页数
       value1: "", //点击变色高亮
       username: {}, //获取用户信息
       usernameId: 0, //获取用户id
       currentPage: 1, //当前页分页
-      // total: "",
-      pageSize: 10, //当前多少条
+      pageSize: 10, //
+      article:[], //筛选出的数据
+      list:[] ,//筛选出的id
+      separate:[] //删除单个
     };
   },
   methods: {
@@ -332,67 +307,16 @@ export default {
     },
     // 右边点击事件
     logoto() {},
-<<<<<<< HEAD
-=======
-    //客户列表
-    // getdata() {
-    //   this.$api
-    //     .recommend(
-    //       this.usernameId,
-    //       this.currentPage,
-    //       this.pageSize,
-    //       this.values1,
-    //       this.current
-    //     )
-    //     .then((res) => {
-    //       this.total = res.totalRow;
-    //       this.listing = res.list;
-    //       this.listing.map((item, index) => {
-    //         item.entryTime = dayjs(item.entryTime).format("YYYY-MM-DD");
-    //         this.$set(item, "flag", false);
-    //       });
-    //       console.log(res, "客户列表");
-    //     })
-    //     .catch((err) => {
-    //       console.log(err);
-    //     });
-    // },
->>>>>>> 9768ab3aa21d177de27ec0de9446be7b4763eacb
     //导航点击分类
-    qblist(index) {
-      this.akp = index;
-      console.log(index)
-      let id = this.usernameId;
-      let currentPage = this.currentPage;
-      let pageSize = this.pageSize;
-      let value = this.values1;
-      let marjon = index;
+    qblist(value111) {
+      this.akp = value111;
        this.$store.dispatch("user/recommend", {
         id: this.usernameId,
         currentPage: this.currentPage,
         pageSize: this.pageSize,
         value: this.values1,
-<<<<<<< HEAD
         marjon: this.akp,
       });
-=======
-        marjon: this.index,
-      });
-      // this.$api
-      //   .recommend(id, currentPage, pageSize, value, marjon)
-      //   .then((res) => {
-      //     this.total = res.totalRow;
-      //     this.listing = res.list;
-      //     this.listing.map((item, index) => {
-      //       item.entryTime = dayjs(item.entryTime).format("YYYY-MM-DD");
-      //       this.$set(item, "flag", false);
-      //     });
-      //     console.log(res, "列表分类");
-      //   })
-      //   .catch((err) => {
-      //     console.log(err);
-      //   });
->>>>>>> 9768ab3aa21d177de27ec0de9446be7b4763eacb
     },
     //去详情页
     godetails(index) {
@@ -403,7 +327,6 @@ export default {
     },
     //客户列表
     kehu() {
-<<<<<<< HEAD
         this.akp = -1;
          this.$store.dispatch("user/recommend", {
         id: this.usernameId,
@@ -412,10 +335,70 @@ export default {
         value: this.values1,
         marjon: this.akp,
       });
-=======
-      //   this.akp = -1;
-      //   this.getdata();
->>>>>>> 9768ab3aa21d177de27ec0de9446be7b4763eacb
+    },
+    //列表内放入公海
+    gonghai(item){
+       this.separate = item.id
+      // console.log(this.separate)
+      if(item.flag === true){
+        this.$dialog.confirm({
+          message:"你确认放入公海数据吗"
+        }).then(res => {
+           this.$store.dispatch("user/intoSeasCustomer", {
+                ids:this.separate,
+               accountId:this.usernameId,
+            });
+                       this.recommend({
+      id: this.usernameId,
+      currentPage: this.currentPage,
+      pageSize: this.pageSize,
+      value: this.values1,
+      marjon: this.akp,
+    });
+        this.$toast.success("放入成功");
+        }).catch(err => {
+          console.log(err)
+        })
+      }else{
+         this.$toast({
+          message: "你还没有选择要放入的内容",
+        });
+      }
+     
+    },
+    //底部放入公海
+    Thesea(){
+      this.article = this.listing.filter(item => {
+        return item.flag === true
+      })
+      if(this.article.length > 0){
+        this.$dialog
+          .confirm({
+            message: "你确认放入公海数据吗"
+          }).then(res => {
+            this.article.map(item => {
+              this.list.push(item.id)
+            })
+            this.$store.dispatch("user/intoSeasCustomer", {
+                ids:this.list,
+               accountId:this.usernameId,
+            });
+                this.recommend({
+      id: this.usernameId,
+      currentPage: this.currentPage,
+      pageSize: this.pageSize,
+      value: this.values1,
+      marjon: this.akp,
+    });
+             this.$toast.success("放入成功");
+          }).catch(err => {
+            console.log(err)
+          })
+      }else {
+        this.$toast({
+          message: "你还没有选择要放入的内容",
+        });
+      }
     },
     // 分页
     paging(e) {
@@ -425,7 +408,7 @@ export default {
         currentPage: this.currentPage,
         pageSize: this.pageSize,
         value: this.values1,
-        marjon: this.current,
+        marjon: this.akp,
       });
     },
     // 全选
@@ -449,11 +432,7 @@ export default {
       currentPage: this.currentPage,
       pageSize: this.pageSize,
       value: this.values1,
-<<<<<<< HEAD
       marjon: this.akp,
-=======
-      marjon: this.current,
->>>>>>> 9768ab3aa21d177de27ec0de9446be7b4763eacb
     });
   },
   watch: {
@@ -500,5 +479,18 @@ export default {
 }
 .bgColors {
   background-color: #f56659 !important;
+}
+.gonghaipp{
+  background-color: #096;
+  border: none;
+  color: #fff;
+  border-radius: 3px;
+  font-size: 12px;
+  padding: 0px 10px;
+}
+.gonghaiyy{
+  height: 40px;
+  display: flex;
+  align-items: center;
 }
 </style>

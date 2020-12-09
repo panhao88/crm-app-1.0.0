@@ -12,7 +12,7 @@ const isProduction = process.env.NODE_ENV === "production"
 // 创建axios配置对象
 const service = axios.create({
   timeout: 10000,
-  baseURL: isProduction ? 'http://211.149.157.5:85' : '/api'
+  baseURL: isProduction ? 'http://192.168.0.120' : '/api'
 })
 // 请求头类型
 service.defaults.headers.post["Content-Type"] = "application/x-www-form-urlencoded"

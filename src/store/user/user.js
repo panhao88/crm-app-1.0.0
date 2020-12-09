@@ -7,9 +7,8 @@ export default {
     namespaced: true,
     state: {
         listing: [], //用户列表数据
-<<<<<<< HEAD
         total: '',   //客户列表总条数
-        details: {},  //客户详情
+        // details: {},  //客户详情
         listseas: [],  //公海列表
         totalRow: ''   //公海总条数
     },
@@ -23,9 +22,9 @@ export default {
             state.total = data
         },
         //客户详情
-        setdetails(state, data) {
-            state.details = data
-        },
+        // setdetails(state, data) {
+        //     state.details = data
+        // },
         //公海列表
         setcustomerseas(state, data) {
             state.listseas = data
@@ -34,24 +33,7 @@ export default {
         settotalRow(state, data) {
             state.totalRow = data
         }
-
     },
-    // 数据列表
-=======
-        total: '',   //总条数
-
-    },
-    mutations: {
-        //数据列表
-        setlisting(state, data) {
-            state.listing = data
-        },
-        //数据总数
-        settotal(state, data) {
-            state.total = data
-        }
-    },
->>>>>>> 9768ab3aa21d177de27ec0de9446be7b4763eacb
     actions: {
         async recommend({ commit }, { id, currentPage, pageSize, value, marjon }) {
             try {
@@ -64,30 +46,25 @@ export default {
                     commit('settotal', res.totalRow)
                     res.list.map((item, index) => {
                         item.entryTime = dayjs(item.entryTime).format("YYYY-MM-DD");
-<<<<<<< HEAD
                         Vue.set(item, "flag", false);
-=======
-                        Vue.$set(item, "flag", false);
->>>>>>> 9768ab3aa21d177de27ec0de9446be7b4763eacb
                     });
                 }
             } catch (err) {
                 console.log(err)
             }
-<<<<<<< HEAD
         },
         //数据详情页
-        async details({ commit }, { id }) {
-            try {
-                let res = await api.details({ id })
-                console.log(res.data, "客户详情")
-                if (res.code === 200) {
-                    commit('setdetails', res.data)
-                }
-            } catch (err) {
-                console.log(err)
-            }
-        },
+        // async details({ commit }, { id }) {
+        //     try {
+        //         let res = await api.details({ id })
+        //         console.log(res.data, "客户详情")
+        //         if (res.code === 200) {
+        //             commit('setdetails', res.data)
+        //         }
+        //     } catch (err) {
+        //         console.log(err)
+        //     }
+        // },
         //获取客户公海
         async customerseas({ commit }, { name, pageNum, pageSize }) {
             try {
@@ -104,10 +81,15 @@ export default {
             } catch (err) {
                 console.log(err)
             }
-        }
-    },
-=======
+        },
+        //放入公海
+        async intoSeasCustomer({dispatch},{ids,accountId}){
+            try{
+                let res = await api.intoSeasCustomer({ids,accountId})
+                console.log(res,"放入公海")
+            }catch (err){
+                console.log(err)
+            }
         }
     }
->>>>>>> 9768ab3aa21d177de27ec0de9446be7b4763eacb
 }
