@@ -342,6 +342,7 @@ export default {
       });
     },
     //列表内放入公海
+
     gonghai(item) {
       this.separate = item.id;
       this.$dialog
@@ -377,6 +378,7 @@ export default {
       if (this.article.length > 0) {
         this.$dialog
           .confirm({
+
             message: "你确认放入公海数据吗",
           })
           .then((res) => {

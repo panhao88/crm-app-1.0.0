@@ -104,9 +104,11 @@ const routes = [
   },
   // 回收站
   {
+
     path: "/recyclebin",
     name: "recyclebin",
     component: () => import('../views/recyclebin/recyclebin.vue')
+
   },
   // 客户名片夹
   {
@@ -194,9 +196,11 @@ const routes = [
   },
   //详情页
   {
+
     path: "/details",
     name: "details",
     component: () => import('../views/details/Details.vue')
+
   },
   //关于
   {

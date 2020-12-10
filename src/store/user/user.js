@@ -66,6 +66,7 @@ export default {
                 console.log(err)
             }
         },
+
         //客户联系人
         async Thecontact({commit} ,{id}){
             try{
@@ -75,6 +76,7 @@ export default {
                 console.log(err)
             }
         },
+
         //获取客户公海
         async customerseas({ commit }, { name, pageNum, pageSize }) {
             try {

@@ -23,13 +23,16 @@
         class="Heel_a"
         v-for="(item, index) in titlelist"
         :key="index"
+
         :class="{ bgColors: item.bacolor === current }"
         @click="qblist(item.bacolor)"
+
       >
         <div class="box1">
           <div class="box2">{{ item.name }}</div>
         </div>
       </div>
+
       <div class="boxt" v-if="current === 1">
         <!-- 客户详情 -->
         <div class="love-a">
@@ -189,67 +192,67 @@ export default {
         {
           name: "客户资料",
           start: "",
-          bacolor: 1,
+          bacolor: 0,
           LangthNum: "",
         },
         {
           name: "联系人",
           start: "",
-          bacolor: 2,
+          bacolor: 1,
           LangthNum: "",
         },
         {
           name: "跟单管理",
           start: "",
-          bacolor: 3,
+          bacolor: 2,
           LangthNum: "",
         },
         {
           name: "订单管理",
           start: "",
-          bacolor: 4,
+          bacolor: 3,
           LangthNum: "",
         },
         {
           name: "合同管理",
           visit: "-1",
-          bacolor: 5,
+          bacolor: 4,
           LangthNum: "",
         },
         {
           name: "售后管理",
           visit: "0",
-          bacolor: 6,
+          bacolor: 5,
           LangthNum: "",
         },
         {
           name: "财务管理",
           visit: "1",
-          bacolor: 7,
+          bacolor: 6,
           LangthNum: "",
         },
         {
           name: "工单管理",
           foll: "0",
-          bacolor: 8,
+          bacolor: 7,
           LangthNum: "",
         },
         {
           name: "附件管理",
           foll: "1",
-          bacolor: 9,
+          bacolor: 8,
           LangthNum: "",
         },
         {
           name: "客户共享",
           deal: "0",
-          bacolor: 10,
+          bacolor: 9,
           LangthNum: "",
         },
         {
           name: "操纵记录",
           deal: "1",
-          bacolor: 11,
+          bacolor: 10,
           LangthNum: "",
         },
       ],
