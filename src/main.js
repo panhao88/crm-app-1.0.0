@@ -5,13 +5,10 @@ import store from './store'
 import Vant from 'vant';
 import api from './http/api'
 import 'vant/lib/index.css';
-import ElementUI from 'element-ui';
-import 'element-ui/lib/theme-chalk/index.css';
 import dayjs from 'dayjs'
 import VueParticles from 'vue-particles'  
 
 Vue.use(VueParticles)  
-Vue.use(ElementUI);
 Vue.prototype.$api = api
 Vue.prototype.$dayjs = dayjs
 Vue.use(Vant);

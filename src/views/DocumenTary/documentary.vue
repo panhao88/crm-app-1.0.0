@@ -1,10 +1,10 @@
 <template>
   <div>
-          <!-- 头部导航 -->
+    <!-- 头部导航 -->
     <div>
       <van-nav-bar :fixed="true" :z-index="3">
         <template #left>
-          <van-icon name="arrow-left" size="24" color="grey" />
+          <van-icon name="arrow-left" size="24" color="grey" @click="goto" />
         </template>
         <template #right>
           <van-icon name="bars" size="24" color="grey" />
@@ -18,47 +18,104 @@
         v-for="(item, index) in titlelist"
         :key="index"
         :class="{ bgColors: item.bacolor == current }"
-        @click="
-          qblist(item.bacolor)
-        "
+        @click="qblist(item.bacolor)"
       >
         <div class="box1">
           <div class="box2">{{ item.name }}</div>
-          <div class="box3">（{{ item.LangthNum }}）</div>
+          <!-- <div class="box3"></div> -->
         </div>
       </div>
       <div class="Heel_a backF5" @click="retreat">返回系统主页</div>
     </div>
     <!-- 搜索框 -->
+    <div v-if="current === 1">
       <div class="Heel_c">
         <input
           type="text"
           v-model="values1"
           placeholder="客户名称"
           maxlength="6"
+          @keydown.enter="kenter"
         /><button @click="search">搜索</button>
       </div>
-      <div>暂无数据</div>
-       <!-- 分页 -->
-      <div class="fenye">
-        <van-pagination
-          v-model="currentPage"
-          :total-items="50"
-          :show-page-size="5"
-        >
-          <template #prev-text>
-            <van-icon name="arrow-left" />
-          </template>
-          <template #next-text>
-            <van-icon name="arrow" />
-          </template>
-          <template #page="{ text }">{{ text }}</template>
-        </van-pagination>
+      <div>
+        <div class="m-list">
+          <div
+            class="m-list-e clearfix"
+            v-for="(item, index) in genlist"
+            :key="index"
+          >
+            <div class="m-list-title clearfix goto">
+              <span @click="godetails(index)">{{ item.customerName }}</span>
+            </div>
+            <div class="m-list-con clearfix">
+              <span> 跟单方式:{{ item.modeName }}</span>
+              <span> 跟单状态:{{ item.statusName }}</span>
+              <span>跟单对象:<a class="tu2 iconfont icon-dianhua"></a></span>
+              <span> 下次联系: <small></small></span>
+              <div class="note">备注:{{ item.remark }}</div>
+              <span>跟单人:</span>
+              <span>跟单时间:</span>
+              <span>附件:</span>
+              <span></span>
+              <div class="clear"></div>
+            </div>
+          </div>
+          <!-- 分页 -->
+          <div class="fenye">
+            <van-pagination
+              v-model="currentPage"
+              :total-items="totalRow"
+              :show-page-size="5"
+              :items-per-page="pageSize"
+              @change="paging"
+            />
+          </div>
+        </div>
       </div>
+    </div>
+
+    <div v-if="this.current === 2">
+      <div v-if="setlist.length === ''">
+        <div>请选择用户</div>
+      </div>
+      <div v-else>
+        <div class="m-list">
+          <div
+            class="m-list-e clearfix"
+            v-for="(item, index) in setlist"
+            :key="index"
+          >
+            <div class="m-list-title clearfix goto">
+              <span @click="godetails(index)">{{ item.customerName }}</span>
+            </div>
+            <div class="m-list-con clearfix">
+              <span> 跟单方式:{{ item.modeName }}</span>
+              <span> 跟单状态:{{ item.statusName }}</span>
+              <span>跟单对象:<a class="tu2 iconfont icon-dianhua"></a></span>
+              <span> 下次联系: <small></small></span>
+               <div class="note">备注:{{ item.remark }}</div>
+              <span>跟单人:</span>
+              <span>跟单时间:{{ item.createAt }}</span>
+              <span>附件:</span>
+              <span></span>
+              <div class="clear"></div>
+            </div>
+            <div class="kloepo">
+              <div class="xinzeng" @click="listnew(item)">新增</div>
+              <div class="guanbi" @click="guanbip">关闭</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
+import { createNamespacedHelpers } from "vuex";
+const userModule = createNamespacedHelpers("documentary");
+const { mapState: userState, mapActions: userActions } = userModule;
 export default {
   name: "",
   props: {},
@@ -74,68 +131,144 @@ export default {
           LangthNum: "",
         },
         {
+          name: "跟单详情",
+          start: "",
+          bacolor: 2,
+          LangthNum: "",
+        },
+        {
           name: "今日需跟进",
           visit: "-1",
-          bacolor: 2,
+          bacolor: 3,
           LangthNum: "",
         },
         {
           name: "本周需跟进",
           visit: "0",
-          bacolor: 3,
+          bacolor: 4,
           LangthNum: "",
         },
         {
           name: "今日跟单记录",
           visit: "1",
-          bacolor: 4,
+          bacolor: 5,
           LangthNum: "",
         },
         {
           name: "本周跟单记录",
           foll: "0",
-          bacolor: 5,
+          bacolor: 6,
           LangthNum: "",
         },
         {
           name: "本月跟单记录",
           foll: "1",
-          bacolor: 6,
+          bacolor: 7,
           LangthNum: "",
         },
         {
           name: "新增跟单",
           deal: "0",
-          bacolor: 7,
+          bacolor: 8,
           LangthNum: "",
         },
       ],
-      currentPage:1, // 分页
-      values1:'',//输入框
-      value_a:1
+      currentPage: 1, // 分页
+      values1: "", //输入框
+      value_a: 1,
+      usernameId: "", //用户id
+      pageNum: 1,
+      pageSize: 10,
+      ids: "", //跟单详情列表
+      todo: [],
+      setlityt: [],
     };
   },
   methods: {
+    ...userActions(["documentary", "thedetalils"]),
     //  点击状态
     qblist(value_a) {
-      this.current = value_a
-      console.log(this.current)
+      this.current = value_a;
+      // console.log(this.current)
     },
     //  返回主页
     retreat() {
       this.$router.push("/home");
     },
+    // 返回上一页
+    goto() {
+      this.$router.go(-1);
+    },
+    //联系人关闭
+    guanbip() {
+      this.current = 1;
+    },
+    //新增
+    listnew(item) {
+      // console.log(item,11)
+      // let name = item.customerName
+      // console.log(name)
+      this.$router.push({
+        path: "/listnew",
+        query: { name: item },
+      });
+    },
+    //名字点击
+    godetails(index) {
+      this.ids = this.genlist[index].customerId;
+      this.thedetalils({
+        id: this.ids,
+      });
+      this.current = 2;
+      // this.todo = this.setlist
+    },
     // 搜索
-    search(){
-
-    }
+    search() {
+      this.$store.dispatch("documentary/documentary", {
+        id: this.usernameId,
+        name: this.values1,
+        // mobile,
+        pageNum: this.pageNum,
+        pageSize: this.pageSize,
+      });
+    },
+    //回车搜索
+    kenter() {
+      this.search();
+    },
+    //分页
+    paging(e) {
+      this.pageNum = e;
+      this.$store.dispatch("documentary/documentary", {
+        id: this.usernameId,
+        name: this.values1,
+        // mobile,
+        pageNum: this.pageNum,
+        pageSize: this.pageSize,
+      });
+    },
   },
-  mounted() {},
+  mounted() {
+    this.username = JSON.parse(localStorage.getItem("user"));
+    this.usernameId = this.username.id;
+    this.documentary({
+      id: this.usernameId,
+      name: this.values1,
+      // mobile,
+      pageNum: this.pageNum,
+      pageSize: this.pageSize,
+    });
+    console.log(this.setlist);
+  },
   watch: {},
-  computed: {},
+  computed: {
+    ...userState(["genlist", "totalRow", "setlist"]),
+  },
 };
 </script>
 
 <style scoped lang='scss'>
-
+.note {
+  width: 100%;
+}
 </style>

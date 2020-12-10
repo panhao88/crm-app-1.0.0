@@ -8,7 +8,7 @@ export default {
     state: {
         listing: [], //用户列表数据
         total: '',   //客户列表总条数
-        // details: {},  //客户详情
+        details: {},  //客户详情
         listseas: [],  //公海列表
         totalRow: ''   //公海总条数
     },
@@ -22,9 +22,9 @@ export default {
             state.total = data
         },
         //客户详情
-        // setdetails(state, data) {
-        //     state.details = data
-        // },
+        setdetails(state, data) {
+            state.details = data
+        },
         //公海列表
         setcustomerseas(state, data) {
             state.listseas = data
@@ -34,6 +34,7 @@ export default {
             state.totalRow = data
         }
     },
+    // 获取客户列表
     actions: {
         async recommend({ commit }, { id, currentPage, pageSize, value, marjon }) {
             try {
@@ -54,17 +55,26 @@ export default {
             }
         },
         //数据详情页
-        // async details({ commit }, { id }) {
-        //     try {
-        //         let res = await api.details({ id })
-        //         console.log(res.data, "客户详情")
-        //         if (res.code === 200) {
-        //             commit('setdetails', res.data)
-        //         }
-        //     } catch (err) {
-        //         console.log(err)
-        //     }
-        // },
+        async setter({commit}, { id }) {
+            try {
+                let res = await api.setter(id)
+                console.log(res.data, "客户详情")
+                if (res.code === 200) {
+                    commit('setdetails', res.data)
+                }
+            } catch (err) {
+                console.log(err)
+            }
+        },
+        //客户联系人
+        async Thecontact({commit} ,{id}){
+            try{
+                let res = await api.Thecontact(id)
+                console.log(res,"联系人")
+            }catch(err){
+                console.log(err)
+            }
+        },
         //获取客户公海
         async customerseas({ commit }, { name, pageNum, pageSize }) {
             try {
@@ -87,6 +97,11 @@ export default {
             try{
                 let res = await api.intoSeasCustomer({ids,accountId})
                 console.log(res,"放入公海")
+                if(res.code === 200){
+                    dispatch("recommend", {
+                        id, currentPage, pageSize, value, marjon
+                      })
+                }
             }catch (err){
                 console.log(err)
             }

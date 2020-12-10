@@ -1,5 +1,5 @@
 <template>
-  <div class="atop">
+  <div>
     <div class="headdd">
       <!-- 头部导航 -->
       <div>
@@ -98,17 +98,21 @@
                 分前
               </span>
               <span> 业务员: </span>
-             <span> <div  class="gonghaiyy">
-               <div>
-                   <van-checkbox
-                v-model="item.flag"
-                shape="square"
-                class="todo"
-                @change="radio"
-              ></van-checkbox>
-               </div>
-                <button class="gonghaipp" @click="gonghai(item)">加入公海</button>
-              </div></span>
+              <span>
+                <div class="gonghaiyy">
+                  <div>
+                    <van-checkbox
+                      v-model="item.flag"
+                      shape="square"
+                      class="todo"
+                      @change="radio"
+                    ></van-checkbox>
+                  </div>
+                  <button class="gonghaipp" @click="gonghai(item)">
+                    加入公海
+                  </button>
+                </div></span
+              >
               <!-- (编号: {{ item.id }} ) -->
               <span></span>
             </div>
@@ -136,8 +140,7 @@
         <van-checkbox
           v-model="checked"
           checked-color="#07c160"
-          shape="square"
-          icon-size="16px"
+          icon-size="22px"
           @click="checkAllfalse"
           >你可以将选中信息:
           <div v-if="checked === false"></div>
@@ -167,7 +170,9 @@
         </div>
         <div class="zhuanyi">
           <van-button type="info" size="mini">转移</van-button>
-          <van-button type="primary" size="mini" @click="Thesea">转入公海</van-button>
+          <van-button type="primary" size="mini" @click="Thesea"
+            >转入公海</van-button
+          >
         </div>
       </div>
       <!-- 转入公海 -->
@@ -194,7 +199,7 @@ const userModule = createNamespacedHelpers("user");
 const { mapState: userState, mapActions: userActions } = userModule;
 import dayjs from "dayjs";
 export default {
-  name: "",
+  name: "Customer",
   props: {},
   components: {},
   data() {
@@ -276,9 +281,9 @@ export default {
       usernameId: 0, //获取用户id
       currentPage: 1, //当前页分页
       pageSize: 10, //
-      article:[], //筛选出的数据
-      list:[] ,//筛选出的id
-      separate:[] //删除单个
+      article: [], //筛选出的数据
+      list: [], //筛选出的id
+      separate: [], //删除单个
     };
   },
   methods: {
@@ -290,7 +295,7 @@ export default {
         currentPage: this.currentPage,
         pageSize: this.pageSize,
         value: this.values1,
-        marjon: this.current,
+        marjon: this.akp,
       });
     },
     // 搜索
@@ -310,7 +315,7 @@ export default {
     //导航点击分类
     qblist(value111) {
       this.akp = value111;
-       this.$store.dispatch("user/recommend", {
+      this.$store.dispatch("user/recommend", {
         id: this.usernameId,
         currentPage: this.currentPage,
         pageSize: this.pageSize,
@@ -327,8 +332,8 @@ export default {
     },
     //客户列表
     kehu() {
-        this.akp = -1;
-         this.$store.dispatch("user/recommend", {
+      this.akp = -1;
+      this.$store.dispatch("user/recommend", {
         id: this.usernameId,
         currentPage: this.currentPage,
         pageSize: this.pageSize,
@@ -337,64 +342,65 @@ export default {
       });
     },
     //列表内放入公海
-    gonghai(item){
-       this.separate = item.id
-      // console.log(this.separate)
-      if(item.flag === true){
-        this.$dialog.confirm({
-          message:"你确认放入公海数据吗"
-        }).then(res => {
-           this.$store.dispatch("user/intoSeasCustomer", {
-                ids:this.separate,
-               accountId:this.usernameId,
-            });
-                       this.recommend({
-      id: this.usernameId,
-      currentPage: this.currentPage,
-      pageSize: this.pageSize,
-      value: this.values1,
-      marjon: this.akp,
-    });
-        this.$toast.success("放入成功");
-        }).catch(err => {
-          console.log(err)
+    gonghai(item) {
+      this.separate = item.id;
+      this.$dialog
+        .confirm({
+          message: "你确认放入公海数据吗",
         })
-      }else{
-         this.$toast({
-          message: "你还没有选择要放入的内容",
+        .then((res) => {
+          this.$store.dispatch("user/intoSeasCustomer", {
+            ids: this.separate,
+            accountId: this.usernameId,
+          });
+          this.recommend({
+            id: this.usernameId,
+            currentPage: this.currentPage,
+            pageSize: this.pageSize,
+            value: this.values1,
+            marjon: this.akp,
+          });
+          this.$toast.success("放入成功");
+        })
+        .catch((err) => {
+          this.$toast({
+            message: "你已取消",
+          });
+          console.log(err);
         });
-      }
-     
     },
     //底部放入公海
-    Thesea(){
-      this.article = this.listing.filter(item => {
-        return item.flag === true
-      })
-      if(this.article.length > 0){
+    Thesea() {
+      this.article = this.listing.filter((item) => {
+        return item.flag === true;
+      });
+      if (this.article.length > 0) {
         this.$dialog
           .confirm({
-            message: "你确认放入公海数据吗"
-          }).then(res => {
-            this.article.map(item => {
-              this.list.push(item.id)
-            })
-            this.$store.dispatch("user/intoSeasCustomer", {
-                ids:this.list,
-               accountId:this.usernameId,
-            });
-                this.recommend({
-      id: this.usernameId,
-      currentPage: this.currentPage,
-      pageSize: this.pageSize,
-      value: this.values1,
-      marjon: this.akp,
-    });
-             this.$toast.success("放入成功");
-          }).catch(err => {
-            console.log(err)
+            message: "你确认放入公海数据吗",
           })
-      }else {
+          .then((res) => {
+            this.article.map((item) => {
+              this.list.push(item.id);
+            });
+            this.$store.dispatch("user/intoSeasCustomer", {
+              ids: this.list,
+              accountId: this.usernameId,
+            });
+            console.log(this.$store);
+            this.recommend({
+              id: this.usernameId,
+              currentPage: this.currentPage,
+              pageSize: this.pageSize,
+              value: this.values1,
+              marjon: this.akp,
+            });
+            this.$toast.success("放入成功");
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+      } else {
         this.$toast({
           message: "你还没有选择要放入的内容",
         });
@@ -480,7 +486,7 @@ export default {
 .bgColors {
   background-color: #f56659 !important;
 }
-.gonghaipp{
+.gonghaipp {
   background-color: #096;
   border: none;
   color: #fff;
@@ -488,9 +494,12 @@ export default {
   font-size: 12px;
   padding: 0px 10px;
 }
-.gonghaiyy{
+.gonghaiyy {
   height: 40px;
   display: flex;
   align-items: center;
+}
+.bot2 {
+  text-align: center;
 }
 </style>

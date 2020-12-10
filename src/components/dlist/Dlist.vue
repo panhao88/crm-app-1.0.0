@@ -1,6 +1,6 @@
 <template>
  <div>
-
+     <div class="box1">弟弟</div>
  </div>
 </template>
 
@@ -33,5 +33,7 @@
 </script>
 
 <style scoped lang='scss'>
-
+    .box1{
+        color: red;
+    }
 </style>

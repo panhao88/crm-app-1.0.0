@@ -56,9 +56,9 @@ const routes = [
   },
   // 客户管理
   {
-    path: "/Customer",
-    name: "Customer",
-    component: () => import('../views/Customer/Customer.vue')
+    path: "/customer",
+    name: "customer",
+    component: () => import('../views/customer/Customer.vue')
   },
   // 跟单管理
   {
@@ -84,6 +84,12 @@ const routes = [
     name: "Aftersale",
     component: () => import('../views/Aftersale/Aftersale.vue')
   },
+  //新增跟单管理
+  {
+    path: "/listnew",
+    name: "listnew",
+    component: () => import('../views/listnew/listnew.vue')
+  },
   // 财务管理
   {
     path: "/Finance",
@@ -98,9 +104,9 @@ const routes = [
   },
   // 回收站
   {
-    path: "/RecycLebin",
-    name: "RecycLebin",
-    component: () => import('../views/RecycLebin/RecycLebin.vue')
+    path: "/recyclebin",
+    name: "recyclebin",
+    component: () => import('../views/recyclebin/recyclebin.vue')
   },
   // 客户名片夹
   {
@@ -188,9 +194,9 @@ const routes = [
   },
   //详情页
   {
-    path: "/Details",
-    name: "Details",
-    component: () => import('../views/Details/Details.vue')
+    path: "/details",
+    name: "details",
+    component: () => import('../views/details/Details.vue')
   },
   //关于
   {

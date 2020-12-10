@@ -13,7 +13,7 @@ export default {
       return service.get(`/api/customer/customerPage?accountId=${id}&pageNum=${currentPage}&pageSize=${pageSize}&name=${value}&state=${marjon}`)
   },
   //3.客户详情页
-  details(id) {
+  setter(id) {
     return service.get(`/api/customer/findCustomerById?customerId=${id}`)
   },
   // 4.获取客户公海
@@ -27,5 +27,25 @@ export default {
   //6.放入公海
   intoSeasCustomer({ids,accountId}){
     return service.get(`/api/customer/intoSeasCustomer?ids=${ids}&accountId=${accountId}`)
+  },
+  //7跟单列表
+  documentary({id,name,pageNum,pageSize}){
+    return service.get(`/api/follow/followPage?accountId=${id}&name=${name}&pageNum=${pageNum}&pageSize=${pageSize}`)
+  },
+  //8.客户跟单详情列表
+  thedetalils({id}){
+    return service.get(`/api/follow/findFollowByCustomerId?customerId=${id}`)
+  },
+  //9.跟单方式
+  Documenway(){
+    return service.get(`/api/follow/followModel`)
+  },
+  //10.跟单状态
+  liststate(){
+    return service.get(`/api/follow/followStatus`)
+  },
+  //11.跟单对象
+  listobject(){
+    return service.get(`/api/follow/followContacts`)
   }
 }
