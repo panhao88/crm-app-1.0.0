@@ -58,7 +58,7 @@ const routes = [
   {
     path: "/customer",
     name: "customer",
-    component: () => import('../views/customer/Customer.vue')
+    component: () => import('../views/customer/customer.vue')
   },
   // 跟单管理
   {
@@ -199,7 +199,7 @@ const routes = [
 
     path: "/details",
     name: "details",
-    component: () => import('../views/details/Details.vue')
+    component: () => import('../views/details/details.vue')
 
   },
   //关于
@@ -221,8 +221,8 @@ router.beforeEach((to, from, next) => {
   document.title = to.meta.title
   next()
   let user = JSON.parse(localStorage.getItem('user'))
-  if (to.path === '/Login') next()
-  else user ? next() : next('/Login')
+  if (to.path === '/login') next()
+  else user ? next() : next('/login')
 })
 
 

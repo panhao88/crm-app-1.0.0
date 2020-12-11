@@ -45,7 +45,7 @@
             v-for="(item, index) in genlist"
             :key="index"
           >
-            <div class="m-list-title clearfix goto">
+            <div class="m-list-title clearfix">
               <span @click="godetails(index)">{{ item.customerName }}</span>
             </div>
             <div class="m-list-con clearfix">
@@ -54,8 +54,8 @@
               <span>跟单对象:<a class="tu2 iconfont icon-dianhua"></a></span>
               <span> 下次联系: <small></small></span>
               <div class="note">备注:{{ item.remark }}</div>
-              <span>跟单人:</span>
-              <span>跟单时间:</span>
+              <span>跟单人:{{item.realName}}</span>
+              <span>跟单时间:{{item.createAt}}</span>
               <span>附件:</span>
               <span></span>
               <div class="clear"></div>
@@ -94,18 +94,23 @@
               <span> 跟单状态:{{ item.statusName }}</span>
               <span>跟单对象:<a class="tu2 iconfont icon-dianhua"></a></span>
               <span> 下次联系: <small></small></span>
-               <div class="note">备注:{{ item.remark }}</div>
+              <div class="note">备注:{{ item.remark }}</div>
               <span>跟单人:</span>
               <span>跟单时间:{{ item.createAt }}</span>
               <span>附件:</span>
               <span></span>
+                <div class="jiesu">
+                  <!-- <button class="gendna" @click="Theendpl(item)">结束跟单</button> -->
+                </div>
               <div class="clear"></div>
             </div>
+           
             <div class="kloepo">
               <div class="xinzeng" @click="listnew(item)">新增</div>
               <div class="guanbi" @click="guanbip">关闭</div>
             </div>
           </div>
+          <div class="bottom"></div>
         </div>
       </div>
     </div>
@@ -185,7 +190,7 @@ export default {
     };
   },
   methods: {
-    ...userActions(["documentary", "thedetalils"]),
+    ...userActions(["documentary", "thedetalils", "Theend"]),
     //  点击状态
     qblist(value_a) {
       this.current = value_a;
@@ -205,7 +210,7 @@ export default {
     },
     //新增
     listnew(item) {
-      // console.log(item,11)
+      // console.log(item, 11);
       // let name = item.customerName
       // console.log(name)
       this.$router.push({
@@ -219,8 +224,8 @@ export default {
       this.thedetalils({
         id: this.ids,
       });
+      localStorage.setItem("ids",JSON.stringify(this.ids))
       this.current = 2;
-      // this.todo = this.setlist
     },
     // 搜索
     search() {
@@ -231,6 +236,18 @@ export default {
         pageNum: this.pageNum,
         pageSize: this.pageSize,
       });
+    },
+    //结束跟单
+    Theendpl(item) {
+    //   console.log(item,222)
+    //   let customerId = item.customerId;
+    //   console.log(customerId);
+    //   console.log(this.usernameId);
+    //   // this.$store.dispatch("documentary/Theend",{
+    //   //   customerId:customerId,
+    //   //   accountId:this.usernameId,
+    //   //   id
+      // })
     },
     //回车搜索
     kenter() {
@@ -258,7 +275,6 @@ export default {
       pageNum: this.pageNum,
       pageSize: this.pageSize,
     });
-    console.log(this.setlist);
   },
   watch: {},
   computed: {
@@ -270,5 +286,25 @@ export default {
 <style scoped lang='scss'>
 .note {
   width: 100%;
+}
+.gendna {
+  height: 30px;
+  text-align: center;
+  padding: 0px;
+  line-height: 30px;
+  font-size: 12px;
+  background: #948a8a;
+  border: none;
+  padding: 0px 8px;
+  color: #fff;
+  margin-right: 10px;
+}
+.bottom{
+  height: 40px;
+}
+.jiesu{
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
 }
 </style>

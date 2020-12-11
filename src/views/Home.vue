@@ -1,8 +1,8 @@
 <template>
-  <div >
+  <div>
     <!-- 头部导航1111111 -->
     <div id="_nav">
-      <van-nav-bar :fixed="true" :z-index="3"  >
+      <van-nav-bar :fixed="true" :z-index="3">
         <template #left>
           <van-icon name="flag-o" size="24" color="grey" />
         </template>
@@ -12,7 +12,7 @@
       </van-nav-bar>
     </div>
     <!-- 客户管理 -->
-    <div class="central"> 
+    <div class="central">
       <div>
         <div class="customer_a">客户管理</div>
         <div class="customer_b">
@@ -27,7 +27,7 @@
               <div class="f-s-12">{{ allocation.way }}</div>
             </van-grid-item>
             <!-- 跟单管理 -->
-            <van-grid-item  @click="goto(UserControl.url)">
+            <van-grid-item @click="goto(UserControl.url)">
               <div class="box1 b-r">
                 <div>
                   <img src="../assets/biji.png" alt="" class="img" />
@@ -35,7 +35,7 @@
               </div>
               <div class="f-s-12">{{ UserControl.way }}</div>
             </van-grid-item>
-             <!-- 到访管理 -->
+            <!-- 到访管理 -->
             <van-grid-item>
               <div class="box1 b-g" @click="goto(PerControl.url)">
                 <div>
@@ -108,19 +108,21 @@
               <div class="f-s-12">{{ reception.way }}</div>
             </van-grid-item>
             <!-- 更新版本 -->
-            <van-grid-item >
-              <div class="box1" @click="showPopup" style="background-color:#1CBAD7" >
+            <van-grid-item>
+              <div
+                class="box1"
+              >
                 <div>
                   <img src="../assets/update.png" alt="" class="img" />
                 </div>
               </div>
-                <div class="f-s-12" >{{genxin.way}}</div>
-                <!-- 弹窗 -->
-              <van-popup round position="bottom" :style="{ height: '30%' }" v-model="show">
+              <div class="f-s-12">{{ genxin.way }}</div>
+              <!-- 弹窗 -->
+              <!-- <van-popup round position="bottom" :style="{ height: '30%' }" v-model="show">
                 <p>最新版本:{{this.version}}</p>
                 <p>新增功能:{{this.content}}</p>
                 <p>下载地址:{{this.annex}}</p>
-              </van-popup>
+              </van-popup> -->
             </van-grid-item>
           </van-grid>
         </div>
@@ -129,7 +131,7 @@
       <div class="customer_a">其他应用</div>
       <div class="customer_b">
         <van-grid :column-num="4">
-        <!-- 校区专业管理 -->
+          <!-- 校区专业管理 -->
           <van-grid-item>
             <div class="box1 b-l" @click="goto(campus.url)">
               <div><img src="../assets/xuaoyuan.png" alt="" class="img" /></div>
@@ -216,8 +218,10 @@
         </van-grid>
       </div>
       <div class="button_b">
-        <van-button type="danger" class="button" @click="cancellation">注销登录</van-button>
-        </div>
+        <van-button type="danger" class="button" @click="cancellation"
+          >注销登录</van-button
+        >
+      </div>
     </div>
   </div>
 </template>
@@ -253,13 +257,13 @@ export default {
       express: { way: "快递查询", url: "/consult" },
       help: { way: "帮助中心", url: "/appfinance" },
       // 更新弹窗
-      show: false,
-      //用户版本
-      version: 1.0, //获取用户当前版本
-      Newversion: 1.0, //最新版本
-      title: "2020年11月22日更新",
-      content: "1、修复xxxx；2、优化xxxx",
-      annex: "/upload/annex/xxxxx.apk"
+    //   show: false,
+    //   //用户版本
+    //   version: 1.0, //获取用户当前版本
+    //   Newversion: 1.0, //最新版本
+    //   title: "2020年11月22日更新",
+    //   content: "1、修复xxxx；2、优化xxxx",
+    //   annex: "/upload/annex/xxxxx.apk"
     };
   },
   methods: {
@@ -269,37 +273,46 @@ export default {
     },
     // 注销登录
     cancellation() {
+     
       localStorage.removeItem("user");
       this.$router.push("login");
     },
+    //更新版本
+//     showPopup(){
+//  this.$api.update().then(res => {
+//         console.log(res,"版本更新")
+//       }).catch(err => {
+//         console.log(err)
+//       })
+//     },
     // 更新弹窗
-    async showPopup() {
-      this.show = true;
-      this.version=config.version
-     let data =await api_banben()
-     console.log(data)
-       //传入参数
-        this.Newversion=data.data.version
-        this.title=data.data.title,
-       this.content=data.data.content,
-       this.annex=data.data.annex
+    // async showPopup() {
+    //   this.show = true;
+    //   this.version=config.version
+    //  let data =await api_banben()
+    //  console.log(data)
+    //    //传入参数
+    //     this.Newversion=data.data.version
+    //     this.title=data.data.title,
+    //    this.content=data.data.content,
+    //    this.annex=data.data.annex
       
-      console.log(this.version)
-      if(this.Newversion<=this.version){
-      alert("当前已是最新版本")
-      }
-    }
-  },
-  computed: {
-    windowHeight() {
-      let height = 0;
-      height = document.documentElement.clientHeight - 50;
-      console.log(height);
-      return height;
+    //   console.log(this.version)
+    //   if(this.Newversion<=this.version){
+    //   alert("当前已是最新版本")
+    //   }
     }
   }
+  computed: {
+    // windowHeight() {
+    //   let height = 0;
+    //   height = document.documentElement.clientHeight - 50;
+    //   console.log(height);
+    //   return height;
+    // }
+  }
   
-}
+// }
 
 </script>
 
@@ -339,10 +352,10 @@ export default {
 //   height:50px;
 // }
 //弹窗
-.van-popup{
+.van-popup {
   text-align: center;
 }
-.van-popup p{
-  margin-bottom: 20px
+.van-popup p {
+  margin-bottom: 20px;
 }
 </style>

@@ -8,6 +8,7 @@ import 'vant/lib/index.css';
 import dayjs from 'dayjs'
 import VueParticles from 'vue-particles'  
 
+
 Vue.use(VueParticles)  
 Vue.prototype.$api = api
 Vue.prototype.$dayjs = dayjs

@@ -9,7 +9,8 @@ export default {
         totalRow: '', //跟单总数
         setlist: [], //跟单详情列表
         statelist:[], //跟单方式
-        way:[] //跟单状态
+        way:[], //跟单状态
+        Documentary :[], //跟单对象
     },
     mutations: {
         //跟单列表
@@ -33,14 +34,16 @@ export default {
             state.way = data
         },
         //跟单对象
-
+        setdui(state,data){
+            state.Documentary  = data
+        }
     },
     actions: {
         //跟单列表
         async documentary({ commit }, { id, name, pageNum, pageSize }) {
             try {
                 let res = await api.documentary({ id, name, pageNum, pageSize })
-                //   console.log(res,"跟单列表")
+                  console.log(res,"跟单列表")
                 if (res.code === 200) {
                     commit('setgenlist', res.list)
                     commit('settotalRow', res.totalRow)
@@ -86,13 +89,65 @@ export default {
             }
         },
         //跟单对象
-        async listobject({commit},){
+        async listobject({commit},{id}){
             try{
-                let res = await api.listobject()
+                // console.log(id,11)
+                let res = await api.listobject({id})
                 console.log(res,"跟单对象")
+                // if(res.code === 200){
+                //     res.list.mobile.filter(item => {
+                //         return item.mobile = null
+                //     })
+                // }
+                commit('setdui',res.list)
             }catch(err){
                 console.log(err)
             }
-        }
+        },
+        // 文件上传
+        async upload({dispatch},{file,accountId}){
+            console.log(file)
+            try{
+                let res = await api.upload({file,accountId})
+                console.log(res,"文件上传")
+            }catch(err){
+                console.log(err)
+            }
+        },
+        //跟单删除
+        async Theend({dispatch},{customerId,accountId,id}){
+            try{
+                let res = await api.Theend({customerId,accountId,id})
+                console.log(res,"文件删除")
+            }catch(err){
+                console.log(err)
+            }
+        },
+        //跟单数据添加
+        async addseve({dispatch},{ 
+            customerId,
+            modeId,
+            statusId,
+            lastAt,
+            remark,
+            accountId,
+            type,
+            contactsId,}){
+                try{
+                    let res = await api.addseve({
+                        customerId,
+                        modeId,
+                        statusId,
+                        lastAt,
+                        remark,
+                        accountId,
+                        type,
+                        contactsId,
+                    })
+                    console.log(res,"跟单添加")
+                }catch(err){
+                    console.log(err)
+                }
+            }
     },
 }
