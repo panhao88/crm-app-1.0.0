@@ -60,20 +60,21 @@
               <span @click="godetails(index)">{{ item.name }}</span>
             </div>
             <div class="m-list-con clearfix">
-              <span>
-                客户类型:
-                <small v-if="item.visitortype == 0">高中</small>
-                <small v-if="item.visitortype == -1">无效</small>
-                <small v-if="item.visitortype == 1">初中</small>
-              </span>
+<!--              <span>-->
+<!--                客户类型:-->
+<!--                <small v-if="item.visitortype == 0">高中</small>-->
+<!--                <small v-if="item.visitortype == -1">无效</small>-->
+<!--                <small v-if="item.visitortype == 1">初中</small>-->
+<!--              </span>-->
+              <span> 客户类型:{{ item.statusName }}</span>
               <span> 校区分类:</span>
-
-              <span>
-                客户来源:
-                <small v-if="item.state == 0">网络</small>
-                <small v-if="item.state == 1">拓展</small>
-                <small v-if="item.state == 2">公海数据</small>
-              </span>
+              <span> 客户来源:{{ item.code }}</span>
+<!--              <span>-->
+<!--                客户来源:-->
+<!--                <small v-if="item.state == 0">网络</small>-->
+<!--                <small v-if="item.state == 1">拓展</small>-->
+<!--                <small v-if="item.state == 2">公海数据</small>-->
+<!--              </span>-->
 
               <span>
                 QQ: <small>{{ item.qqCode }}</small>
@@ -90,14 +91,15 @@
               </span>
               <span>搜索词:{{item.searchTerms}}</span><span>微信号:{{ item.wechatCode }}</span>
               <span>预计到校时间:</span><span>网络面试时间:</span>
-              <span> 录入者:{{ item.reper }} </span>
+              <span> 录入者:{{ item.reporterName }} </span>
+              <span> 业务员:{{item.salemanName}} </span>
               <span> 录入时间: {{ item.entryTime }}</span>
               <span>
                 最后更新:
                 <font color="red">{{ item.createAtM }}</font>
                 分前
               </span>
-              <span> 业务员:{{item.salesman}} </span>
+
               <span>
                 <div class="gonghaiyy">
                   <div>
@@ -111,14 +113,18 @@
                   <button class="gonghaipp" @click="gonghai(item)">
                     加入公海
                   </button>
-                </div></span
+                </div>
+              </span
               >
               <!-- (编号: {{ item.id }} ) -->
               <span></span>
             </div>
             <div class="m-list-bottom">
               <span class="m-l-b-num">
-                <span class="lianxi">联系人 </span><span> (0)</span>
+                <span class="lianxi">联系人 </span>
+                <span class="f-c-hong" v-if="item.contactsNum==null"> (0)</span>
+                <span class="f-c-hong" v-else> ({{item.contactsNum}})</span>
+
               </span>
               <span class="m-l-b-num">
                 <span class="lianxi" @click="Sing_go(item.id)">跟单管理 </span>
@@ -279,7 +285,6 @@ export default {
       value1: "", //点击变色高亮
       username: {}, //获取用户信息
       usernameId: 0, //获取用户id
-      currentPage: 1, //当前页分页
       pageSize: 10, //
       article: [], //筛选出的数据
       list: [], //筛选出的id
