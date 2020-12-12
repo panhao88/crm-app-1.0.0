@@ -88,16 +88,16 @@
                 }}</a>
                 <a class="tu2 iconfont icon-dianhua"></a>
               </span>
-              <span>搜索词:</span><span>微信号:{{ item.wechatCode }}</span>
+              <span>搜索词:{{item.searchTerms}}</span><span>微信号:{{ item.wechatCode }}</span>
               <span>预计到校时间:</span><span>网络面试时间:</span>
-              <span> 录入者:{{ item.reporter }} </span>
+              <span> 录入者:{{ item.reper }} </span>
               <span> 录入时间: {{ item.entryTime }}</span>
               <span>
                 最后更新:
-                <font color="red">{{ item.followRecord }}</font>
+                <font color="red">{{ item.createAtM }}</font>
                 分前
               </span>
-              <span> 业务员: </span>
+              <span> 业务员:{{item.salesman}} </span>
               <span>
                 <div class="gonghaiyy">
                   <div>
