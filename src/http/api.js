@@ -9,8 +9,12 @@ export default {
     return service.get(`/api/login/doLogin?userName=${userName}&password=${password}`)
   },
   // 2.客户列表
-  recommend({ id, currentPage, pageSize, value, marjon }) {
-    return service.get(`/api/customer/customerPage?accountId=${id}&pageNum=${currentPage}&pageSize=${pageSize}&name=${value}&state=${marjon}`)
+  recommend({ id, currentPage, pageSize, value,marjon }) {
+      return service.get(`/api/customer/customerPage?accountId=${id}&pageNum=${currentPage}&pageSize=${pageSize}&name=${value}&state=${marjon}`)
+  },
+  //客户列表
+  recommend111({ id, currentPage, pageSize, mobile,marjon }) {
+      return service.get(`/api/customer/customerPage?accountId=${id}&pageNum=${currentPage}&pageSize=${pageSize}&mobile=${mobile}&state=${marjon}`)
   },
   //3.客户详情页
   setter(id) {
@@ -19,9 +23,6 @@ export default {
   // 4.获取客户公海
   customerseas({ name, pageNum, pageSize }) {
     return service.get(`/api/customer/seasCustomerPage?name=${name}&pageNum=${pageNum}&pageSize=${pageSize}`)
-    // return service.post(`/api/customer/seasCustomerPage`,{
-    //   name,pageNum,pageSize
-    // })
   },
   // 5.客户联系人
   Thecontact(id) {
@@ -54,7 +55,7 @@ export default {
   //12.文件上传
   // {headers:{"Content-Type":"multipart/form-data"}}
   upload({ file, accountId }) {
-    return service.post(`/api/annex/upload`, { file, accountId },)
+    return service.post('/api/annex/upload', { file, accountId },)
   },
   //13.结束跟单
   Theend({ customerId, accountId, id }) {
@@ -81,8 +82,12 @@ export default {
       contactsId,
     })
   },
-  //.版本更新
+  //.15版本更新
   update(){
     return service.get(`/api/renew/latestVersion`)
+  },
+  //获取公海信息
+  obtain({ids,accountId}){
+    return service.get(`/api/customer/getSeasCustomer?ids=${ids}&accountId=${accountId}`)
   }
 }

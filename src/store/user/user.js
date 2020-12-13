@@ -54,6 +54,24 @@ export default {
                 console.log(err)
             }
         },
+        async recommend111({ commit }, { id, currentPage, pageSize, mobile, marjon }) {
+            try {
+                let res = await api.recommend111({
+                    id, currentPage, pageSize, mobile, marjon
+                })
+                console.log(res, "列表");
+                if (res.code === 200) {
+                    commit('setlisting', res.list)
+                    commit('settotal', res.totalRow)
+                    res.list.map((item, index) => {
+                        item.entryTime = dayjs(item.entryTime).format("YYYY-MM-DD");
+                        Vue.set(item, "flag", false);
+                    });
+                }
+            } catch (err) {
+                console.log(err)
+            }
+        },
         //数据详情页
         async setter({commit}, { id }) {
             try {
@@ -95,16 +113,20 @@ export default {
             }
         },
         //放入公海
-        async intoSeasCustomer({dispatch},{ids,accountId}){
+        async intoSeasCustomer({dispatch},{ids,accountId}){  
             try{
                 let res = await api.intoSeasCustomer({ids,accountId})
                 console.log(res,"放入公海")
-                if(res.code === 200){
-                    dispatch("recommend", {
-                        id, currentPage, pageSize, value, marjon
-                      })
-                }
             }catch (err){
+                console.log(err)
+            }
+        },
+        //获取公海信息
+        async obtain({dispatch},{ids,accountId}){
+            try{
+                let res = await api.obtain({ids,accountId})
+                console.log(res,"获取公海信息")
+            }catch(err){
                 console.log(err)
             }
         }

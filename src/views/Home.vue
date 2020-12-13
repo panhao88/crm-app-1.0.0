@@ -109,20 +109,25 @@
             </van-grid-item>
             <!-- 更新版本 -->
             <van-grid-item>
-              <div
-                class="box1"
-              >
+              <div class="box1" @click="Popup">
                 <div>
                   <img src="../assets/update.png" alt="" class="img" />
                 </div>
               </div>
               <div class="f-s-12">{{ genxin.way }}</div>
               <!-- 弹窗 -->
-              <!-- <van-popup round position="bottom" :style="{ height: '30%' }" v-model="show">
-                <p>最新版本:{{this.version}}</p>
-                <p>新增功能:{{this.content}}</p>
-                <p>下载地址:{{this.annex}}</p>
-              </van-popup> -->
+              <van-popup
+                round
+                position="bottom"
+                class="tanchuang"
+                v-model="show"
+              >
+                <h4>发现新版本</h4>
+                <div>更新内容:{{ verseonexplain }}</div>
+                <div class="hplok">
+                  <div class="didi" @click="previous">前往升级</div>
+                </div>
+              </van-popup>
             </van-grid-item>
           </van-grid>
         </div>
@@ -256,14 +261,10 @@ export default {
       record: { way: "操纵记录", url: "/reception" },
       express: { way: "快递查询", url: "/consult" },
       help: { way: "帮助中心", url: "/appfinance" },
-      // 更新弹窗
-    //   show: false,
-    //   //用户版本
-    //   version: 1.0, //获取用户当前版本
-    //   Newversion: 1.0, //最新版本
-    //   title: "2020年11月22日更新",
-    //   content: "1、修复xxxx；2、优化xxxx",
-    //   annex: "/upload/annex/xxxxx.apk"
+      show: false, // 更新弹窗
+      website: "https://service.dcloud.net.cn/build/download/d60afbf0-3d19-11eb-be48-1d03f9b73238", //更新的官网地址
+      verseonexplain: "", //更新内容
+      myversion: "", //当前版本号
     };
   },
   methods: {
@@ -273,47 +274,42 @@ export default {
     },
     // 注销登录
     cancellation() {
-     
       localStorage.removeItem("user");
       this.$router.push("login");
     },
-    //更新版本
-//     showPopup(){
-//  this.$api.update().then(res => {
-//         console.log(res,"版本更新")
-//       }).catch(err => {
-//         console.log(err)
-//       })
-//     },
-    // 更新弹窗
-    // async showPopup() {
-    //   this.show = true;
-    //   this.version=config.version
-    //  let data =await api_banben()
-    //  console.log(data)
-    //    //传入参数
-    //     this.Newversion=data.data.version
-    //     this.title=data.data.title,
-    //    this.content=data.data.content,
-    //    this.annex=data.data.annex
-      
-    //   console.log(this.version)
-    //   if(this.Newversion<=this.version){
-    //   alert("当前已是最新版本")
-    //   }
-    }
-  }
-  computed: {
-    // windowHeight() {
-    //   let height = 0;
-    //   height = document.documentElement.clientHeight - 50;
-    //   console.log(height);
-    //   return height;
-    // }
-  }
-  
+    //弹窗
+    Popup() {
+      this.show = true;
+    },
+    getdata() {
+      this.$api
+        .update()
+        .then((res) => {
+          this.myversion = plus.runtime.version;
+          this.website = res.data.annex;
+          this.verseonexplain = res.data.content;
+          console.log(this.website);
+          if (this.myversion !== res.data.version) {
+            this.show = true;
+          } else {
+            this.show = false;
+          }
+          console.log(res, "版本更新");
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    },
+    //前往升级
+    previous(){
+      plus.runtime.openURL(this.website)
+    },
+  },
+  mounted() {
+    this.getdata();
+  },
+};
 // }
-
 </script>
 
 <style scoped lang='scss'>
@@ -357,5 +353,26 @@ export default {
 }
 .van-popup p {
   margin-bottom: 20px;
+}
+.tanchuang {
+  height: 30%;
+}
+.hplok{
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+.didi {
+  position: fixed;
+  width: 90%;
+  background:red;
+  border: 1px solid black;
+  height: 40px;
+  line-height: 40px;
+  bottom: 0px;
+  color: #fff;
+  font-size: 16px;
+  border: none;
+  border-radius: 10px;
 }
 </style>

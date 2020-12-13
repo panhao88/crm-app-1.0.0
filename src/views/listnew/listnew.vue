@@ -29,7 +29,11 @@
               <td class="boedee-b">
                 <select v-model="valueone" class="selectpl" @change="gendan">
                   <option value="" disabled selected>请选择</option>
-                  <option v-for=" item in statelist" :key="item.id" :value="item">
+                  <option
+                    v-for="item in statelist"
+                    :key="item.id"
+                    :value="item"
+                  >
                     {{ item.name }}
                   </option>
                 </select>
@@ -38,10 +42,14 @@
             <tr>
               <td class="boedee-a">跟单状态:</td>
               <td class="boedee-b">
-                <select v-model="valuetow" class="selectpl" @change="zhugte">
+                <select v-model="valuetow" class="selectpl" @change="zhugte" >
                   <option value="" disabled selected>请选择</option>
-                  <option v-for="(item, index) in way" :key="index" :value="item">
-                    {{ item.name }}
+                  <option
+                    v-for="(item, index) in way"
+                    :key="index"
+                    :value="item"
+                  >
+                   <div  class="choice"> {{ item.name }}</div>
                   </option>
                 </select>
               </td>
@@ -49,14 +57,14 @@
             <tr>
               <td class="boedee-a">跟单对象:</td>
               <td class="boedee-b">
-                <select
-                  v-model="valuesrrot"
-                  class="selectpl" 
-                 @change="didi"
-                >
+                <select v-model="valuesrrot" class="selectpl" @change="didi">
                   <option value="" disabled selected>请选择</option>
-                  <option v-for="item in Documentary" :key="item.id" :value="item" >
-                    {{item.name}}-{{ item.mobile }}
+                  <option
+                    v-for="item in Documentary"
+                    :key="item.id"
+                    :value="item"
+                  >
+                    {{ item.name }}-{{ item.mobile }}
                   </option>
                 </select>
               </td>
@@ -64,11 +72,19 @@
             <tr>
               <td class="boedee-a">下次联系:</td>
               <td class="boedee-b">
-                <van-field
+                <!-- <van-field
                   v-model="day"
                   placeholder="请输入出生年月"
                   @click="showPopup"
-                ></van-field>
+                ></van-field> -->
+                <input
+                  type="text"
+                  v-model="day"
+                  placeholder="请输入出生年月"
+                  @click="showPopup"
+                  onfocus="this.blur()"
+                  class="year"
+                />
                 <van-popup
                   v-model="show"
                   position="bottom"
@@ -89,17 +105,18 @@
             <tr>
               <td class="boedee-a">附件:</td>
               <td class="boedee-b">
-                <!-- <van-uploader :after-read="afterRead" v-model="fileList">
+                <van-uploader :after-read="afterRead" v-model="fileList">
                   <van-button icon="plus" type="primary" class="wenjian"
                     >上传文件</van-button
                   >
-                </van-uploader> -->
+                </van-uploader>
               </td>
             </tr>
             <tr>
               <td class="boedee-a">备注:</td>
               <td class="boedee-b">
-                <textarea class="comments" v-model="valuezhi" id="demo"> </textarea>
+                <textarea class="comments" v-model="valuezhi" id="demo">
+                </textarea>
               </td>
             </tr>
           </table>
@@ -115,6 +132,7 @@
 </template>
 
 <script>
+import  upLoaderImg  from "../../http/upLoaderImg";
 import { createNamespacedHelpers } from "vuex";
 const userModule = createNamespacedHelpers("documentary");
 const { mapState: userState, mapActions: userActions } = userModule;
@@ -140,22 +158,28 @@ export default {
       day: "", //跟单时间
       fileList: [], //文件上传
       valuezhi: "", //文本值
-      ids:'', //列表id
-      type:'' ,// 跟单类型
-      contacts:"", //联系人id
-      phway:'' ,//跟单方式id
-      plstate:'' //跟单状态id
-    }; 
+      ids: "", //列表id
+      type: "", // 跟单类型
+      contacts: "", //联系人id
+      phway: "", //跟单方式id
+      plstate: "", //跟单状态id
+    };
   },
   methods: {
-    ...userActions(["Documenway", "liststate", "listobject", "upload","addseve"]),
+    ...userActions([
+      "Documenway",
+      "liststate",
+      "listobject",
+      "upload",
+      "addseve",
+    ]),
     //返回上一页
     goto() {
       this.$router.go(-1);
     },
     //返回首页
     logoto() {
-      this.$router.push("/");
+      // this.$router.push("/");
     },
     //点击时间
     showPopup() {
@@ -173,79 +197,100 @@ export default {
     },
     //保存
     save() {
-      // console.log(this.ids)
-      // console.log(this.valueone)
-      // console.log(this.valuezhi)
-      // console.log(this.day)
-      console.log(this.usernameId)
-      this.$store.dispatch("documentary/addseve", {
-        customerId:this.ids,
-        modeId:this.phway,
-        statusId:this.plstate,
-        lastAt:this.day,
-        remark:this.valuezhi,
-        accountId:this.usernameId,
-        type:this.type,
-        contactsId:this.contacts,
-      });
-      this.ids = []
-      this.$router.push('/documentary')
+      if (this.valueone === "") {
+        this.$toast.fail("跟单方式不能为空");
+      } else if (this.plstate === "") {
+        this.$toast.fail("跟单状态不能为空");
+      } else if (this.contacts === "") {
+        this.$toast.fail("跟单对象不能为空");
+      } else if (this.day === "") {
+        this.$toast.fail("跟单时间不能为空");
+      } else if (this.valuezhi === "") {
+        this.$toast.fail("跟单备注不能为空");
+      } else {
+        this.$store.dispatch("documentary/addseve", {
+          customerId: this.ids,
+          modeId: this.phway,
+          statusId: this.plstate,
+          lastAt: this.day,
+          remark: this.valuezhi,
+          accountId: this.usernameId,
+          type: this.type,
+          contactsId: this.contacts,
+        });
+        this.$toast.success("保存成功");
+        this.ids = [];
+        this.$router.push("/Petaliest");
+        // this.thedetalils({
+        //   id: this.ids,
+        // });
+      }
     },
     //跟单对象
-    didi(){
-      this.type = this.valuesrrot.type
-       console.log(this.type)
-      this.contacts = this.valuesrrot.id
-      console.log(this.contacts)
+    didi() {
+      this.type = this.valuesrrot.type;
+      //  console.log(this.type)
+      this.contacts = this.valuesrrot.id;
+      // console.log(this.contacts)
     },
     //跟单方式
-    gendan(){
-      this.phway = this.valueone.id
+    gendan() {
+      this.phway = this.valueone.id;
     },
     //跟单状态
-    zhugte(){
-      this.plstate = this.valuetow.id
-      console.log(this.plstate,"ouuu")
+    zhugte() {
+      this.plstate = this.valuetow.id;
+      // console.log(this.plstate,"ouuu")
     },
     //文件上传
-    afterRead(file) {
-      // async onread(file) {
-      //   let formdata = new window.formdata();
-      //   formdata.append("file", file.file);
-      //   try {
-      //     let res = await api.upload(url, formdata, {
-      //       headers: {
-      //         "content-type": "multipart/form-data",
-      //       },
-      //     });
-      //     console.log(res);
-      //   } catch (err) {
-      //     console.log(err);
-      //     this.$toast(`网络连接错误, 请稍后再试!`);
-      //   }
-      // 21 },
-      // this.fileList = file.file.name
-      //   console.log(file.file,11)
-      //   console.log(file.file.name,55);
-      //   const data = new FormData()
-      //   data.append('file',file[0])
-      //   console.log(data,11)
-      //   this.$store.dispatch("documentary/upload",{
-      //   file: data,
-      //   accountId: this.usernameId,
-      // });
-      //  if(this.fileList.length > 1){
-      //            this.fileList.splice(1);
-      //            this.$msg({
-      //                text:'只能选择这么多!',
-      //                type:'info'
-      //            })
-      //            return false;
-      //        }
-      //        let Files = this.Files;
-      //        Files.push(file.file);
-      // 此时可以自行将文件上传至服务器
+    async afterRead(file) {
+      //文件读取完成后的回调函数
+      let uploadImg = await upLoaderImg(file.file); //使用上传的方法。file.file
+      console.log(uploadImg);
     },
+    // afterRead(file) {
+    // async onread(file) {
+    //   let formdata = new window.formdata();
+    //   formdata.append("file", file.file);
+    //   try {
+    //     let res = await api.upload(url, formdata, {
+    //       headers: {
+    //         "content-type": "multipart/form-data",
+    //       },
+    //     });
+    //     console.log(res);
+    //   } catch (err) {
+    //     console.log(err);
+    //     this.$toast(`网络连接错误, 请稍后再试!`);
+    //   }
+    // 21 },
+    // this.fileList = file.file.name
+    //   console.log(file.file,11)
+    //   console.log(file.file.name,55);
+    // file.status = "uploading";file
+    // file.message = "上传中...";
+    // console.log(file,"111");
+    // let data = {};
+    // data.file = file;
+    // console.log(data,"333");
+    // this.$store.dispatch("documentary/upload", {
+    //   file: file.file,
+    //   accountId: this.usernameId,
+    // });
+    // // console.log(file,11)
+
+    //  if(this.fileList.length > 1){
+    //            this.fileList.splice(1);
+    //            this.$msg({
+    //                text:'只能选择这么多!',
+    //                type:'info'
+    //            })
+    //            return false;
+    //        }
+    //        let Files = this.Files;
+    //        Files.push(file.file);
+    // 此时可以自行将文件上传至服务器
+    // },
   },
   mounted() {
     this.username = JSON.parse(localStorage.getItem("user"));
@@ -256,7 +301,7 @@ export default {
     this.Documenway();
     this.liststate();
     this.listobject({ id: this.id });
-    this.ids =  JSON.parse(localStorage.getItem('ids'))
+    this.ids = JSON.parse(localStorage.getItem("ids"));
   },
   watch: {},
   computed: {
@@ -285,7 +330,7 @@ export default {
   z-index: 999;
 }
 .selectpl {
-  width: 95%;
+  width: 70%;
   height: 25px;
 }
 .van-cell {
@@ -298,5 +343,12 @@ export default {
 .comments {
   width: 100%;
   height: 200px;
+}
+.year{
+  border: none;
+}
+option{
+  background: red;
+  height: 520px;
 }
 </style>

@@ -1,52 +1,64 @@
 <template>
-  <div>
+  <div id="box">
     <div class="headdd">
-      <!-- 头部导航 -->
-      <div>
-        <van-nav-bar :fixed="true" :z-index="3">
-          <template #left>
-            <van-icon name="arrow-left" size="24" color="grey" @click="goto" />
-          </template>
-          <template #right>
-            <van-icon name="bars" size="24" color="grey" @click="logoto" />
-          </template>
-        </van-nav-bar>
-      </div>
-      <!-- 客户分类 -->
-      <div class="Heels central">
-        <div class="bot1" :class="akp === -1 ? 'bgggColors' : ''" @click="kehu">
-          <div class="bot2">客户列表</div>
+      <div id="top">
+        <!-- 头部导航 -->
+        <div>
+          <van-nav-bar :fixed="true" :z-index="3" class="vanbar">
+            <template #left>
+              <van-icon
+                name="arrow-left"
+                size="24"
+                color="grey"
+                @click="goto"
+              />
+            </template>
+            <template #right>
+              <van-icon name="bars" size="24" color="grey" @click="logoto" />
+            </template>
+          </van-nav-bar>
         </div>
-        <div
-          class="Heel_a"
-          v-for="(item, index) in titlelist"
-          :key="index"
-          :class="item.bacolor === akp ? 'bgColors' : ''"
-          @click="qblist(item.bacolor)"
-        >
-          <div class="box1">
-            <div class="box2">{{ item.name }}</div>
+        <!-- 客户分类 -->
+        <div class="Heels central">
+          <div
+            class="bot1"
+            :class="akp === -1 ? 'bgggColors' : ''"
+            @click="kehu"
+          >
+            <div class="bot2">客户列表</div>
           </div>
+          <div
+            class="Heel_a"
+            v-for="(item, index) in titlelist"
+            :key="index"
+            :class="item.bacolor === akp ? 'bgColors' : ''"
+            @click="qblist(item.bacolor)"
+          >
+            <div class="box1">
+              <div class="box2">{{ item.name }}</div>
+            </div>
+          </div>
+          <div class="Heel_a backF5" @click="retreat">返回系统主页</div>
         </div>
-        <div class="Heel_a backF5" @click="retreat">返回系统主页</div>
-      </div>
-      <!-- 搜索框33 -->
-      <div class="Heel_c">
-        <input
-          type="text"
-          v-model="values1"
-          placeholder="客户名称、联系人、手机号码"
-          @keydown.enter="kenter"
-        /><button @click="search">搜索</button>
-      </div>
-      <!-- 客户数量限制： -->
-      <div class="maxnumtip">
-        <span class="iconfont icon-icon-test2"> </span>客户数量限制：<span
-          class="tu1"
-          >1</span
-        >
-        /
-        <span class="col_red">无限制</span>
+        <!-- 搜索框33 -->
+
+        <div class="Heel_c">
+          <input
+            type="text"
+            v-model="values1"
+            placeholder="客户名称、联系人、手机号码"
+            @keydown.enter="kenter"
+          /><button @click="search">搜索</button>
+        </div>
+        <!-- 客户数量限制： -->
+        <div class="maxnumtip">
+          <span class="iconfont icon-icon-test2"> </span>客户数量限制：<span
+            class="tu1"
+            >1</span
+          >
+          /
+          <span class="col_red">无限制</span>
+        </div>
       </div>
       <!-- 客户列表 -->
       <div>
@@ -60,21 +72,20 @@
               <span @click="godetails(index)">{{ item.name }}</span>
             </div>
             <div class="m-list-con clearfix">
-<!--              <span>-->
-<!--                客户类型:-->
-<!--                <small v-if="item.visitortype == 0">高中</small>-->
-<!--                <small v-if="item.visitortype == -1">无效</small>-->
-<!--                <small v-if="item.visitortype == 1">初中</small>-->
-<!--              </span>-->
-              <span> 客户类型:{{ item.statusName }}</span>
+              <span>
+                客户类型:
+                <small v-if="item.visitortype == 0">高中</small>
+                <small v-if="item.visitortype == -1">无效</small>
+                <small v-if="item.visitortype == 1">初中</small>
+              </span>
               <span> 校区分类:</span>
-              <span> 客户来源:{{ item.code }}</span>
-<!--              <span>-->
-<!--                客户来源:-->
-<!--                <small v-if="item.state == 0">网络</small>-->
-<!--                <small v-if="item.state == 1">拓展</small>-->
-<!--                <small v-if="item.state == 2">公海数据</small>-->
-<!--              </span>-->
+
+              <span>
+                客户来源:
+                <small v-if="item.state == 0">网络</small>
+                <small v-if="item.state == 1">拓展</small>
+                <small v-if="item.state == 2">公海数据</small>
+              </span>
 
               <span>
                 QQ: <small>{{ item.qqCode }}</small>
@@ -89,17 +100,16 @@
                 }}</a>
                 <a class="tu2 iconfont icon-dianhua"></a>
               </span>
-              <span>搜索词:{{item.searchTerms}}</span><span>微信号:{{ item.wechatCode }}</span>
+              <span>搜索词:</span><span>微信号:{{ item.wechatCode }}</span>
               <span>预计到校时间:</span><span>网络面试时间:</span>
-              <span> 录入者:{{ item.reporterName }} </span>
-              <span> 业务员:{{item.salemanName}} </span>
+              <span> 录入者:{{ item.reper }} </span>
               <span> 录入时间: {{ item.entryTime }}</span>
               <span>
                 最后更新:
-                <font color="red">{{ item.createAtM }}</font>
+                <font color="red">{{ item.followRecord }}</font>
                 分前
               </span>
-
+              <span> 业务员:{{ item.salesman }} </span>
               <span>
                 <div class="gonghaiyy">
                   <div>
@@ -113,18 +123,14 @@
                   <button class="gonghaipp" @click="gonghai(item)">
                     加入公海
                   </button>
-                </div>
-              </span
+                </div></span
               >
               <!-- (编号: {{ item.id }} ) -->
               <span></span>
             </div>
             <div class="m-list-bottom">
               <span class="m-l-b-num">
-                <span class="lianxi">联系人 </span>
-                <span class="f-c-hong" v-if="item.contactsNum==null"> (0)</span>
-                <span class="f-c-hong" v-else> ({{item.contactsNum}})</span>
-
+                <span class="lianxi">联系人 </span><span> (0)</span>
               </span>
               <span class="m-l-b-num">
                 <span class="lianxi" @click="Sing_go(item.id)">跟单管理 </span>
@@ -285,23 +291,35 @@ export default {
       value1: "", //点击变色高亮
       username: {}, //获取用户信息
       usernameId: 0, //获取用户id
+      currentPage: 1, //当前页分页
       pageSize: 10, //
+      mobile: "",
       article: [], //筛选出的数据
       list: [], //筛选出的id
       separate: [], //删除单个
     };
   },
   methods: {
-    ...userActions(["recommend"]),
+    ...userActions(["recommend", "intoSeasCustomer", "recommend111"]),
     // 搜索
     search() {
-      this.$store.dispatch("user/recommend", {
-        id: this.usernameId,
-        currentPage: this.currentPage,
-        pageSize: this.pageSize,
-        value: this.values1,
-        marjon: this.akp,
-      });
+      if (Number(this.values1)) {
+        this.recommend111({
+          id: this.usernameId,
+          currentPage: this.currentPage,
+          pageSize: this.pageSize,
+          mobile: this.values1,
+          marjon: this.akp,
+        });
+      } else {
+        this.recommend({
+          id: this.usernameId,
+          currentPage: this.currentPage,
+          pageSize: this.pageSize,
+          value: this.values1,
+          marjon: this.akp,
+        });
+      }
     },
     // 搜索
     kenter() {
@@ -313,14 +331,14 @@ export default {
     },
     // 返回上一页
     goto() {
-      this.$router.go(-1);
+      this.$router.push("/");
     },
     // 右边点击事件
     logoto() {},
     //导航点击分类
     qblist(value111) {
       this.akp = value111;
-      this.$store.dispatch("user/recommend", {
+      this.recommend({
         id: this.usernameId,
         currentPage: this.currentPage,
         pageSize: this.pageSize,
@@ -338,7 +356,7 @@ export default {
     //客户列表
     kehu() {
       this.akp = -1;
-      this.$store.dispatch("user/recommend", {
+      this.recommend({
         id: this.usernameId,
         currentPage: this.currentPage,
         pageSize: this.pageSize,
@@ -355,7 +373,7 @@ export default {
           message: "你确认放入公海数据吗",
         })
         .then((res) => {
-          this.$store.dispatch("user/intoSeasCustomer", {
+          this.intoSeasCustomer({
             ids: this.separate,
             accountId: this.usernameId,
           });
@@ -377,24 +395,17 @@ export default {
     },
     //底部放入公海
     Thesea() {
-      this.article = this.listing.filter((item) => {
-        return item.flag === true;
-      });
-      if (this.article.length > 0) {
+      if (this.list.length > 0) {
         this.$dialog
           .confirm({
-
             message: "你确认放入公海数据吗",
           })
           .then((res) => {
-            this.article.map((item) => {
-              this.list.push(item.id);
-            });
-            this.$store.dispatch("user/intoSeasCustomer", {
+            this.intoSeasCustomer({
               ids: this.list,
               accountId: this.usernameId,
             });
-            console.log(this.$store);
+            this.list = [];
             this.recommend({
               id: this.usernameId,
               currentPage: this.currentPage,
@@ -423,12 +434,49 @@ export default {
         value: this.values1,
         marjon: this.akp,
       });
+      let topHeight = document.getElementById("top").offsetHeight;
+      let timer = setInterval(() => {
+        if (document.documentElement && document.documentElement.scrollTop) {
+          let height = document.documentElement.scrollTop % 500;
+          if (height !== topHeight) {
+            document.documentElement.scrollTop =
+              document.documentElement.scrollTop - 500;
+            if (
+              document.documentElement.scrollTop >= 500 &&
+              document.documentElement.scrollTop < 1000
+            ) {
+              let reduce = height + 500 - topHeight;
+              document.documentElement.scrollTop =
+                document.documentElement.scrollTop - reduce;
+              clearInterval(timer);
+            }
+          } else {
+            document.documentElement.scrollTop =
+              document.documentElement.scrollTop - 500;
+            if (document.documentElement.scrollTop === topHeight) {
+              clearInterval(timer);
+            }
+          }
+        }
+      }, 30);
     },
     // 全选
     checkAllfalse() {
       this.listing.map((item) => {
         item.flag = this.checked;
       });
+      if (this.checked === true) {
+        this.article = this.listing.filter((item) => {
+          return item.flag === true;
+        });
+        this.article.map((item) => {
+          this.list.push(item.id);
+        });
+        console.log(this.list);
+      } else {
+        this.list = [];
+        this.checked = false;
+      }
     },
     //单选
     radio() {

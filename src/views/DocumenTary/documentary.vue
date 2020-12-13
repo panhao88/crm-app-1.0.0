@@ -2,7 +2,7 @@
   <div>
     <!-- 头部导航 -->
     <div>
-      <van-nav-bar :fixed="true" :z-index="3">
+      <van-nav-bar :fixed="true" :z-index="3" class="vanbar">
         <template #left>
           <van-icon name="arrow-left" size="24" color="grey" @click="goto" />
         </template>
@@ -17,7 +17,7 @@
         class="Heel_a"
         v-for="(item, index) in titlelist"
         :key="index"
-        :class="{ bgColors: item.bacolor == current }"
+        :class="{ bgColors: item.bacolor === current }"
         @click="qblist(item.bacolor)"
       >
         <div class="box1">
@@ -28,7 +28,7 @@
       <div class="Heel_a backF5" @click="retreat">返回系统主页</div>
     </div>
     <!-- 搜索框 -->
-    <div v-if="current === 1">
+    <div v-if="flag === false">
       <div class="Heel_c">
         <input
           type="text"
@@ -51,8 +51,8 @@
             <div class="m-list-con clearfix">
               <span> 跟单方式:{{ item.modeName }}</span>
               <span> 跟单状态:{{ item.statusName }}</span>
-              <span>跟单对象:<a class="tu2 iconfont icon-dianhua"></a></span>
-              <span> 下次联系: <small></small></span>
+              <span>跟单对象:</span>
+              <span> 下次联系: <a class="tu2 iconfont icon-dianhua"></a></span>
               <div class="note">备注:{{ item.remark }}</div>
               <span>跟单人:{{item.realName}}</span>
               <span>跟单时间:{{item.createAt}}</span>
@@ -71,46 +71,6 @@
               @change="paging"
             />
           </div>
-        </div>
-      </div>
-    </div>
-
-    <div v-if="this.current === 2">
-      <div v-if="setlist.length === ''">
-        <div>请选择用户</div>
-      </div>
-      <div v-else>
-        <div class="m-list">
-          <div
-            class="m-list-e clearfix"
-            v-for="(item, index) in setlist"
-            :key="index"
-          >
-            <div class="m-list-title clearfix goto">
-              <span @click="godetails(index)">{{ item.customerName }}</span>
-            </div>
-            <div class="m-list-con clearfix">
-              <span> 跟单方式:{{ item.modeName }}</span>
-              <span> 跟单状态:{{ item.statusName }}</span>
-              <span>跟单对象:<a class="tu2 iconfont icon-dianhua"></a></span>
-              <span> 下次联系: <small></small></span>
-              <div class="note">备注:{{ item.remark }}</div>
-              <span>跟单人:</span>
-              <span>跟单时间:{{ item.createAt }}</span>
-              <span>附件:</span>
-              <span></span>
-                <div class="jiesu">
-                  <!-- <button class="gendna" @click="Theendpl(item)">结束跟单</button> -->
-                </div>
-              <div class="clear"></div>
-            </div>
-           
-            <div class="kloepo">
-              <div class="xinzeng" @click="listnew(item)">新增</div>
-              <div class="guanbi" @click="guanbip">关闭</div>
-            </div>
-          </div>
-          <div class="bottom"></div>
         </div>
       </div>
     </div>
@@ -136,45 +96,39 @@ export default {
           LangthNum: "",
         },
         {
-          name: "跟单详情",
-          start: "",
-          bacolor: 2,
-          LangthNum: "",
-        },
-        {
           name: "今日需跟进",
           visit: "-1",
-          bacolor: 3,
+          bacolor: 2,
           LangthNum: "",
         },
         {
           name: "本周需跟进",
           visit: "0",
-          bacolor: 4,
+          bacolor: 3,
           LangthNum: "",
         },
         {
           name: "今日跟单记录",
           visit: "1",
-          bacolor: 5,
+          bacolor: 4,
           LangthNum: "",
         },
         {
           name: "本周跟单记录",
           foll: "0",
-          bacolor: 6,
+          bacolor: 5,
           LangthNum: "",
         },
         {
           name: "本月跟单记录",
           foll: "1",
-          bacolor: 7,
+          bacolor: 6,
           LangthNum: "",
         },
         {
           name: "新增跟单",
           deal: "0",
-          bacolor: 8,
+          bacolor: 7,
           LangthNum: "",
         },
       ],
@@ -186,7 +140,7 @@ export default {
       pageSize: 10,
       ids: "", //跟单详情列表
       todo: [],
-      setlityt: [],
+      flag:false 
     };
   },
   methods: {
@@ -202,30 +156,21 @@ export default {
     },
     // 返回上一页
     goto() {
-      this.$router.go(-1);
+      this.$router.push('/');
     },
     //联系人关闭
     guanbip() {
       this.current = 1;
     },
-    //新增
-    listnew(item) {
-      // console.log(item, 11);
-      // let name = item.customerName
-      // console.log(name)
-      this.$router.push({
-        path: "/listnew",
-        query: { name: item },
-      });
-    },
+   
     //名字点击
     godetails(index) {
       this.ids = this.genlist[index].customerId;
       this.thedetalils({
         id: this.ids,
       });
+      this.$router.push('/Petaliest')
       localStorage.setItem("ids",JSON.stringify(this.ids))
-      this.current = 2;
     },
     // 搜索
     search() {
@@ -236,18 +181,6 @@ export default {
         pageNum: this.pageNum,
         pageSize: this.pageSize,
       });
-    },
-    //结束跟单
-    Theendpl(item) {
-    //   console.log(item,222)
-    //   let customerId = item.customerId;
-    //   console.log(customerId);
-    //   console.log(this.usernameId);
-    //   // this.$store.dispatch("documentary/Theend",{
-    //   //   customerId:customerId,
-    //   //   accountId:this.usernameId,
-    //   //   id
-      // })
     },
     //回车搜索
     kenter() {
@@ -275,8 +208,16 @@ export default {
       pageNum: this.pageNum,
       pageSize: this.pageSize,
     });
+    
   },
-  watch: {},
+  watch: {
+     // 监听输入框事件
+    values1(val) {
+      if (this.values1 === "") {
+        this.search();
+      }
+    },
+  },
   computed: {
     ...userState(["genlist", "totalRow", "setlist"]),
   },
@@ -299,12 +240,5 @@ export default {
   color: #fff;
   margin-right: 10px;
 }
-.bottom{
-  height: 40px;
-}
-.jiesu{
-  width: 100%;
-  display: flex;
-  justify-content: flex-end;
-}
+
 </style>

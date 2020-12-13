@@ -47,6 +47,10 @@ export default {
                 if (res.code === 200) {
                     commit('setgenlist', res.list)
                     commit('settotalRow', res.totalRow)
+                    res.list.map((item, index) => {
+                        item.createAt = dayjs(item.createAt).format("YYYY-MM-DD");
+                        Vue.set(item, "flag", false);
+                    });
                 }
             } catch (err) {
                 console.log(err)
@@ -60,7 +64,7 @@ export default {
                 if (res.code === 200) {
                     commit('setthedetalils', res.list)
                     res.list.map((item, index) => {
-                        item.entryTime = dayjs(item.createAt).format("YYYY-MM-DD");
+                        item.createAt = dayjs(item.createAt).format("YYYY-MM-DD");
                         Vue.set(item, "flag", false);
                     });
                 }
@@ -106,7 +110,7 @@ export default {
         },
         // 文件上传
         async upload({dispatch},{file,accountId}){
-            console.log(file)
+            console.log(file,accountId,"222")
             try{
                 let res = await api.upload({file,accountId})
                 console.log(res,"文件上传")

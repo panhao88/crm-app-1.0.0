@@ -203,9 +203,9 @@ const routes = [
   //详情页
   {
 
-    path: "/details",
-    name: "details",
-    component: () => import('../views/details/details.vue')
+    path: "/Details",
+    name: "Details",
+    component: () => import('../views/Details/details.vue')
 
   },
   //关于

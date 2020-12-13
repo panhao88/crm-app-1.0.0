@@ -98,16 +98,15 @@
                 class="todo"
                 @change="radio"
               ></van-checkbox>
-              <span class="w100">
+              <div>
                 <button
                   class="btn1 btnduanx"
                   data-height="500"
-                  href="#"
-                  disabled
+                  @click="obtain(item)"
                 >
                   获取信息
                 </button>
-              </span>
+              </div>
             </div>
             <div class="clear"></div>
           </div>
@@ -191,7 +190,7 @@ export default {
     };
   },
   methods: {
-    ...userActions(["customerseas"]),
+    ...userActions(["customerseas", "obtain"]),
     //导航点击事件
     qblist(index) {
       this.akp = index;
@@ -210,6 +209,15 @@ export default {
       this.listseas.map((item) => {
         item.flag = this.checked;
       });
+    },
+    //获取公海信息
+    obtain(item) {
+      let id = item.id;
+      this.$store.dispatch("user/obtain",{
+        ids: id,
+        accountId: this.usernameId,
+      });
+      // this.$toast.success("获取成功")
     },
     //单选
     radio() {
@@ -249,11 +257,21 @@ export default {
     },
   },
   mounted() {
+    this.username = JSON.parse(localStorage.getItem("user"));
+    this.usernameId = this.username.id;
     this.customerseas({
       name: this.value,
       pageNum: this.pageNum,
       pageSize: this.pageSize,
     });
+  },
+   watch: {
+    // 监听输入框事件
+    value(val) {
+      if (this.value === "") {
+        this.search();
+      }
+    },
   },
   computed: {
     ...userState(["listseas", "totalRow"]),
