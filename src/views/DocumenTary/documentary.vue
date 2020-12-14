@@ -55,8 +55,9 @@
               <span> 下次联系: <a class="tu2 iconfont icon-dianhua"></a></span>
               <div class="note">备注:{{ item.remark }}</div>
               <span>跟单人:{{item.realName}}</span>
-              <span>跟单时间:{{item.createAt}}</span>
               <span>附件:</span>
+              <div  class="note clearfix">跟单时间:{{item.createAt}}</div>
+              
               <span></span>
               <div class="clear"></div>
             </div>

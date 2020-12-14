@@ -29,9 +29,9 @@
           <div class="box2">{{ item.name }}</div>
         </div>
       </div>
-      <dlist v-if="current === 0" :details="details"></dlist>
-      <administration v-if="current === 2"></administration>
     </div>
+     <dlist v-if="current === 0" :details="details"></dlist>
+      <administration v-if="current === 2"></administration>
   </div>
 </template>
 
