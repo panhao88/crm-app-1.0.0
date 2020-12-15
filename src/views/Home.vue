@@ -297,7 +297,7 @@ export default {
           this.verseonexplain = res.data.content;
           if (this.myversion !== res.data.version) {
             this.flag = true;
-            this.show = true
+            // this.show = true
           }
           if (this.myversion === res.data.version) {
             this.flag = false;

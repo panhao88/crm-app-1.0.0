@@ -85,12 +85,12 @@
             <span>微信号:</span>
             <span>预计到校时间:</span>
             <span>网络面试时间:</span><span>录入者:</span>
+             
             <span> 录入时间:{{ item.reporter }} </span>
-            <span> 最后更新: {{ item.entryTime }}</span>
-            <span>
+             <span>
               业务员: <font color="red">{{ item.followRecord }}</font></span
             >
-            <span></span>
+            <div class="note clearfix"> 最后更新: {{ item.entryTime }}</div>
             <div class="generations">
               <van-checkbox
                 v-model="item.flag"

@@ -95,6 +95,7 @@ export default {
             id: id,
           });
           this.$router.go(0)
+       
         })
         .catch((err) => {
           this.$toast({
@@ -103,6 +104,7 @@ export default {
           console.log(err);
         });
     },
+    
   },
   mounted() {
     this.username = JSON.parse(localStorage.getItem("user"));
@@ -130,7 +132,7 @@ export default {
   justify-content: flex-end;
 }
 .gendna {
-  background: #009966;
+  background: red;
   border: none;
   border-radius: 6px;
   padding: 0px 6px;

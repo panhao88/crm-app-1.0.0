@@ -49,7 +49,7 @@
                     :key="index"
                     :value="item"
                   >
-                    <div class="choice">{{ item.name }}</div>
+                    <div>{{ item.name }}</div>
                   </option>
                 </select>
               </td>
@@ -331,6 +331,7 @@ export default {
 .selectpl {
   width: 70%;
   height: 25px;
+  background: #fff;
 }
 .van-cell {
   padding: 0px;

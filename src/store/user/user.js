@@ -92,7 +92,7 @@ export default {
         //客户联系人
         async Thecontact({ commit }, { id }) {
             try {
-                let res = await api.Thecontact(id)
+                let res = await api.Thecontact({id})
                 commit('setcontact',res.list)
                 console.log(res, "联系人")
             } catch (err) {
@@ -104,7 +104,7 @@ export default {
         async customerseas({ commit }, { name, pageNum, pageSize }) {
             try {
                 let res = await api.customerseas({ name, pageNum, pageSize })
-                console.log(res, "客户公海")
+                console.log(res, "11客户公海")
                 if (res.code === 200) {
                     res.list.map((item, index) => {
                         Vue.set(item, "flag", false);

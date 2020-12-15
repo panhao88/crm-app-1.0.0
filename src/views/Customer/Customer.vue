@@ -74,9 +74,7 @@
             <div class="m-list-con clearfix">
               <span>
                 客户类型:
-                <small v-if="item.visitortype == 0">高中</small>
-                <small v-if="item.visitortype == -1">无效</small>
-                <small v-if="item.visitortype == 1">初中</small>
+                {{item.statusName}}
               </span>
               <span> 校区分类:</span>
 
@@ -100,16 +98,17 @@
                 }}</a>
                 <a class="tu2 iconfont icon-dianhua"></a>
               </span>
-              <span>搜索词:</span><span>微信号:{{ item.wechatCode }}</span>
+             <span>微信号:{{ item.wechatCode }}</span>
               <span>预计到校时间:</span><span>网络面试时间:</span>
-              <span> 录入者:{{ item.reper }} </span>
+              <span> 录入者:{{ item.reporterName }} </span>
               <div class="note clearfix"> 录入时间: {{ item.entryTime }}</div>
+               <div class="note clearfix">搜索词:{{item.searchTerms}}</div>
               <span>
                 最后更新:
                 <font color="red">{{ item.followRecord }}</font>
                 分前
               </span>
-              <span> 业务员:{{ item.salesman }} </span>
+              <span> 业务员:{{ item.salemanName }} </span>
               <span>
                 <div class="gonghaiyy">
                   <div>
