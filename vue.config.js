@@ -12,7 +12,7 @@ module.exports = {
           // target: 'http://211.149.157.5:85',
           // target: 'http://ce.96291.club:82',
           //  target: 'http://211.149.157.5:83',
-          target: 'http://192.168.0.25',
+          target: 'http://192.168.0.25:8080',
           changeOrigin: true,
           pathRewrite: {
             '^/api': ''
