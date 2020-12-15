@@ -9,10 +9,10 @@ module.exports = {
       proxy: {
         '/api': {
           ws: false,
-          // target: 'http://211.149.157.5:85',
-          // target: 'http://ce.96291.club:82',
-          //  target: 'http://211.149.157.5:83',
-          target: 'http://192.168.0.25:8080',
+          // target: 'http://211.149.157.5:85',//服务器调试环境
+          // target: 'http://ce.96291.club:82',//远程接口文档
+          //  target: 'http://211.149.157.5:83',//服务器生成环境
+          target: 'http://192.168.0.25:8080',//公司开发环境
           changeOrigin: true,
           pathRewrite: {
             '^/api': ''

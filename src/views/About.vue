@@ -1,37 +1,37 @@
 <template>
- <div>
-  11111
- </div>
+  <div>
+    <div>
+      <input type="text" name="" v-model="value" id="" @keydown.enter="didi" />
+    </div>
+  </div>
 </template>
 
 <script>
- export default {
-   name: '',
-   props: {
-   },
-   components: {
+export default {
+  name: "",
+  props: {},
+  components: {},
+  data() {
+    return {
+      value: "",
+    };
+  },
+  methods: {
+    didi() {
+      let arr = this.value;
+      if( isNaN(arr)){
+          alert("强填写数字")
+      }
+    },
+  },
+  mounted() {
 
-   },
-   data () {
-     return {
-
-     }
-   },
-   methods: {
-
-   },
-   mounted() {
-
-   },
-   watch: {
-
-   },
-   computed: {
-
-   }
- }
+  },
+  watch: {},
+  computed: {},
+  filters: {},
+};
 </script>
 
 <style scoped lang='scss'>
-
 </style>
