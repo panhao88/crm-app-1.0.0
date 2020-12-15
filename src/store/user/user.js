@@ -10,7 +10,8 @@ export default {
         total: '',   //客户列表总条数
         details: {},  //客户详情
         listseas: [],  //公海列表
-        totalRow: ''   //公海总条数
+        totalRow: ''   ,//公海总条数
+        contact:[] //客户联系人
     },
     mutations: {
         //客户数据列表
@@ -32,6 +33,10 @@ export default {
         //公海总数
         settotalRow(state, data) {
             state.totalRow = data
+        },
+        // 客户联系人
+        setcontact(state,data){
+            state.contact = data
         }
     },
     // 获取客户列表
@@ -88,6 +93,7 @@ export default {
         async Thecontact({ commit }, { id }) {
             try {
                 let res = await api.Thecontact(id)
+                commit('setcontact',res.list)
                 console.log(res, "联系人")
             } catch (err) {
                 console.log(err)

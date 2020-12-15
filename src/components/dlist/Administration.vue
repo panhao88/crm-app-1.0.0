@@ -2,13 +2,14 @@
 <!-- 跟单管理 -->
   <div>
     <div class="boxt">
-      <table>
+      <div v-for="item in contact" :key="item.id">
+        <table>
         <tr>
-          <td class="boedee-apo">性别:</td>
+          <td class="boedee-apo">名字:{{item.name}}</td>
           <td class="boedee-byt">职位:</td>
         </tr>
         <tr>
-          <td class="boedee-apo">电话:</td>
+          <td class="boedee-apo">电话:{{item.mobile}}</td>
           <td class="boedee-byt">微信:</td>
         </tr>
         <tr>
@@ -24,6 +25,7 @@
           <td class="boedee-byt"></td>
         </tr>
       </table>
+      </div>
       <div>
         <div class="kloepo">
           <div class="xinzeng">新增</div>
@@ -37,7 +39,11 @@
 <script>
 export default {
   name: "",
-  props: {},
+  props: {
+    contact:{
+      type:Array
+    }
+  },
   components: {},
   data() {
     return {};
@@ -47,6 +53,10 @@ export default {
     guanbip() {
       this.current = 1;
     },
+    // 关闭
+    guanbip(){
+      this.$router.push('/customer')
+    }
   },
   mounted() {},
   watch: {},
@@ -57,7 +67,7 @@ export default {
 
 <style scoped lang='scss'>
 .boxt {
-  width: 375px;
+  width: 100%;
   margin-top: 10px;
 }
 </style>

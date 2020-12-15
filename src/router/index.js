@@ -56,9 +56,9 @@ const routes = [
   },
   // 客户管理
   {
-    path: "/customer",
-    name: "customer",
-    component: () => import('../views/customer/customer.vue')
+    path: "/Customer",
+    name: "Customer",
+    component: () => import('../views/Customer/Customer.vue')
   },
   // 跟单管理
   {
@@ -111,9 +111,9 @@ const routes = [
   // 回收站
   {
 
-    path: "/recyclebin",
-    name: "recyclebin",
-    component: () => import('../views/recyclebin/recyclebin.vue')
+    path: "/RecycLebin",
+    name: "RecycLebin",
+    component: () => import('../views/RecycLebin/RecycLebin.vue')
 
   },
   // 客户名片夹
@@ -203,9 +203,9 @@ const routes = [
   //详情页
   {
 
-    path: "/details",
-    name: "details",
-    component: () => import('../views/details/details.vue')
+    path: "/Details",
+    name: "Details",
+    component: () => import('../views/Details/Details.vue')
 
   },
   //关于

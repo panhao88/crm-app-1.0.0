@@ -241,18 +241,18 @@ export default {
           bacolor: 2,
           LangthNum: "",
         },
-        {
-          name: "我的共享",
-          visit: "-1",
-          bacolor: 3,
-          LangthNum: "",
-        },
-        {
-          name: "共享给我",
-          visit: "0",
-          bacolor: 4,
-          LangthNum: "",
-        },
+        // {
+        //   name: "我的共享",
+        //   visit: "-1",
+        //   bacolor: 3,
+        //   LangthNum: "",
+        // },
+        // {
+        //   name: "共享给我",
+        //   visit: "0",
+        //   bacolor: 4,
+        //   LangthNum: "",
+        // },
         {
           name: "今日新增",
           visit: "1",

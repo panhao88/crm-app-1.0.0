@@ -31,7 +31,7 @@
       </div>
     </div>
      <dlist v-if="current === 0" :details="details"></dlist>
-      <administration v-if="current === 2"></administration>
+      <administration v-if="current === 1" :contact="contact"></administration>
   </div>
 </template>
 
@@ -149,7 +149,7 @@ export default {
   },
   watch: {},
   computed: {
-    ...userState(["details"]),
+    ...userState(["details","contact"]),
   },
 };
 </script>

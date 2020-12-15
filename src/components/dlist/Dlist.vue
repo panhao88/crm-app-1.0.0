@@ -18,7 +18,8 @@
         </tr>
         <tr>
           <td class="boedee-a">联系人:</td>
-          <td class="boedee-b">未填写</td>
+          <td class="boedee-b" v-if="details.contactsNum === 0" >没有联系人</td>
+          <td class="boedee-b" v-if="details.contactsNum > 0" @click="godetaild">有{{details.contactsNum}}位联系人</td>
         </tr>
         <tr>
           <td class="boedee-a">手机号码:</td>
@@ -26,31 +27,27 @@
         </tr>
         <tr>
           <td class="boedee-a">QQ:</td>
-          <td class="boedee-b"></td>
+          <td class="boedee-b">{{details.qqCode}}</td>
         </tr>
         <tr>
           <td class="boedee-a">咨询方式:</td>
-          <td class="boedee-b"></td>
+          <td class="boedee-b">{{details.modeName}}</td>
         </tr>
         <tr>
-          <td class="boedee-a">客服标识:</td>
+          <td class="boedee-a">访客标识符:</td>
           <td class="boedee-b">{{details.visitorIdentifier}}</td>
         </tr>
         <tr>
           <td class="boedee-a">客户类型:</td>
-          <td class="boedee-b"></td>
+          <td class="boedee-b">{{details.statusName}}</td>
         </tr>
         <tr>
           <td class="boedee-a">校区分类:</td>
           <td class="boedee-b"></td>
         </tr>
         <tr>
-          <td class="boedee-a">客户名称:</td>
-          <td class="boedee-b"></td>
-        </tr>
-        <tr>
           <td class="boedee-a">客户来源:</td>
-          <td class="boedee-b"></td>
+          <td class="boedee-b">{{details.code}}</td>
         </tr>
         <tr>
           <td class="boedee-a">当前学历:</td>
@@ -59,15 +56,11 @@
         </tr>
         <tr>
           <td class="boedee-a">搜索词:</td>
-          <td class="boedee-b"></td>
-        </tr>
-        <tr>
-          <td class="boedee-a">访客标识符:</td>
-          <td class="boedee-b"></td>
+          <td class="boedee-b">{{details.searchTerms}}</td>
         </tr>
         <tr>
           <td class="boedee-a">微信号:</td>
-          <td class="boedee-b"></td>
+          <td class="boedee-b">{{details.wechatCode}}</td>
         </tr>
         <tr>
           <td class="boedee-a">预计到校时间:</td>
@@ -79,7 +72,7 @@
           <div class="chat">用户聊天：</div>
         </div>
         <div>
-          <textarea class="comments"  id="demo"> </textarea>
+          <textarea class="comments"  id="demo" v-model="details.remark"> </textarea>
         </div>
       </div>
       <div class="placeholder"></div>
@@ -103,8 +96,12 @@ export default {
   methods: {
     // 关闭
     previous() {
-      this.$router.go("-1");
+      this.$router.go(-1);
     },
+    //跳转到联系人
+    godetaild(){
+      this.$parent.current = 1
+    }
   },
   mounted() {},
   watch: {
@@ -149,7 +146,7 @@ export default {
   padding: 10px;
 }
 .comments {
-  width: 365px;
+  width: 355px;
   height: 200px;
   margin-left: 5px;
 }

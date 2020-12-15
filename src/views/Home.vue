@@ -131,7 +131,6 @@
                 </div>
                 <div v-if="flag === false">
                   <h4>已是最新版本</h4>
-                  <div>更新内容:{{ verseonexplain }}</div>
                 </div>
               </van-popup>
             </van-grid-item>
@@ -292,17 +291,17 @@ export default {
       this.$api
         .update()
         .then((res) => {
-          // this.myversion = plus.runtime.version;
+          this.myversion = plus.runtime.version;
           this.website = res.data.annex;
-          console.log(`http://ce.96291.club:82${this.website}`)
+          console.log(`http://211.149.157.5:85${this.website}`)
           this.verseonexplain = res.data.content;
-          // if (this.myversion !== res.data.version) {
-          //   this.flag = true;
-          //   this.show = true
-          // }
-          // if (this.myversion === res.data.version) {
-          //   this.flag = false;
-          // }
+          if (this.myversion !== res.data.version) {
+            this.flag = true;
+            this.show = true
+          }
+          if (this.myversion === res.data.version) {
+            this.flag = false;
+          }
           console.log(res, "版本更新");
         })
         .catch((err) => {
@@ -311,7 +310,7 @@ export default {
     },
     //前往升级
     previous() {
-      // plus.runtime.openURL(`http://ce.96291.club:82${this.website}`);
+      plus.runtime.openURL(`http://211.149.157.5:85${this.website}`);
     },
   },
   mounted() {

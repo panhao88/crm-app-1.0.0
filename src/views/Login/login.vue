@@ -76,9 +76,7 @@ export default {
             let user = res.loginAccount;
             localStorage.setItem("user", JSON.stringify(user));
             this.$router.push("/home");
-            this.$dialog.alert({
-              message: "登录成功",
-            });
+             this.$toast.success("登录成功");
           } else if (res.state === "fail") {
             this.$dialog.alert({
               message: "用户名或密码错误",
