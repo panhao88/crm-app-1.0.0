@@ -76,20 +76,19 @@
                 客户类型:
                 {{item.statusName}}
               </span>
-              <span> 校区分类:</span>
-
+<!--              <span> 校区分类:</span>-->
               <span>
                 客户来源:
                 <small v-if="item.state == 0">网络</small>
                 <small v-if="item.state == 1">拓展</small>
                 <small v-if="item.state == 2">公海数据</small>
               </span>
-
+              <span>微信号:{{ item.wechatCode }}</span>
               <span>
                 QQ: <small>{{ item.qqCode }}</small>
               </span>
 
-              <span> 咨询方式:{{ item.modeName }}</span>
+              <span> 咨询方式:{{ item.modelName }}</span>
 
               <span>
                 电话:
@@ -98,17 +97,25 @@
                 }}</a>
                 <a class="tu2 iconfont icon-dianhua"></a>
               </span>
-             <span>微信号:{{ item.wechatCode }}</span>
-              <span>预计到校时间:</span><span>网络面试时间:</span>
+
               <span> 录入者:{{ item.reporterName }} </span>
+              <span> 业务员:{{ item.salemanName }} </span>
               <div class="note clearfix"> 录入时间: {{ item.entryTime }}</div>
                <div class="note clearfix">搜索词:{{item.searchTerms}}</div>
               <span>
                 最后更新:
-                <font color="red">{{ item.followRecord }}</font>
-                分前
+                <small v-if="item.hour && item.hour >= 1 && item.hour < 24">
+                  {{ Math.ceil(item.hour) }}小时前
+                </small>
+                <small v-if="item.hour && item.hour >= 24">
+                  {{ Math.ceil(item.day) }}天前
+                </small>
+<!--            <small v-if="item.day && item.day >= 30">-->
+<!--                        {{ parseInt(item.day % 30) }}月前-->
+<!--                </small>-->
               </span>
-              <span> 业务员:{{ item.salemanName }} </span>
+              <span></span>
+
               <span>
                 <div class="gonghaiyy">
                   <div>
@@ -290,7 +297,6 @@ export default {
       value1: "", //点击变色高亮
       username: {}, //获取用户信息
       usernameId: 0, //获取用户id
-      currentPage: 1, //当前页分页
       pageSize: 10, //
       mobile: "",
       article: [], //筛选出的数据

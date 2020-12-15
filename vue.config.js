@@ -5,19 +5,19 @@ module.exports = {
   assetsDir: 'static', //静态资源(js|css|img|fonts)目录
   lintOnSave: process.env.NODE_ENV === 'development',//设置是否在开发环境下每次保存代码时都启用 eslint验证
   productionSourceMap: false,// 生产环境的 source map 用于定位代码错误
-    devServer: {
-      proxy: {
-        '/api': {
-          ws: false,
-          // target: 'http://211.149.157.5:85',//服务器调试环境
-          // target: 'http://ce.96291.club:82',//远程接口文档
-          //  target: 'http://211.149.157.5:83',//服务器生成环境
-          target: 'http://192.168.0.25:8080',//公司开发环境
-          changeOrigin: true,
-          pathRewrite: {
-            '^/api': ''
-          }
-        },
-      }
+  devServer: {
+    proxy: {
+      '/api': {
+        ws: false,
+        // target: 'http://211.149.157.5:85',
+        // target: 'http://ce.96291.club:82',
+        //  target: 'http://211.149.157.5:83',
+        target: 'http://192.168.0.25:81',
+        changeOrigin: true,
+        pathRewrite: {
+          '^/api': ''
+        }
+      },
     }
   }
+}

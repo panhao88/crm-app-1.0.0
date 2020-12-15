@@ -2,7 +2,7 @@
   <div>
     <!-- 头部导航1111111 -->
     <div id="_nav">
-      <van-nav-bar :fixed="true" :z-index="3">
+      <van-nav-bar :fixed="true" :z-index="3"  :title="realName">
         <template #left>
           <van-icon name="flag-o" size="24" color="grey" />
         </template>
@@ -271,6 +271,8 @@ export default {
       verseonexplain: "", //更新内容
       myversion: "", //当前版本号
       flag: true,
+      username:"",
+      realName:''
     };
   },
   methods: {
@@ -315,6 +317,10 @@ export default {
   },
   mounted() {
     this.getdata();
+  let goto = {}
+   goto = JSON.parse(localStorage.getItem('user'))
+    this.username = goto.userName
+    this.realName = goto.realName
   },
 };
 // }

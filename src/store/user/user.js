@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import api from '../../http/api'
 import { Toast } from 'vant';
+import  dayjs from 'dayjs'
 
 export default {
     // 开启命名空间,这个文件就是单独的一个vuex的模块
@@ -52,6 +53,20 @@ export default {
                     commit('settotal', res.totalRow)
                     res.list.map((item, index) => {
                         Vue.set(item, "flag", false);
+                        item.time = dayjs(item.createAt).valueOf()
+                        let now = Date.now();
+                        Vue.set(item, "second", Math.ceil((now - item.time) / 1000)); //秒
+                        Vue.set(item, "mins", Math.ceil((now - item.time) / 1000 / 60)); // 分钟
+                        Vue.set(
+                            item,
+                            "hour",
+                            Math.ceil((now - item.time) / 1000 / 60 / 60)
+                        ); //小时
+                        Vue.set(
+                            item,
+                            "day",
+                            Math.ceil((now - item.time) / 1000 / 60 / 60 / 24)
+                        ); //天
                     });
                 }
             } catch (err) {
