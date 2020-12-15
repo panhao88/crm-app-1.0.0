@@ -68,9 +68,9 @@ const routes = [
   },
   //客户跟单列表
   {
-    path:"/petaliest",
-    name:"petaliest",
-    component:() => import('../views/petaliest/Petaliest')
+    path:"/Petaliest",
+    name:"Petaliest",
+    component:() => import('../views/Petaliest/Petaliest')
   },
   //到访管理
   {
