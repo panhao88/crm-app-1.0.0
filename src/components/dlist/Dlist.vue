@@ -19,7 +19,7 @@
         <tr>
           <td class="boedee-a">联系人:</td>
           <td class="boedee-b" v-if="details.contactsNum === 0" >没有联系人</td>
-          <td class="boedee-b" v-if="details.contactsNum > 0" @click="godetaild">有{{details.contactsNum}}位联系人</td>
+          <td class="boedee-b" v-if="details.contactsNum > 0" @click="godetaild">有{{details.contactsNum}}位联系人<button class="gendna">查看联系人</button></td>
         </tr>
         <tr>
           <td class="boedee-a">手机号码:</td>
@@ -69,14 +69,17 @@
       </table>
       <div>
         <div>
-          <div class="chat">用户聊天：</div>
+          <div class="chat">聊天记录：</div>
         </div>
         <div>
           <textarea class="comments"  id="demo" v-model="details.remark"> </textarea>
         </div>
       </div>
       <div class="placeholder"></div>
-      <div class="didi" @click="previous">关闭</div>
+      <div class="kloepo">
+            <div class="xinzeng" @click="listnew">跟单管理</div>
+            <div class="guanbi" @click="previous">关闭</div>
+          </div>
     </div>
   </div>
 </template>
@@ -91,7 +94,9 @@ export default {
   },
   components: {},
   data() {
-    return {};
+    return {
+  
+    };
   },
   methods: {
     // 关闭
@@ -101,16 +106,19 @@ export default {
     //跳转到联系人
     godetaild(){
       this.$parent.current = 1
+    },
+    //跳转到跟单管理
+    listnew(){
+        this.$router.push({
+        path: "/Petaliest",
+        query: { idb: this.details.id },
+      });
     }
   },
-  mounted() {},
+  mounted() {
+    console.log(this.details.id)
+  },
   watch: {
-    val: {
-      details(newVal) {
-        console.log(newVal);
-      },
-      deep: true,
-    },
   },
   computed: {},
 };
@@ -149,5 +157,13 @@ export default {
   width: 355px;
   height: 200px;
   margin-left: 5px;
+}
+.gendna {
+  background: red;
+  border: none;
+  border-radius: 6px;
+  padding: 4px 6px;
+  color: #fff;
+  margin-left: 10px;
 }
 </style>

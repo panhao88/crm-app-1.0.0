@@ -18,8 +18,8 @@
         class="Heel_a"
         v-for="(item, index) in titlelist"
         :key="index"
-        :class="index === akp ? 'bgColors' : ''"
-        @click="qblist(index)"
+        :class="{ bgColors: item.bacolor === akp }"
+        @click="qblist(item.bacolor)"
       >
         <div class="box1">
           <div class="box2">{{ item.name }}</div>
@@ -64,52 +64,37 @@
           <div class="m-list-con clearfix">
             <span>
               客户类型:
-              <small v-if="item.visitortype == 0">高中</small>
-              <small v-if="item.visitortype == -1">无效</small>
-              <small v-if="item.visitortype == 1">初中</small>
+              <small>{{ item.statusName }}</small>
             </span>
-            <span> 客户来源:</span>
+            <span> 客户来源:{{ item.code }}</span>
+
             <span>
-              客户标识:
-              <small v-if="item.state == 0">网络</small>
-              <small v-if="item.state == 1">拓展</small>
-              <small v-if="item.state == 2">公海数据</small>
-            </span>
-            <span>
-              联系人: <small>{{ item.qqCode }}</small></span
-            >
-            <span>
-              电话:{{ item.mobile }}<a class="tu2 iconfont icon-dianhua"></a
-            ></span>
-            <span>搜索词:</span>
+              电话:{{ item.mobile }}</span>
             <span>微信号:</span>
-            <span>预计到校时间:</span>
-            <span>网络面试时间:</span><span>录入者:</span>
-             
-            <span> 录入时间:{{ item.reporter }} </span>
-             <span>
-              业务员: <font color="red">{{ item.followRecord }}</font></span
-            >
-            <div class="note clearfix"> 最后更新: {{ item.entryTime }}</div>
-            <div class="generations">
-              <van-checkbox
-                v-model="item.flag"
-                shape="square"
-                class="todo"
-                @change="radio"
-              ></van-checkbox>
-              <div>
-                <button
-                  class="btn1 btnduanx"
-                  data-height="500"
-                  @click="obtain(item)"
-                >
-                  获取信息
-                </button>
-              </div>
-            </div>
+            <span>录入者:{{ item.reper }}</span>
+            <span></span>
+            <div class="note clearfix">搜索词:{{ item.searchTerms }}</div>
+            <div class="note clearfix">录入时间:{{ item.entryTime }}</div>
             <div class="clear"></div>
+             <div class="generations">
+            <van-checkbox
+              v-model="item.flag"
+              shape="square"
+              class="todo"
+              @change="radio"
+            ></van-checkbox>
+            <div>
+              <button
+                class="btn1 btnduanx"
+                data-height="500"
+                @click="obtain(item)"
+              >
+                获取信息
+              </button>
+            </div>
           </div>
+          </div>
+         
         </div>
       </div>
     </div>
@@ -192,8 +177,17 @@ export default {
   methods: {
     ...userActions(["customerseas", "obtain"]),
     //导航点击事件
-    qblist(index) {
-      this.akp = index;
+    qblist(bolo) {
+      // this.akp = index;
+      if(bolo === 0){
+        this.akp = bolo;
+      }else if(bolo === 1){
+         this.$toast.success("该功能暂未开通");
+      }else if(bolo === 2){
+         this.$toast.success("该功能暂未开通");
+      }else if(bolo === 3){
+         this.$toast.success("该功能暂未开通");
+      }
     },
     //去详情页
     godetails(index) {
@@ -213,9 +207,14 @@ export default {
     //获取公海信息
     obtain(item) {
       let id = item.id;
-      this.$store.dispatch("user/obtain",{
+      this.$store.dispatch("user/obtain", {
         ids: id,
         accountId: this.usernameId,
+      });
+      this.customerseas({
+        name: this.value,
+        pageNum: this.pageNum,
+        pageSize: this.pageSize,
       });
     },
     //单选
@@ -248,7 +247,7 @@ export default {
     },
     paging(e) {
       this.pageNum = e;
-      this.$store.dispatch("user/customerseas", {
+      this.customerseas({
         name: this.value,
         pageNum: this.pageNum,
         pageSize: this.pageSize,
@@ -264,7 +263,7 @@ export default {
       pageSize: this.pageSize,
     });
   },
-   watch: {
+  watch: {
     // 监听输入框事件
     value(val) {
       if (this.value === "") {

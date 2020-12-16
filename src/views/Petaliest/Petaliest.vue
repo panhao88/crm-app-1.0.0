@@ -25,11 +25,11 @@
             <span> 跟单方式:{{ item.modeName }}</span>
             <span> 跟单状态:{{ item.statusName }}</span>
             <span>跟单对象:<a class="tu2 iconfont icon-dianhua"></a></span>
-            <span> 下次联系: <small></small></span>
-            <div class="note clearfix">备注:{{ item.remark }}</div>
-            <span>跟单人:</span>
-            <span>附件:</span>
+            <span>跟单人:{{ item.realName }}</span>
             <div class="note clearfix">跟单时间:{{ item.createAt }}</div>
+            <div class="note clearfix">下次联系时间:{{ item.lastAt }}</div>
+            <span></span>
+            <div class="note clearfix">备注:{{ item.remark }}</div>
             <span></span>
             <div class="jiesu">
               <button class="gendna" @click="Theendpl(item)">删除跟单</button>
@@ -56,6 +56,7 @@ export default {
   name: "",
   props: {},
   components: {},
+  inject: ["reload"],
   data() {
     return {
       ids: "",
@@ -67,7 +68,7 @@ export default {
     ...userActions(["thedetalils", "Theend"]),
     // 返回上一页
     goto() {
-      this.$router.push("/documentary");
+      this.$router.go(-1);
     },
     //关闭
     guanbip() {
@@ -94,8 +95,9 @@ export default {
             accountId: this.usernameId,
             id: id,
           });
-          this.$router.go(0)
-       
+          this.thedetalils({
+            id: this.ids,
+          });
         })
         .catch((err) => {
           this.$toast({
@@ -104,12 +106,11 @@ export default {
           console.log(err);
         });
     },
-    
   },
   mounted() {
     this.username = JSON.parse(localStorage.getItem("user"));
     this.usernameId = this.username.id;
-    this.ids = JSON.parse(localStorage.getItem("ids"));
+    this.ids = this.$route.query.idb;
     this.thedetalils({
       id: this.ids,
     });
@@ -125,6 +126,7 @@ export default {
 <style scoped lang='scss'>
 .bottom {
   height: 40px;
+  background: #fff;
 }
 .jiesu {
   width: 100%;

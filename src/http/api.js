@@ -18,15 +18,15 @@ export default {
   },
   // 4.获取客户公海
   customerseas({ name, pageNum, pageSize }) {
-    // return service.get(`/api/customer/seasCustomerPage?name=${name}&pageNum=${pageNum}&pageSize=${pageSize}`)
-    return service.post("/api/customer/seasCustomerPage",{
-      name, pageNum, pageSize 
-    })
+    return service.get(`/api/customer/seasCustomerPage?name=${name}&pageNum=${pageNum}&pageSize=${pageSize}`)
+    // return service.post("/api/customer/seasCustomerPage",{
+    //   name, pageNum, pageSize 
+    // })
   },
   // 5.客户联系人
   Thecontact({id}) {
-    // return service.get(`/api/customer/findContactsByCustomerId?customerId=${id}`)
-    return service.post("/api/customer/findContactsByCustomerId",{id})
+    return service.get(`/api/customer/findContactsByCustomerId?customerId=${id}`)
+    // return service.post("/api/customer/findContactsByCustomerId",{id})
   },
   //6.放入公海
   intoSeasCustomer({ ids, accountId }) {

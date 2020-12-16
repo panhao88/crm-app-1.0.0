@@ -88,11 +88,11 @@
                 <van-popup
                   v-model="show"
                   position="bottom"
-                  :style="{ height: '40%' }"
+                  class="popol"
                 >
                   <van-datetime-picker
                     v-model="currentDate"
-                    type="date"
+                    type="datetime"
                     title="选择年月日"
                     :min-date="minDate"
                     :max-date="maxDate"
@@ -103,19 +103,19 @@
               </td>
             </tr>
             <tr>
-              <td class="boedee-a">附件:</td>
+              <!-- <td class="boedee-a">附件:</td>
               <td class="boedee-b">
                 <van-uploader :after-read="afterRead" v-model="fileList">
                   <van-button icon="plus" type="primary" class="wenjian"
                     >上传文件</van-button
                   >
                 </van-uploader>
-              </td>
+              </td> -->
             </tr>
           </table>
         </div>
         <div>
-          <div class="chat">用户聊天：</div>
+          <div class="chat">跟单内容：</div>
         </div>
         <div>
           <textarea class="comments" v-model="valuezhi" id="demo"> </textarea>
@@ -187,11 +187,11 @@ export default {
     //点击完成按钮时触发
     value111(value) {
       let date = new Date()
-      let hours = date.getHours()
-      let minutes = date.getMinutes() < 10 ? ('0' + date.getMinutes()) : date.getMinutes()
+      // let hours = date.getHours()
+      // let minutes = date.getMinutes() < 10 ? ('0' + date.getMinutes()) : date.getMinutes()
       let seconds = date.getSeconds() < 10 ? ('0' + date.getSeconds()) : date.getSeconds()
-      let time = hours +":"+minutes+":"+ seconds
-      this.day = dayjs(value).format(`YYYY-MM-DD  ${time}`);
+      // let time = hours +":"+minutes+":"+ seconds
+      this.day = dayjs(value).format(`YYYY-MM-DD HH:mm:${seconds}` );
       // console.log(this.day)
       this.show = false;
     },
@@ -213,7 +213,7 @@ export default {
         this.$toast.fail("跟单备注不能为空");
       } else {
         this.addseve({
-          customerId: this.ids,
+          customerId: this.id,
           modeId: this.phway,
           statusId: this.plstate,
           lastAt: this.day,
@@ -222,8 +222,11 @@ export default {
           type: this.type,
           contactsId: this.contacts,
         });
+         this.$router.push({
+        path: "/Petaliest",
+        query: { idb: this.id },
+      });
         this.$toast.success("保存成功");
-        this.$router.push("/Petaliest");
       }
     },
     //跟单对象
@@ -300,7 +303,7 @@ export default {
     this.Documenway();
     this.liststate();
     this.listobject({ id: this.id });
-    this.ids = JSON.parse(localStorage.getItem("ids"));
+    // this.ids = JSON.parse(localStorage.getItem("ids"));
   },
   watch: {},
   computed: {
@@ -350,5 +353,8 @@ export default {
   width: 355px;
   height: 200px;
   margin-left: 10px;
+}
+.popol{
+  height: 40%;
 }
 </style>

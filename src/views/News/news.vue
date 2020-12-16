@@ -1,7 +1,11 @@
 <template>
  <div>
    <!-- 消息 -->
-   <div><i class="iconfont icon-home" font-size="50px"></i></div>
+   <van-empty description="正在开发中">
+    <van-button round type="danger" class="bottom-button" @click="retreat">
+      返回首页
+    </van-button>
+  </van-empty>
  </div>
 </template>
 
@@ -19,7 +23,9 @@
      }
    },
    methods: {
-
+      retreat() {
+      this.$router.push("/home");
+    },
    },
    mounted() {
 

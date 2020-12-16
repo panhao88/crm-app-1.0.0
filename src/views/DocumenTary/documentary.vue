@@ -28,7 +28,7 @@
       <div class="Heel_a backF5" @click="retreat">返回系统主页</div>
     </div>
     <!-- 搜索框 -->
-    <div v-if="flag === false">
+    <div>
       <div class="Heel_c">
         <input
           type="text"
@@ -51,14 +51,13 @@
             <div class="m-list-con clearfix">
               <span> 跟单方式:{{ item.modeName }}</span>
               <span> 跟单状态:{{ item.statusName }}</span>
-              <span>跟单对象:</span>
-              <span> 下次联系: <a class="tu2 iconfont icon-dianhua"></a></span>
-              <div class="note">备注:{{ item.remark }}</div>
+              <span>跟单对象:<a class="tu2 iconfont icon-dianhua"></a></span>
               <span>跟单人:{{item.realName}}</span>
-              <span>附件:</span>
-              <div  class="note clearfix">跟单时间:{{item.createAt}}</div>
-              
               <span></span>
+              <div  class="note clearfix">跟单时间:{{item.createAt}}</div>
+              <div class="note clearfix"> 下次联系时间:{{item.lastAt}} </div>
+              <span></span>
+              <div class="note">跟单内容:{{ item.remark }}</div>
               <div class="clear"></div>
             </div>
           </div>
@@ -83,12 +82,12 @@ import { createNamespacedHelpers } from "vuex";
 const userModule = createNamespacedHelpers("documentary");
 const { mapState: userState, mapActions: userActions } = userModule;
 export default {
-  name: "",
+  name: "documentary",
   props: {},
   components: {},
   data() {
     return {
-      current: 1, //判断客户高亮
+     
       titlelist: [
         {
           name: "跟单列表",
@@ -126,30 +125,34 @@ export default {
           bacolor: 6,
           LangthNum: "",
         },
-        {
-          name: "新增跟单",
-          deal: "0",
-          bacolor: 7,
-          LangthNum: "",
-        },
       ],
       currentPage: 1, // 分页
       values1: "", //输入框
-      value_a: 1,
+      // value_a: 1,
+      current: 1, //判断客户高亮
       usernameId: "", //用户id
       pageNum: 1,
       pageSize: 10,
       ids: "", //跟单详情列表
       todo: [],
-      flag:false 
     };
   },
   methods: {
     ...userActions(["documentary", "thedetalils", "Theend"]),
     //  点击状态
     qblist(value_a) {
-      this.current = value_a;
-      // console.log(this.current)
+      // this.current = value_a;
+      if(this.current === 0){
+        this.current = value_a;
+      }else if(this.current === 1){
+        this.$toast.success("该功能暂未开通")
+      }else if(this.current === 2){
+        this.$toast.success("该功能暂未开通")
+      }else if(this.current === 3){
+        this.$toast.success("该功能暂未开通")
+      }else if(this.current === 4){
+        this.$toast.success("该功能暂未开通")
+      }
     },
     //  返回主页
     retreat() {
@@ -167,11 +170,16 @@ export default {
     //名字点击
     godetails(index) {
       this.ids = this.genlist[index].customerId;
-      this.thedetalils({
-        id: this.ids,
+      console.log(this.ids)
+      // this.thedetalils({
+      //   id: this.ids,
+      // });
+      // this.$router.push('/Petaliest')
+       this.$router.push({
+        path: "/Petaliest",
+        query: { idb: this.ids },
       });
-      this.$router.push('/Petaliest')
-      localStorage.setItem("ids",JSON.stringify(this.ids))
+      // localStorage.setItem("ids",JSON.stringify(this.ids))
     },
     // 搜索
     search() {

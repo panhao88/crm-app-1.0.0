@@ -1,5 +1,5 @@
 <template>
-  <div style="z-index: 999">
+  <div>
     <div>
         <router-view></router-view>
     </div>

@@ -295,7 +295,7 @@ export default {
         .then((res) => {
           this.myversion = plus.runtime.version;
           this.website = res.data.annex;
-          console.log(`http://211.149.157.5:85${this.website}`)
+          console.log(`http://211.149.157.5:83${this.website}`)
           this.verseonexplain = res.data.content;
           if (this.myversion !== res.data.version) {
             this.flag = true;
@@ -312,7 +312,7 @@ export default {
     },
     //前往升级
     previous() {
-      plus.runtime.openURL(`http://211.149.157.5:85${this.website}`);
+      plus.runtime.openURL(`http://211.149.157.5:83${this.website}`);
     },
   },
   mounted() {
@@ -337,7 +337,7 @@ export default {
   margin-top: 10px;
 }
 .central {
-  margin-bottom: 50px;
+  margin-bottom: 100px;
   // max-height:windowHeight;
   // overflow: hidden;
   // margin-bottom: 40px;

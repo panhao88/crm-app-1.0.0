@@ -31,7 +31,7 @@
             class="Heel_a"
             v-for="(item, index) in titlelist"
             :key="index"
-            :class="item.bacolor === akp ? 'bgColors' : ''"
+            :class="{ bgColors: item.bacolor === akp }"
             @click="qblist(item.bacolor)"
           >
             <div class="box1">
@@ -46,22 +46,20 @@
           <input
             type="text"
             v-model="values1"
-            placeholder="客户名称、联系人、手机号码"
+            placeholder="客户名称、手机号码"
             @keydown.enter="kenter"
           /><button @click="search">搜索</button>
-        </div>
-        <!-- 客户数量限制： -->
-        <div class="maxnumtip">
-          <span class="iconfont icon-icon-test2"> </span>客户数量限制：<span
-            class="tu1"
-            >1</span
-          >
-          /
-          <span class="col_red">无限制</span>
         </div>
       </div>
       <!-- 客户列表 -->
       <div>
+        <!-- 客户数量限制： -->
+        <div class="maxnumtip">
+          <span class="iconfont icon-icon-test2"
+            >客户数量：(<small class="f-c-hong"> {{ total }}</small
+            >)条数据</span
+          >
+        </div>
         <div class="m-list">
           <div
             class="m-list-e clearfix"
@@ -74,9 +72,9 @@
             <div class="m-list-con clearfix">
               <span>
                 客户类型:
-                {{item.statusName}}
+                {{ item.statusName }}
               </span>
-<!--              <span> 校区分类:</span>-->
+              <!--              <span> 校区分类:</span>-->
               <span>
                 客户来源:
                 <small v-if="item.state == 0">网络</small>
@@ -100,19 +98,19 @@
 
               <span> 录入者:{{ item.reporterName }} </span>
               <span> 业务员:{{ item.salemanName }} </span>
-              <div class="note clearfix"> 录入时间: {{ item.entryTime }}</div>
-               <div class="note clearfix">搜索词:{{item.searchTerms}}</div>
+              <div class="note clearfix">录入时间: {{ item.entryTime }}</div>
+              <div class="note clearfix">搜索词:{{ item.searchTerms }}</div>
               <span>
                 最后更新:
-                <small v-if="item.hour && item.hour >= 1 && item.hour < 24">
+                <small v-if="item.hour && item.hour >= 1 && item.hour < 23">
                   {{ Math.ceil(item.hour) }}小时前
                 </small>
-                <small v-if="item.hour && item.hour >= 24">
+                <small v-if="item.hour && item.hour > 24 && item.day < 30">
                   {{ Math.ceil(item.day) }}天前
                 </small>
-<!--            <small v-if="item.day && item.day >= 30">-->
-<!--                        {{ parseInt(item.day % 30) }}月前-->
-<!--                </small>-->
+                <small v-if="item.day && item.day >= 30">
+                  {{ parseInt(item.day % 30) }}月前
+                </small>
               </span>
               <span></span>
 
@@ -129,17 +127,20 @@
                   <button class="gonghaipp" @click="gonghai(item)">
                     加入公海
                   </button>
-                </div></span
+                  <!-- <button class="gonghaipp" @click="gonghai(item)">修改</button> -->
+                </div>
+                </span
               >
               <!-- (编号: {{ item.id }} ) -->
               <span></span>
             </div>
             <div class="m-list-bottom">
               <span class="m-l-b-num">
-                <span class="lianxi">联系人 </span><span> (0)</span>
+                <span class="lianxi" @click="hecontact(index)">联系人 </span
+                ><span> ({{ item.contactsNum }})</span>
               </span>
               <span class="m-l-b-num">
-                <span class="lianxi" @click="Sing_go(item.id)">跟单管理 </span>
+                <span class="lianxi">跟单管理 </span>
                 <span v-if="item.recordNum == null"> (0)</span>
                 <span v-else> ({{ item.recordNum }})</span>
               </span>
@@ -165,26 +166,26 @@
           <div v-if="checked === true"></div>
         </van-checkbox>
         <div class="zhuanyi">
-          <div class="dropup">
-            <button
-              class="btn btn-default dropdown-toggle"
-              type="button"
-              id="dropdownMenu2"
-              data-toggle="dropdown"
-              aria-haspopup="true"
-              aria-expanded="false"
-            >
-              Dropup
-              <span class="caret"></span>
-            </button>
-            <ul class="dropdown-menu" aria-labelledby="dropdownMenu2">
-              <li><a href="#">Action</a></li>
-              <li><a href="#">Another action</a></li>
-              <li><a href="#">Something else here</a></li>
-              <li role="separator" class="divider"></li>
-              <li><a href="#">Separated link</a></li>
-            </ul>
-          </div>
+          <!--          <div class="dropup">-->
+          <!--            <button-->
+          <!--              class="btn btn-default dropdown-toggle"-->
+          <!--              type="button"-->
+          <!--              id="dropdownMenu2"-->
+          <!--              data-toggle="dropdown"-->
+          <!--              aria-haspopup="true"-->
+          <!--              aria-expanded="false"-->
+          <!--            >-->
+          <!--              Dropup-->
+          <!--              <span class="caret"></span>-->
+          <!--            </button>-->
+          <!--            <ul class="dropdown-menu" aria-labelledby="dropdownMenu2">-->
+          <!--              <li><a href="#">Action</a></li>-->
+          <!--              <li><a href="#">Another action</a></li>-->
+          <!--              <li><a href="#">Something else here</a></li>-->
+          <!--              <li role="separator" class="divider"></li>-->
+          <!--              <li><a href="#">Separated link</a></li>-->
+          <!--            </ul>-->
+          <!--          </div>-->
         </div>
         <div class="zhuanyi">
           <van-button type="info" size="mini">转移</van-button>
@@ -247,18 +248,18 @@ export default {
           bacolor: 2,
           LangthNum: "",
         },
-        // {
-        //   name: "我的共享",
-        //   visit: "-1",
-        //   bacolor: 3,
-        //   LangthNum: "",
-        // },
-        // {
-        //   name: "共享给我",
-        //   visit: "0",
-        //   bacolor: 4,
-        //   LangthNum: "",
-        // },
+        {
+          name: "我的共享",
+          visit: "-1",
+          bacolor: 3,
+          LangthNum: "",
+        },
+        {
+          name: "共享给我",
+          visit: "0",
+          bacolor: 4,
+          LangthNum: "",
+        },
         {
           name: "今日新增",
           visit: "1",
@@ -308,13 +309,13 @@ export default {
     ...userActions(["recommend", "intoSeasCustomer", "recommend111"]),
     // 搜索
     search() {
-       this.recommend({
-          id: this.usernameId,
-          currentPage: this.currentPage,
-          pageSize: this.pageSize,
-          value: this.values1,
-          marjon: this.akp,
-        })
+      this.recommend({
+        id: this.usernameId,
+        currentPage: this.currentPage,
+        pageSize: this.pageSize,
+        value: this.values1,
+        marjon: this.akp,
+      });
     },
     // 搜索
     kenter() {
@@ -332,7 +333,28 @@ export default {
     logoto() {},
     //导航点击分类
     qblist(value111) {
-      this.akp = value111;
+      // this.akp = value111;
+      if (value111 === 0) {
+        this.akp = value111;
+      } else if (value111 === 1) {
+        this.akp = value111;
+      } else if (value111 === 2) {
+        this.akp = value111;
+      } else if (value111 === 3) {
+        this.$toast.success("该功能暂未开通");
+      } else if (value111 === 4) {
+        this.$toast.success("该功能暂未开通");
+      } else if (value111 === 5) {
+        this.$toast.success("该功能暂未开通");
+      } else if (value111 === 6) {
+        this.$toast.success("该功能暂未开通");
+      } else if (value111 === 7) {
+        this.$toast.success("该功能暂未开通");
+      } else if (value111 === 8) {
+        this.$toast.success("该功能暂未开通");
+      } else if (value111 === 9) {
+        this.$toast.success("该功能暂未开通");
+      }
       this.recommend({
         id: this.usernameId,
         currentPage: this.currentPage,
@@ -419,6 +441,16 @@ export default {
         });
       }
     },
+    //联系人跳转
+    hecontact(index) {
+      this.$router.push({
+        path: "/details",
+        query: { id: this.listing[index].id },
+      });
+    let idd = JSON.parse(localStorage.getItem('details'))
+    idd = 2
+    console.log(idd)
+    },
     // 分页
     paging(e) {
       this.currentPage = e;
@@ -429,31 +461,31 @@ export default {
         value: this.values1,
         marjon: this.akp,
       });
-      let topHeight = document.getElementById("top").offsetHeight;
-      let timer = setInterval(() => {
-        if (document.documentElement && document.documentElement.scrollTop) {
-          let height = document.documentElement.scrollTop % 500;
-          if (height !== topHeight) {
-            document.documentElement.scrollTop =
-              document.documentElement.scrollTop - 500;
-            if (
-              document.documentElement.scrollTop >= 500 &&
-              document.documentElement.scrollTop < 1000
-            ) {
-              let reduce = height + 500 - topHeight;
-              document.documentElement.scrollTop =
-                document.documentElement.scrollTop - reduce;
-              clearInterval(timer);
-            }
-          } else {
-            document.documentElement.scrollTop =
-              document.documentElement.scrollTop - 500;
-            if (document.documentElement.scrollTop === topHeight) {
-              clearInterval(timer);
-            }
-          }
-        }
-      }, 30);
+      // let topHeight = document.getElementById("top").offsetHeight;
+      // let timer = setInterval(() => {
+      //   if (document.documentElement && document.documentElement.scrollTop) {
+      //     let height = document.documentElement.scrollTop % 500;
+      //     if (height !== topHeight) {
+      //       document.documentElement.scrollTop =
+      //         document.documentElement.scrollTop - 500;
+      //       if (
+      //         document.documentElement.scrollTop >= 500 &&
+      //         document.documentElement.scrollTop < 1000
+      //       ) {
+      //         let reduce = height + 500 - topHeight;
+      //         document.documentElement.scrollTop =
+      //           document.documentElement.scrollTop - reduce;
+      //         clearInterval(timer);
+      //       }
+      //     } else {
+      //       document.documentElement.scrollTop =
+      //         document.documentElement.scrollTop - 500;
+      //       if (document.documentElement.scrollTop === topHeight) {
+      //         clearInterval(timer);
+      //       }
+      //     }
+      //   }
+      // }, 30);
     },
     // 全选
     checkAllfalse() {
@@ -543,6 +575,7 @@ export default {
   border-radius: 3px;
   font-size: 12px;
   padding: 0px 10px;
+  margin-left: 10px;
 }
 .gonghaiyy {
   height: 40px;

@@ -30,8 +30,8 @@
         </div>
       </div>
     </div>
-     <dlist v-if="current === 0" :details="details"></dlist>
-      <administration v-if="current === 1" :contact="contact"></administration>
+    <dlist v-if="current === 0" :details="details"></dlist>
+    <administration v-if="current === 1" :contact="contact"></administration>
   </div>
 </template>
 
@@ -64,57 +64,51 @@ export default {
           LangthNum: "",
         },
         {
-          name: "跟单管理",
+          name: "订单管理",
           start: "",
           bacolor: 2,
           LangthNum: "",
         },
         {
-          name: "订单管理",
-          start: "",
-          bacolor: 3,
-          LangthNum: "",
-        },
-        {
           name: "合同管理",
           visit: "-1",
-          bacolor: 4,
+          bacolor: 3,
           LangthNum: "",
         },
         {
           name: "售后管理",
           visit: "0",
-          bacolor: 5,
+          bacolor: 4,
           LangthNum: "",
         },
         {
           name: "财务管理",
           visit: "1",
-          bacolor: 6,
+          bacolor: 5,
           LangthNum: "",
         },
         {
           name: "工单管理",
           foll: "0",
-          bacolor: 7,
+          bacolor: 6,
           LangthNum: "",
         },
         {
           name: "附件管理",
           foll: "1",
-          bacolor: 8,
+          bacolor: 7,
           LangthNum: "",
         },
         {
           name: "客户共享",
           deal: "0",
-          bacolor: 9,
+          bacolor: 8,
           LangthNum: "",
         },
         {
           name: "操纵记录",
           deal: "1",
-          bacolor: 10,
+          bacolor: 9,
           LangthNum: "",
         },
       ],
@@ -126,7 +120,31 @@ export default {
     ...userActions(["setter", "Thecontact"]),
     //点击选择数据
     qblist(bolo) {
-      this.current = bolo;
+        localStorage.setItem("details",JSON.stringify(bolo))
+      // this.current = bolo;
+      if (bolo === 0) {
+        this.current = bolo;
+      } else if (bolo === 1) {
+        this.current = bolo;
+      } else if (bolo === 2) {
+        this.$toast.success("该功能暂未开通");
+      } else if (bolo === 3) {
+        this.$toast.success("该功能暂未开通");
+      } else if (bolo === 4) {
+        this.$toast.success("该功能暂未开通");
+      } else if (bolo === 5) {
+        this.$toast.success("该功能暂未开通");
+      } else if (bolo === 6) {
+        this.$toast.success("该功能暂未开通");
+      } else if (bolo === 7) {
+        this.$toast.success("该功能暂未开通");
+      } else if (bolo === 8) {
+        this.$toast.success("该功能暂未开通");
+      }else if (bolo === 9) {
+        this.$toast.success("该功能暂未开通");
+      }else if (bolo === 10) {
+        this.$toast.success("该功能暂未开通");
+      }
     },
     //   返回首页
     retreat() {
@@ -149,11 +167,10 @@ export default {
   },
   watch: {},
   computed: {
-    ...userState(["details","contact"]),
+    ...userState(["details", "contact"]),
   },
 };
 </script>
 
 <style scoped lang='scss'>
-
 </style>
