@@ -72,15 +72,10 @@
             <tr>
               <td class="boedee-a">下次联系:</td>
               <td class="boedee-b">
-                <!-- <van-field
-                  v-model="day"
-                  placeholder="请输入出生年月"
-                  @click="showPopup"
-                ></van-field> -->
                 <input
                   type="text"
                   v-model="day"
-                  placeholder="请输入出生年月"
+                  placeholder="请输入时间"
                   @click="showPopup"
                   onfocus="this.blur()"
                   class="year"
@@ -93,7 +88,7 @@
                   <van-datetime-picker
                     v-model="currentDate"
                     type="datetime"
-                    title="选择年月日"
+                    title="请选择时间"
                     :min-date="minDate"
                     :max-date="maxDate"
                     @confirm="value111"
@@ -174,11 +169,11 @@ export default {
     ]),
     //返回上一页
     goto() {
-      this.$router.go(-1);
+        this.$router.go(-1);
     },
     //返回首页
     logoto() {
-      // this.$router.push("/");
+     
     },
     //点击时间
     showPopup() {
@@ -221,12 +216,9 @@ export default {
           accountId: this.usernameId,
           type: this.type,
           contactsId: this.contacts,
+          customer:this.id
         });
-         this.$router.push({
-        path: "/Petaliest",
-        query: { idb: this.id },
-      });
-        this.$toast.success("保存成功");
+         this.$router.go(-1)
       }
     },
     //跟单对象
@@ -313,24 +305,6 @@ export default {
 </script>
 
 <style scoped lang='scss'>
-.size {
-  font-size: 15px;
-  height: 30px;
-  line-height: 30px;
-  padding: 0px 10px;
-  font-weight: 600;
-}
-.cunpl {
-  position: fixed;
-  bottom: 0;
-  width: 100%;
-  display: flex;
-  justify-content: center;
-}
-.baocun {
-  width: 100%;
-  z-index: 999;
-}
 .selectpl {
   width: 70%;
   height: 25px;

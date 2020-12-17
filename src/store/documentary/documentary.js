@@ -56,9 +56,9 @@ export default {
             }
         },
         //跟单详情列表
-        async thedetalils({ commit }, { id }) {
+        async thedetalils({ commit }, { customer }) {
             try {
-                let res = await api.thedetalils({ id })
+                let res = await api.thedetalils({ customer })
                 console.log(res, "跟单详情列表")
                     commit('setthedetalils', res.list)
             } catch (err) {
@@ -106,17 +106,18 @@ export default {
             }
         },
         //跟单删除
-        async Theend({dispatch},{customerId,accountId,id}){
+        async Theend({dispatch},{customerId,accountId,id,customer}){
             try{
-                let res = await api.Theend({customerId,accountId,id})
+                let res = await api.Theend({customerId,accountId,id,customer})
                 if(res.code === 200){
                     Toast.success(res.msg)  
+                    dispatch("thedetalils",{
+                        customer
+                    })
                 }else if(res.code === 401){
                     Toast.success(res.msg)  
                 }
-                // dispatch("thedetalils",{
-                //     id
-                // })
+               
                 console.log(res,"文件删除")
             }catch(err){
                 console.log(err)
@@ -131,7 +132,7 @@ export default {
             remark,
             accountId,
             type,
-            contactsId,}){
+            contactsId,customer}){
                 try{
                     let res = await api.addseve({
                         customerId,
@@ -142,8 +143,17 @@ export default {
                         accountId,
                         type,
                         contactsId,
+                        customer
                     })
                     console.log(res,"跟单添加")
+                  if(res.code === 200){
+                    Toast.success(res.msg)  
+                    dispatch("thedetalils",{
+                        customer
+                    })
+                  }else if(res.code === 401){
+                    Toast.success(res.msg)  
+                }
                 }catch(err){
                     console.log(err)
                 }

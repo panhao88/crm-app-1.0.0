@@ -56,7 +56,6 @@ export default {
   name: "",
   props: {},
   components: {},
-  inject: ["reload"],
   data() {
     return {
       ids: "",
@@ -68,11 +67,11 @@ export default {
     ...userActions(["thedetalils", "Theend"]),
     // 返回上一页
     goto() {
-      this.$router.go(-1);
+     this.$router.go(-1)
     },
     //关闭
     guanbip() {
-      this.$router.push("/documentary");
+      this.$router.go(-1);
     },
     //新增
     listnew(item) {
@@ -94,9 +93,7 @@ export default {
             customerId: customerId,
             accountId: this.usernameId,
             id: id,
-          });
-          this.thedetalils({
-            id: this.ids,
+            customer:this.ids
           });
         })
         .catch((err) => {
@@ -112,7 +109,7 @@ export default {
     this.usernameId = this.username.id;
     this.ids = this.$route.query.idb;
     this.thedetalils({
-      id: this.ids,
+      customer: this.ids,
     });
   },
   watch: {},

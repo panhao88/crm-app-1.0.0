@@ -114,6 +114,7 @@ export default {
       ],
       current: 0,
       ids: "", //详情id
+      idp:''
     };
   },
   methods: {
@@ -162,8 +163,16 @@ export default {
   },
   mounted() {
     this.ids = this.$route.query.id;
-    this.Thecontact({ id: this.ids });
-    this.setter({ id: this.ids });
+    this.idp = this.$route.query.id
+     if(this.$route.query.idb){
+      this.current = 1
+      this.idp = this.$route.query.idb
+      this.ids = this.$route.query.idb
+      this.setter({ id: this.ids });
+      this.Thecontact({ id: this.idp });
+    }
+     this.setter({ id: this.ids });
+     this.Thecontact({ id: this.idp });   
   },
   watch: {},
   computed: {

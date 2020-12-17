@@ -95,7 +95,7 @@ export default {
   components: {},
   data() {
     return {
-  
+
     };
   },
   methods: {
@@ -116,7 +116,7 @@ export default {
     }
   },
   mounted() {
-    console.log(this.details.id)
+
   },
   watch: {
   },

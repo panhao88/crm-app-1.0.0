@@ -68,9 +68,9 @@ const routes = [
   },
   //客户跟单列表
   {
-    path:"/Petaliest",
-    name:"Petaliest",
-    component:() => import('../views/Petaliest/Petaliest')
+    path: "/Petaliest",
+    name: "Petaliest",
+    component: () => import('../views/Petaliest/Petaliest')
   },
   //到访管理
   {
@@ -171,9 +171,9 @@ const routes = [
     component: () => import('../views/Heel/Heel.vue')
   },
   //  更新版本
-   {
-    path:"/Genxin",
-    name:"Genxin",
+  {
+    path: "/Genxin",
+    name: "Genxin",
     component: () => import('../views/Genxin/genxin.vue')
   },
   // 员工管理
@@ -202,11 +202,27 @@ const routes = [
   },
   //详情页
   {
-
     path: "/Details",
     name: "Details",
     component: () => import('../views/Details/Details.vue')
-
+  },
+  //退出登录
+  {
+    path: '/Exit',
+    name: 'Exit',
+    component: () => import('../views/Exit/exit.vue')
+  },
+  //新增客户
+  {
+    path: '/Newcustomer',
+    name: 'Newcustomer',
+    component: () => import('../views/Newcustomer/newcustomer.vue')
+  },
+  //新增联系人
+  {
+    path: '/Arrcontact',
+    name: 'Arrcontact',
+    component: () => import('../views/Arrcontact/arrcontact.vue')
   },
   //关于
   {
@@ -218,7 +234,7 @@ const routes = [
 ]
 const isPro = process.env.NODE_ENV === 'production'
 const router = new VueRouter({
-  mode: isPro ? 'hash':'history',
+  mode: isPro ? 'hash' : 'history',
   base: process.env.BASE_URL,
   routes
 })

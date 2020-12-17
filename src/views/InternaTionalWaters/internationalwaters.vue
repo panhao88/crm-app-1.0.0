@@ -136,6 +136,7 @@ import { createNamespacedHelpers } from "vuex";
 const userModule = createNamespacedHelpers("user");
 const { mapState: userState, mapActions: userActions } = userModule;
 export default {
+   name: "internationalwaters",
   data() {
     return {
       titlelist: [

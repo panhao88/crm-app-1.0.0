@@ -1,7 +1,7 @@
 <template>
   <div id="app">
-     <keep-alive include="Customer,documentary">
-         <router-view v-if="isReload"/>
+     <keep-alive include="Customer,documentary,internationalwaters">
+         <router-view/>
     </keep-alive>
 
   </div>
@@ -9,23 +9,13 @@
 <script>
 export default {
   name: 'App',
-  provide() {
-    return {
-      reload: this.reload
-    }
-  },
   data() {
     return {
-      isReload: true
+     
     }
   },
   methods: {
-    reload() {
-      this.isReload = false
-      this.$nextTick(() => {
-        this.isReload = true
-      })
-    }
+   
   }
 }
 </script>

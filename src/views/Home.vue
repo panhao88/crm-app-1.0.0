@@ -7,7 +7,7 @@
           <van-icon name="flag-o" size="24" color="grey" />
         </template>
         <template #right>
-          <van-icon name="friends" size="24" color="grey" />
+          <van-icon name="friends" size="24" color="grey" @click="logoto" />
         </template>
       </van-nav-bar>
     </div>
@@ -227,11 +227,6 @@
           </van-grid-item>
         </van-grid>
       </div>
-      <div class="button_b">
-        <van-button type="danger" class="button" @click="cancellation"
-          >注销登录</van-button
-        >
-      </div>
     </div>
   </div>
 </template>
@@ -280,10 +275,9 @@ export default {
     goto(url) {
       this.$router.push(url);
     },
-    // 注销登录
-    cancellation() {
-      localStorage.removeItem("user");
-      this.$router.push("login");
+    //去推出页
+    logoto(){
+      this.$router.push('/exit')
     },
     //弹窗
     Popup() {
@@ -337,11 +331,8 @@ export default {
   margin-top: 10px;
 }
 .central {
-  margin-bottom: 100px;
-  // max-height:windowHeight;
-  // overflow: hidden;
-  // margin-bottom: 40px;
-  // margin-top: 50px;
+  margin-bottom: 50px;
+  margin-top: 50px;
 }
 .img {
   width: 35px;

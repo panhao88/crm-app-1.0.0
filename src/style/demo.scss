@@ -193,12 +193,11 @@
       display: flex;
       justify-content: center;
      position: fixed;
-     bottom: 50px;
-     z-index: 999;
+     bottom: 0px;
     }
 
     .button {
-      width: 90%;
+      width: 100%;
     }
 
     .tu1 {
@@ -466,7 +465,7 @@
     }
 
     .central {
-      margin-top: 45px;
+      margin-top: 50px;
     }
 
     .anniu {
@@ -492,6 +491,7 @@
       width: 30%;
       height: 30px;
       padding: 10px;
+      text-align: center;
       border-bottom: solid 1px #e1e2e4;
       border-right: solid 1px #e1e2e4;
     }
@@ -574,4 +574,22 @@
       width: 100%;
       float: left;
       border-bottom: 1px dotted #ddd;
+    }
+    .cunpl {
+      position: fixed;
+      bottom: 0;
+      width: 100%;
+      display: flex;
+      justify-content: center;
+    }
+    .baocun {
+      width: 100%;
+      z-index: 999;
+    }
+    .size {
+      font-size: 15px;
+      height: 30px;
+      line-height: 30px;
+      padding: 0px 10px;
+      font-weight: 600;
     }

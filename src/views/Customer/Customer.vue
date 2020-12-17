@@ -102,19 +102,22 @@
               <div class="note clearfix">搜索词:{{ item.searchTerms }}</div>
               <span>
                 最后更新:
-                <small v-if="item.hour && item.hour >= 1 && item.hour < 23">
-                  {{ Math.ceil(item.hour) }}小时前
+                <small v-if="item.minC>=1 && item.minC < 60">
+                   {{ Math.ceil(item.minC) }}分钟前
                 </small>
-                <small v-if="item.hour && item.hour > 24 && item.day < 30">
-                  {{ Math.ceil(item.day) }}天前
+                <small v-if="item.hourC>=1 && item.hourC < 24">
+                   {{ Math.ceil(item.hourC) }}小时前
                 </small>
-                <small v-if="item.day && item.day >= 30">
-                  {{ parseInt(item.day % 30) }}月前
+                  <small v-if="item.dayC>=1 && item.dayC < 30">
+                   {{ Math.ceil(item.dayC) }}天前
+                </small>
+                 <small v-if="item.year >= 1">
+                   {{ Math.ceil(item.year) }}年前
                 </small>
               </span>
               <span></span>
 
-              <span>
+              <div class="note clearfix">
                 <div class="gonghaiyy">
                   <div>
                     <van-checkbox
@@ -124,32 +127,41 @@
                       @change="radio"
                     ></van-checkbox>
                   </div>
-                  <button class="gonghaipp" @click="gonghai(item)">
+                  <div><button class="gonghaipp" @click="gonghai(item)">
                     加入公海
-                  </button>
-                  <!-- <button class="gonghaipp" @click="gonghai(item)">修改</button> -->
+                  </button></div>
+                  <div><button class="gonghaipp" @click="contact(item)">增加联系人</button></div>
                 </div>
-                </span
-              >
+              </div>
               <!-- (编号: {{ item.id }} ) -->
-              <span></span>
             </div>
             <div class="m-list-bottom">
               <span class="m-l-b-num">
-                <span class="lianxi" @click="hecontact(index)">联系人 </span
-                ><span> ({{ item.contactsNum }})</span>
+                <span
+                  class="lianxi"
+                  @click="hecontact(index)"
+                  v-if="item.contactsNum === null"
+                  >联系人<span class="f-c-hong"> (0)</span></span
+                >
+                <span
+                  class="lianxi"
+                  @click="hecontact(index)"
+                  v-if="item.contactsNum > 0"
+                  >联系人<span class="f-c-hong">
+                    ({{ item.contactsNum }})</span
+                  ></span
+                >
               </span>
-              <span class="m-l-b-num">
+              <span class="m-l-b-num" @click="Thedocumentary(item)">
                 <span class="lianxi">跟单管理 </span>
-                <span v-if="item.recordNum == null"> (0)</span>
-                <span v-else> ({{ item.recordNum }})</span>
+                <span class="f-c-hong">(0)</span>
               </span>
-              <span class="m-l-b-num">
+              <!-- <span class="m-l-b-num">
                 <span class="lianxi">订单管理 </span><span>(0) </span>
               </span>
               <span class="m-l-b-num">
                 <span class="lianxi">合同管理 </span> <span>(0)</span>
-              </span>
+              </span> -->
             </div>
           </div>
         </div>
@@ -166,26 +178,6 @@
           <div v-if="checked === true"></div>
         </van-checkbox>
         <div class="zhuanyi">
-          <!--          <div class="dropup">-->
-          <!--            <button-->
-          <!--              class="btn btn-default dropdown-toggle"-->
-          <!--              type="button"-->
-          <!--              id="dropdownMenu2"-->
-          <!--              data-toggle="dropdown"-->
-          <!--              aria-haspopup="true"-->
-          <!--              aria-expanded="false"-->
-          <!--            >-->
-          <!--              Dropup-->
-          <!--              <span class="caret"></span>-->
-          <!--            </button>-->
-          <!--            <ul class="dropdown-menu" aria-labelledby="dropdownMenu2">-->
-          <!--              <li><a href="#">Action</a></li>-->
-          <!--              <li><a href="#">Another action</a></li>-->
-          <!--              <li><a href="#">Something else here</a></li>-->
-          <!--              <li role="separator" class="divider"></li>-->
-          <!--              <li><a href="#">Separated link</a></li>-->
-          <!--            </ul>-->
-          <!--          </div>-->
         </div>
         <div class="zhuanyi">
           <van-button type="info" size="mini">转移</van-button>
@@ -224,12 +216,6 @@ export default {
   data() {
     return {
       titlelist: [
-        // {
-        //   name: "客户列表",
-        //   start: "",
-        //   bacolor: 0,
-        //   LangthNum: "",
-        // },
         {
           name: "网络客户",
           start: "",
@@ -353,7 +339,7 @@ export default {
       } else if (value111 === 8) {
         this.$toast.success("该功能暂未开通");
       } else if (value111 === 9) {
-        this.$toast.success("该功能暂未开通");
+        this.$router.push('/Newcustomer')
       }
       this.recommend({
         id: this.usernameId,
@@ -445,11 +431,22 @@ export default {
     hecontact(index) {
       this.$router.push({
         path: "/details",
-        query: { id: this.listing[index].id },
+        query: { idb: this.listing[index].id },
       });
-    let idd = JSON.parse(localStorage.getItem('details'))
-    idd = 2
-    console.log(idd)
+      // let idd = JSON.parse(localStorage.getItem("details"));
+      // console.log(idd)
+    },
+    //跳转到跟单管理
+    Thedocumentary(item) {
+      this.$router.push({
+        path: "/Petaliest",
+        query: { idb: item.id },
+      });
+    },
+    //添加联系人
+    contact(item){
+      let id = item.id
+      this.$router.push({path: "/arrcontact",query:{id:id}})
     },
     // 分页
     paging(e) {
@@ -461,6 +458,7 @@ export default {
         value: this.values1,
         marjon: this.akp,
       });
+
       // let topHeight = document.getElementById("top").offsetHeight;
       // let timer = setInterval(() => {
       //   if (document.documentElement && document.documentElement.scrollTop) {

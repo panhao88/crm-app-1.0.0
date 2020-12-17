@@ -13,7 +13,7 @@ export default {
       return service.get(`/api/customer/customerPage?accountId=${id}&pageNum=${currentPage}&pageSize=${pageSize}&serarchPara=${value}&state=${marjon}`)
   },
   //3.客户详情页
-  setter(id) {
+  setter({id}) {
     return service.get(`/api/customer/findCustomerById?customerId=${id}`)
   },
   // 4.获取客户公海
@@ -37,8 +37,8 @@ export default {
     return service.get(`/api/follow/followPage?accountId=${id}&name=${name}&pageNum=${pageNum}&pageSize=${pageSize}`)
   },
   //8.客户跟单详情列表
-  thedetalils({ id }) {
-    return service.get(`/api/follow/findFollowByCustomerId?customerId=${id}`)
+  thedetalils({ customer }) {
+    return service.get(`/api/follow/findFollowByCustomerId?customerId=${customer}`)
   },
   //9.跟单方式
   Documenway() {
@@ -71,7 +71,8 @@ export default {
     accountId,
     type,
     contactsId, }) {
-    return service.get(`/api/follow/addFollow?customerId=${customerId}&modeId=${modeId}&statusId=${statusId}&lastAt=${lastAt}&remark=${remark}&accountId=${accountId}&type=${type}&contactsId=${contactsId}`, {
+    return service.get(`/api/follow/addFollow?customerId=${customerId}&modeId=${modeId}&statusId=${statusId}&lastAt=${lastAt}
+    &remark=${remark}&accountId=${accountId}&type=${type}&contactsId=${contactsId}`, {
       customerId,
       modeId,
       statusId,
@@ -82,12 +83,30 @@ export default {
       contactsId,
     })
   },
-  //.15版本更新
+  //15版本更新
   update(){
     return service.get(`/api/renew/latestVersion`)
   },
-  //获取公海信息
+  //16.获取公海信息
   obtain({ids,accountId}){
     return service.get(`/api/customer/getSeasCustomer?ids=${ids}&accountId=${accountId}`)
+  },
+  //17.添加客户信息
+  listadd({accountId,name,visitortype,modelId,mobile,wechatCode,qqCode,sex,age,sourceId,searchTerms}){
+    return service.get(`/api/customer/addCustomer?accountId=${accountId}&name=${name}&visitortype=${visitortype}&modelId=${modelId}&mobile=${mobile}&wechatCode=${wechatCode}
+    &qqCode=${qqCode}&sex=${sex}&age=${age}&sourceId=${sourceId}&searchTerms=${searchTerms}
+    `)
+  },
+  //18咨询方式
+  lconsulting(){
+    return service.get(`/api/customer/modelList`)
+  },
+  //19信息来源
+  source(){
+    return service.get(`/api/customer/sourceList`)
+  },
+  //添加联系人
+  Addcntacts({accountId,customerId,name,mobile}){
+    return service.get(`/api/customer/addContacts?accountId=${accountId}&customerId=${customerId}&name=${name}&mobile=${mobile}`)
   }
 }

@@ -138,7 +138,7 @@ export default {
     };
   },
   methods: {
-    ...userActions(["documentary", "thedetalils", "Theend"]),
+    ...userActions(["documentary", "Theend"]),
     //  点击状态
     qblist(value_a) {
       // this.current = value_a;
@@ -170,16 +170,10 @@ export default {
     //名字点击
     godetails(index) {
       this.ids = this.genlist[index].customerId;
-      console.log(this.ids)
-      // this.thedetalils({
-      //   id: this.ids,
-      // });
-      // this.$router.push('/Petaliest')
        this.$router.push({
         path: "/Petaliest",
         query: { idb: this.ids },
       });
-      // localStorage.setItem("ids",JSON.stringify(this.ids))
     },
     // 搜索
     search() {
