@@ -224,6 +224,12 @@ const routes = [
     name: 'Arrcontact',
     component: () => import('../views/Arrcontact/arrcontact.vue')
   },
+  //编辑客户
+  {
+    path: '/Modify',
+    name: 'Modify',
+    component: () => import('../views/Modify/modify.vue')
+  },
   //关于
   {
     path: '/about',

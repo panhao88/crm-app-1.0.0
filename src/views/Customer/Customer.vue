@@ -102,17 +102,17 @@
               <div class="note clearfix">搜索词:{{ item.searchTerms }}</div>
               <span>
                 最后更新:
-                <small v-if="item.minC>=1 && item.minC < 60">
-                   {{ Math.ceil(item.minC) }}分钟前
+                <small v-if="item.minC >= 1 && item.minC < 60">
+                  {{ Math.ceil(item.minC) }}分钟前
                 </small>
-                <small v-if="item.hourC>=1 && item.hourC < 24">
-                   {{ Math.ceil(item.hourC) }}小时前
+                <small v-if="item.hourC >= 1 && item.hourC < 24">
+                  {{ Math.ceil(item.hourC) }}小时前
                 </small>
-                  <small v-if="item.dayC>=1 && item.dayC < 30">
-                   {{ Math.ceil(item.dayC) }}天前
+                <small v-if="item.dayC >= 1 && item.dayC < 30">
+                  {{ Math.ceil(item.dayC) }}天前
                 </small>
-                 <small v-if="item.year >= 1">
-                   {{ Math.ceil(item.year) }}年前
+                <small v-if="item.year >= 1">
+                  {{ Math.ceil(item.year) }}年前
                 </small>
               </span>
               <span></span>
@@ -127,10 +127,21 @@
                       @change="radio"
                     ></van-checkbox>
                   </div>
-                  <div><button class="gonghaipp" @click="gonghai(item)">
-                    加入公海
-                  </button></div>
-                  <div><button class="gonghaipp" @click="contact(item)">增加联系人</button></div>
+                  <div>
+                    <button class="gonghaipp" @click="gonghai(item)">
+                      加入公海
+                    </button>
+                  </div>
+                  <div>
+                    <button class="gonghaipp" @click="contact(item)">
+                      增加联系人
+                    </button>
+                  </div>
+                  <div>
+                    <button class="gonghaipp" @click="Modify(item)">
+                      修改
+                    </button>
+                  </div>
                 </div>
               </div>
               <!-- (编号: {{ item.id }} ) -->
@@ -177,8 +188,7 @@
           <div v-if="checked === false"></div>
           <div v-if="checked === true"></div>
         </van-checkbox>
-        <div class="zhuanyi">
-        </div>
+        <div class="zhuanyi"></div>
         <div class="zhuanyi">
           <van-button type="info" size="mini">转移</van-button>
           <van-button type="primary" size="mini" @click="Thesea"
@@ -296,11 +306,11 @@ export default {
     // 搜索
     search() {
       this.recommend({
-        id: this.usernameId,
-        currentPage: this.currentPage,
+        accountId: this.usernameId,
+        state: this.akp,
+        serarchPara: this.values1,
+        pageNum: this.currentPage,
         pageSize: this.pageSize,
-        value: this.values1,
-        marjon: this.akp,
       });
     },
     // 搜索
@@ -339,14 +349,14 @@ export default {
       } else if (value111 === 8) {
         this.$toast.success("该功能暂未开通");
       } else if (value111 === 9) {
-        this.$router.push('/Newcustomer')
+        this.$router.push("/Newcustomer");
       }
       this.recommend({
-        id: this.usernameId,
-        currentPage: this.currentPage,
+        accountId: this.usernameId,
+        state: this.akp,
+        serarchPara: this.values1,
+        pageNum: this.currentPage,
         pageSize: this.pageSize,
-        value: this.values1,
-        marjon: this.akp,
       });
     },
     //去详情页
@@ -360,15 +370,14 @@ export default {
     kehu() {
       this.akp = -1;
       this.recommend({
-        id: this.usernameId,
-        currentPage: this.currentPage,
+        accountId: this.usernameId,
+        state: this.akp,
+        serarchPara: this.values1,
+        pageNum: this.currentPage,
         pageSize: this.pageSize,
-        value: this.values1,
-        marjon: this.akp,
       });
     },
     //列表内放入公海
-
     gonghai(item) {
       this.separate = item.id;
       this.$dialog
@@ -379,15 +388,11 @@ export default {
           this.intoSeasCustomer({
             ids: this.separate,
             accountId: this.usernameId,
-          });
-          this.recommend({
-            id: this.usernameId,
-            currentPage: this.currentPage,
+            state: this.akp,
+            serarchPara: this.values1,
+            pageNum: this.currentPage,
             pageSize: this.pageSize,
-            value: this.values1,
-            marjon: this.akp,
           });
-          this.$toast.success("放入成功");
         })
         .catch((err) => {
           this.$toast({
@@ -407,16 +412,12 @@ export default {
             this.intoSeasCustomer({
               ids: this.list,
               accountId: this.usernameId,
+              state: this.akp,
+              serarchPara: this.values1,
+              pageNum: this.currentPage,
+              pageSize: this.pageSize,
             });
             this.list = [];
-            this.recommend({
-              id: this.usernameId,
-              currentPage: this.currentPage,
-              pageSize: this.pageSize,
-              value: this.values1,
-              marjon: this.akp,
-            });
-            this.$toast.success("放入成功");
           })
           .catch((err) => {
             console.log(err);
@@ -433,8 +434,6 @@ export default {
         path: "/details",
         query: { idb: this.listing[index].id },
       });
-      // let idd = JSON.parse(localStorage.getItem("details"));
-      // console.log(idd)
     },
     //跳转到跟单管理
     Thedocumentary(item) {
@@ -444,46 +443,54 @@ export default {
       });
     },
     //添加联系人
-    contact(item){
-      let id = item.id
-      this.$router.push({path: "/arrcontact",query:{id:id}})
+    contact(item) {
+      let id = item.id;
+      this.$router.push({ path: "/arrcontact", query: { id: id } });
+    },
+    //修改客户详情
+    Modify(item) {
+      let idp = item.id;
+      this.$router.push({
+        path: "/Modify",
+        query: { id: idp },
+      });
     },
     // 分页
     paging(e) {
       this.currentPage = e;
       this.$store.dispatch("user/recommend", {
-        id: this.usernameId,
-        currentPage: this.currentPage,
+        accountId: this.usernameId,
+        state: this.akp,
+        serarchPara: this.values1,
+        pageNum: this.currentPage,
         pageSize: this.pageSize,
-        value: this.values1,
-        marjon: this.akp,
       });
 
-      // let topHeight = document.getElementById("top").offsetHeight;
-      // let timer = setInterval(() => {
-      //   if (document.documentElement && document.documentElement.scrollTop) {
-      //     let height = document.documentElement.scrollTop % 500;
-      //     if (height !== topHeight) {
-      //       document.documentElement.scrollTop =
-      //         document.documentElement.scrollTop - 500;
-      //       if (
-      //         document.documentElement.scrollTop >= 500 &&
-      //         document.documentElement.scrollTop < 1000
-      //       ) {
-      //         let reduce = height + 500 - topHeight;
-      //         document.documentElement.scrollTop =
-      //           document.documentElement.scrollTop - reduce;
-      //         clearInterval(timer);
-      //       }
-      //     } else {
-      //       document.documentElement.scrollTop =
-      //         document.documentElement.scrollTop - 500;
-      //       if (document.documentElement.scrollTop === topHeight) {
-      //         clearInterval(timer);
-      //       }
-      //     }
-      //   }
-      // }, 30);
+      let topHeight = document.getElementById("top").offsetHeight;
+      let timer = setInterval(() => {
+        if (document.documentElement && document.documentElement.scrollTop) {
+          let height = document.documentElement.scrollTop % 500;
+          if (height !== topHeight) {
+            document.documentElement.scrollTop =
+              document.documentElement.scrollTop - 500;
+            if (
+              document.documentElement.scrollTop >= 500 &&
+              document.documentElement.scrollTop < 1000
+            ) {
+              let reduce = height + 500 - topHeight;
+              document.documentElement.scrollTop =
+                document.documentElement.scrollTop - reduce;
+              clearInterval(timer);
+            }
+          } else {
+            document.documentElement.scrollTop =
+              document.documentElement.scrollTop - 500;
+            if (document.documentElement.scrollTop === topHeight) {
+              clearInterval(timer);
+            }
+          }
+        }
+      }, 30);
     },
     // 全选
     checkAllfalse() {
@@ -514,11 +521,11 @@ export default {
     this.username = JSON.parse(localStorage.getItem("user"));
     this.usernameId = this.username.id;
     this.recommend({
-      id: this.usernameId,
-      currentPage: this.currentPage,
+      accountId: this.usernameId,
+      state: this.akp,
+      serarchPara: this.values1,
+      pageNum: this.currentPage,
       pageSize: this.pageSize,
-      value: this.values1,
-      marjon: this.akp,
     });
   },
   watch: {

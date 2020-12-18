@@ -2,6 +2,7 @@ import Vue from 'vue'
 import api from '../../http/api'
 import { Toast } from 'vant';
 import dayjs from 'dayjs'
+import router from "../../router"
 
 export default {
     // 开启命名空间,这个文件就是单独的一个vuex的模块
@@ -12,9 +13,10 @@ export default {
         details: {},  //客户详情
         listseas: [],  //公海列表
         totalRow: '',//公海总条数
-        contact: [] ,//客户联系人
-        loveconsulting:[],//咨询方式
-        lreosource:[] , //信息来源
+        contact: [],//客户联系人
+        loveconsulting: [],//咨询方式
+        lreosource: [], //信息来源
+        Theeditor: {} //编辑客户信息
     },
     mutations: {
         //客户数据列表
@@ -42,20 +44,24 @@ export default {
             state.contact = data
         },
         //咨询方式
-        setconsulting(state,data){
+        setconsulting(state, data) {
             state.loveconsulting = data
         },
         //信息来源
-        setsource(state,data){
+        setsource(state, data) {
             state.lreosource = data
+        },
+        //编辑客户详情
+        setlpmodify(state, data) {
+            state.Theeditor = data
         }
     },
     // 获取客户列表
     actions: {
-        async recommend({ commit }, { id, currentPage, pageSize, value, marjon }) {
+        async recommend({ commit }, { accountId, state, serarchPara, pageNum, pageSize, }) {
             try {
                 let res = await api.recommend({
-                    id, currentPage, pageSize, value, marjon
+                    accountId, state, serarchPara, pageNum, pageSize,
                 })
                 console.log(res, "列表");
                 if (res.code === 200) {
@@ -130,14 +136,17 @@ export default {
             }
         },
         //放入公海
-        async intoSeasCustomer({ dispatch }, { ids, accountId }) {
+        async intoSeasCustomer({ dispatch }, { ids, accountId,state, serarchPara, pageNum, pageSize, }) {
             try {
                 let res = await api.intoSeasCustomer({ ids, accountId })
                 if (res.code === 200) {
                     Toast.success(res.msg)
                 } else if (res.code === 401) {
-                    Toast.success(res.msg)
+                    Toast.fail(res.msg)
                 }
+                dispatch("recommend",{
+                    accountId,state, serarchPara, pageNum, pageSize,
+                })
                 console.log(res, "放入公海")
             } catch (err) {
                 console.log(err)
@@ -150,7 +159,7 @@ export default {
                 if (res.code === 200) {
                     Toast.success(res.msg)
                 } else if (res.code === 401) {
-                    Toast.success(res.msg)
+                    Toast.fail(res.msg)
                 }
                 console.log(res, "获取公海信息")
             } catch (err) {
@@ -158,55 +167,89 @@ export default {
             }
         },
         //添加客户信息
-        async listadd({dispatch},{accountId,name,visitortype,modelId,mobile,wechatCode,qqCode,sex,age,sourceId,searchTerms}){
-            try{
-                let res = await api.listadd({accountId,name,visitortype,modelId,mobile,wechatCode,qqCode,sex,age,sourceId,searchTerms})
-                if(res.code === 200){
+        async listadd({ dispatch }, { accountId, name, visitortype, modelId, mobile, wechatCode, qqCode, sex, age, sourceId, searchTerms }) {
+            try {
+                let res = await api.listadd({ accountId, name, visitortype, modelId, mobile, wechatCode, qqCode, sex, age, sourceId, searchTerms })
+                if (res.code === 200) {
                     Toast.success(res.msg)
-                    // dispatch("recommend",{
-                    //     id
-                    // })
-                }else if(res.code === 401){
-                    Toast.success(res.msg)
+                    router.push("/Customer")
+                } else if (res.code === 401) {
+                    Toast.fail(res.msg)
+                }else if(res.code === 404){
+                    Toast.fail(res.msg) 
                 }
-                console.log(res,"添加客户列表777")
-            }catch(err){
+                dispatch("recommend",{
+                    accountId
+                })
+                console.log(res, "添加客户列表777")
+            } catch (err) {
                 console.log(err)
             }
         },
         //咨询方式
-        async lconsulting({commit},){
-            try{
+        async lconsulting({ commit },) {
+            try {
                 let res = await api.lconsulting()
                 commit('setconsulting', res.list)
-                console.log(res.list,"咨询方式")
-            }catch(err){
+                console.log(res.list, "咨询方式")
+            } catch (err) {
                 console.log(err)
             }
         },
-        //信息来源
-        async source({commit}){
-            try{
+        //客户来源
+        async source({ commit }) {
+            try {
                 let res = await api.source()
                 commit('setsource', res.list)
-                console.log(res.list,"信息来源")
-            }catch(err){
+                console.log(res.list, "信息来源")
+            } catch (err) {
                 console.log(err)
             }
         },
         //添加联系人
-        async Addcntacts({dispatch},{accountId,customerId,name,mobile}){
-            try{
-                let res = await api.Addcntacts({accountId,customerId,name,mobile})
-                if(res.code === 200){
+        async Addcntacts({ dispatch }, { accountId, customerId, name, mobile }) {
+            try {
+                let res = await api.Addcntacts({ accountId, customerId, name, mobile })
+                if (res.code === 200) {
                     Toast.success(res.msg)
-                }else if(res.code === 401){
-                    Toast.success(res.msg)
+                    router.push("/Customer")
+                } else if (res.code === 401) {
+                    Toast.fail(res.msg)
                 }
-                console.log(res,"添加联系人")
-            }catch(err){
+                console.log(res, "添加联系人")
+            } catch (err) {
                 console.log(err)
             }
-        }
+        },
+        //编辑客户信息
+        async Modify({ commit }, { accountId, customerId }) {
+            try {
+                let res = await api.Modify({ accountId, customerId })
+                if (res.code === 200) {
+                    commit('setlpmodify', res.data)
+                }
+                console.log(res,"编辑")
+            } catch (err) {
+                console.log(err)
+            }
+        },
+        //保存客户信息
+        async storage({ dispatch }, { accountId, customerId, name, visitortype, modelId, mobile, wechatCode, qqCode, sex, age, sourceId, searchTerms }) {
+            try {
+                let res = await api.storage({ accountId, customerId, name, visitortype, modelId, mobile, wechatCode, qqCode, sex, age, sourceId, searchTerms })
+                if (res.code === 200) {
+                    Toast.success(res.msg)
+                    router.push("/Customer")
+                } else if (res.code === 401) {
+                    Toast.success(res.msg)
+                }
+                dispatch("recommend",{
+                    accountId
+                })
+                console.log(res, "保存成功")
+            } catch (err) {
+                console.log(err)
+            }
+        },
     }
 }

@@ -12,7 +12,7 @@
       </van-nav-bar>
     </div>
     <div>
-      <div class="m-list central">
+      <div class="m-list central" v-if="this.setlist.length > 0">
         <div
           class="m-list-e clearfix"
           v-for="(item, index) in setlist"
@@ -43,6 +43,9 @@
           </div>
         </div>
         <div class="bottom"></div>
+      </div>
+      <div v-if="this.setlist.length === 0">
+         <van-empty description="没有跟单信息哦"> </van-empty>
       </div>
     </div>
   </div>

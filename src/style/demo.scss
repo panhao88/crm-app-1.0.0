@@ -393,7 +393,6 @@
       display: flex;
       flex-wrap: wrap;
       text-align: center;
-
       .Heel_a {
         width: 33.3%;
         height: 30px;
@@ -465,7 +464,7 @@
     }
 
     .central {
-      margin-top: 50px;
+      margin-top: 46px;
     }
 
     .anniu {
@@ -592,4 +591,12 @@
       line-height: 30px;
       padding: 0px 10px;
       font-weight: 600;
+    }
+    .selectpl {
+      width: 70%;
+      height: 25px;
+      background: #fff;
+    }
+    .vanbar{
+      background: #f7f7f7;
     }

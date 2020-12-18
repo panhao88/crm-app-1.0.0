@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import api from '../../http/api'
 import { Toast } from 'vant';
+import router from '../../router';
 
 export default {
     namespaced: true,
@@ -40,9 +41,9 @@ export default {
     },
     actions: {
         //跟单列表
-        async documentary({ commit }, { id, name, pageNum, pageSize }) {
+        async documentary({ commit }, { accountId, name, pageNum, pageSize }) {
             try {
-                let res = await api.documentary({ id, name, pageNum, pageSize })
+                let res = await api.documentary({ accountId, name, pageNum, pageSize })
                   console.log(res,"跟单列表")
                 if (res.code === 200) {
                     commit('setgenlist', res.list)
@@ -111,13 +112,12 @@ export default {
                 let res = await api.Theend({customerId,accountId,id,customer})
                 if(res.code === 200){
                     Toast.success(res.msg)  
-                    dispatch("thedetalils",{
-                        customer
-                    })
                 }else if(res.code === 401){
                     Toast.success(res.msg)  
                 }
-               
+                dispatch("thedetalils",{
+                    customer
+                })
                 console.log(res,"文件删除")
             }catch(err){
                 console.log(err)
@@ -147,13 +147,14 @@ export default {
                     })
                     console.log(res,"跟单添加")
                   if(res.code === 200){
-                    Toast.success(res.msg)  
-                    dispatch("thedetalils",{
-                        customer
-                    })
+                    Toast.success(res.msg)
+                    router.go(-1)  
                   }else if(res.code === 401){
                     Toast.success(res.msg)  
                 }
+                dispatch("thedetalils",{
+                    customer
+                })
                 }catch(err){
                     console.log(err)
                 }

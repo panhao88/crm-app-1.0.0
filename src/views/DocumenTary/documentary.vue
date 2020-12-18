@@ -178,11 +178,10 @@ export default {
     // 搜索
     search() {
       this.$store.dispatch("documentary/documentary", {
-        id: this.usernameId,
-        name: this.values1,
-        // mobile,
-        pageNum: this.pageNum,
-        pageSize: this.pageSize,
+         accountId: this.usernameId,
+      name: this.values1,
+      pageNum: this.pageNum,
+      pageSize: this.pageSize,
       });
     },
     //回车搜索
@@ -193,11 +192,10 @@ export default {
     paging(e) {
       this.pageNum = e;
       this.$store.dispatch("documentary/documentary", {
-        id: this.usernameId,
-        name: this.values1,
-        // mobile,
-        pageNum: this.pageNum,
-        pageSize: this.pageSize,
+        accountId: this.usernameId,
+      name: this.values1,
+      pageNum: this.pageNum,
+      pageSize: this.pageSize,
       });
     },
   },
@@ -205,9 +203,8 @@ export default {
     this.username = JSON.parse(localStorage.getItem("user"));
     this.usernameId = this.username.id;
     this.documentary({
-      id: this.usernameId,
+      accountId: this.usernameId,
       name: this.values1,
-      // mobile,
       pageNum: this.pageNum,
       pageSize: this.pageSize,
     });

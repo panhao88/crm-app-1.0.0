@@ -1,8 +1,9 @@
 import axios from "axios"
 import router from "../router"
-// import NProgress from "nprogress"
-// import "nprogress/nprogress.css"
-import { Message } from 'element-ui'
+import NProgress from "nprogress"
+import "nprogress/nprogress.css"
+import { Toast } from 'vant';
+
 
 // 判断当前环境是生产环境还是开发环境
 // process.env.NODE_ENV的值决定当前环境
@@ -12,55 +13,37 @@ const isProduction = process.env.NODE_ENV === "production"
 // 创建axios配置对象
 const service = axios.create({
   timeout: 10000,
-
   // baseURL: isProduction ? 'http://192.168.0.120' : '/api'
   // baseURL: isProduction ? 'http://211.149.157.5:85' : '/api'
-  // baseURL: isProduction ? 'http://211.149.157.5:83' : '/api'
+  baseURL: isProduction ? 'http://211.149.157.5:83' : '/api'
   // baseURL: isProduction ? 'http://ce.96291.club:82' : '/api'
-  baseURL: isProduction ? 'http://192.168.0.25:82' : '/api'
+  // baseURL: isProduction ? 'http://192.168.0.25:82' : '/api'
 })
-// 请求头类型
-// 请求拦截: 每一次发请求都会做的事情
-// service.interceptors.request.use((config) => {
-//   nprogress.start()
-//   // 前后端鉴权
-//   // jwt: JSON WEB TOKEN
-//   // 登录成功之后 后端会返回一个令牌
-//   // let token = localStorage.getItem('adminToken')
-//   // if (token) {
-//   //   // 需要在请求头当中添加token
-//   //   config.headers['Authorization'] = token
-//   // }
-//   return config
-// }, err => {
-//   nprogress.done()
-//   return Promise.reject(err)
-// })
-service.defaults.headers.post["Content-Type"] = "application/x-www-form-urlencoded"
-//  service.defaults.headers.post["Content-Type"] = "multipart/form-data"
+
 // 响应拦截器
 service.interceptors.response.use(
   response => {
-    // NProgress.done()
+    NProgress.done()
     return response.data
   }, err => {
     if (err.response && err.response.status) {
       let status = err.response.status
       if (status === 401) {
-        Message.error('登录过期,请重新登录')
+        Toast.fail('登录过期,请重新登录')
         router.push('/login')
       }
       if (status === 404) {
-        Message.error('请求接口路径错误')
+        Toast.fail('请求接口路径错误')
       }
       if (status === 500) {
-        Message.error('服务器出错')
+        Toast.fail('服务器出错')
       }
       if (status === 503) {
-        Message.error('服务器正在维护')
+        Toast.fail('服务器正在维护')
       }
     }
     return Promise.reject(err)
   }
 )
+
 export default service

@@ -121,7 +121,6 @@ export default {
     ...userActions(["setter", "Thecontact"]),
     //点击选择数据
     qblist(bolo) {
-        localStorage.setItem("details",JSON.stringify(bolo))
       // this.current = bolo;
       if (bolo === 0) {
         this.current = bolo;

@@ -182,12 +182,8 @@ export default {
     //点击完成按钮时触发
     value111(value) {
       let date = new Date()
-      // let hours = date.getHours()
-      // let minutes = date.getMinutes() < 10 ? ('0' + date.getMinutes()) : date.getMinutes()
       let seconds = date.getSeconds() < 10 ? ('0' + date.getSeconds()) : date.getSeconds()
-      // let time = hours +":"+minutes+":"+ seconds
       this.day = dayjs(value).format(`YYYY-MM-DD HH:mm:${seconds}` );
-      // console.log(this.day)
       this.show = false;
     },
     //点击取消时触发
@@ -196,17 +192,6 @@ export default {
     },
     //保存
     save() {
-      if (this.valueone === "") {
-        this.$toast.fail("跟单方式不能为空");
-      } else if (this.plstate === "") {
-        this.$toast.fail("跟单状态不能为空");
-      } else if (this.contacts === "") {
-        this.$toast.fail("跟单对象不能为空");
-      } else if (this.day === "") {
-        this.$toast.fail("跟单时间不能为空");
-      } else if (this.valuezhi === "") {
-        this.$toast.fail("跟单备注不能为空");
-      } else {
         this.addseve({
           customerId: this.id,
           modeId: this.phway,
@@ -218,15 +203,11 @@ export default {
           contactsId: this.contacts,
           customer:this.id
         });
-         this.$router.go(-1)
-      }
     },
     //跟单对象
     didi() {
       this.type = this.valuesrrot.type;
-      //  console.log(this.type)
       this.contacts = this.valuesrrot.id;
-      // console.log(this.contacts)
     },
     //跟单方式
     gendan() {
@@ -235,57 +216,13 @@ export default {
     //跟单状态
     zhugte() {
       this.plstate = this.valuetow.id;
-      // console.log(this.plstate,"ouuu")
     },
     //文件上传
     async afterRead(file) {
       //文件读取完成后的回调函数
-      let uploadImg = await upLoaderImg(file.file); //使用上传的方法。file.file
+      let uploadImg = await upLoaderImg(file.file);
       console.log(uploadImg);
     },
-    // afterRead(file) {
-    // async onread(file) {
-    //   let formdata = new window.formdata();
-    //   formdata.append("file", file.file);
-    //   try {
-    //     let res = await api.upload(url, formdata, {
-    //       headers: {
-    //         "content-type": "multipart/form-data",
-    //       },
-    //     });
-    //     console.log(res);
-    //   } catch (err) {
-    //     console.log(err);
-    //     this.$toast(`网络连接错误, 请稍后再试!`);
-    //   }
-    // 21 },
-    // this.fileList = file.file.name
-    //   console.log(file.file,11)
-    //   console.log(file.file.name,55);
-    // file.status = "uploading";file
-    // file.message = "上传中...";
-    // console.log(file,"111");
-    // let data = {};
-    // data.file = file;
-    // console.log(data,"333");
-    // this.$store.dispatch("documentary/upload", {
-    //   file: file.file,
-    //   accountId: this.usernameId,
-    // });
-    // // console.log(file,11)
-
-    //  if(this.fileList.length > 1){
-    //            this.fileList.splice(1);
-    //            this.$msg({
-    //                text:'只能选择这么多!',
-    //                type:'info'
-    //            })
-    //            return false;
-    //        }
-    //        let Files = this.Files;
-    //        Files.push(file.file);
-    // 此时可以自行将文件上传至服务器
-    // },
   },
   mounted() {
     this.username = JSON.parse(localStorage.getItem("user"));
@@ -295,7 +232,6 @@ export default {
     this.Documenway();
     this.liststate();
     this.listobject({ id: this.id });
-    // this.ids = JSON.parse(localStorage.getItem("ids"));
   },
   watch: {},
   computed: {
