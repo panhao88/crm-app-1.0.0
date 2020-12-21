@@ -1,8 +1,8 @@
 <template>
-  <div>
+  <div v-touch:right="goright">
     <!-- 头部导航1111111 -->
     <div id="_nav">
-      <van-nav-bar :fixed="true" :z-index="3"  :title="realName">
+      <van-nav-bar :fixed="true" :z-index="3" :title="realName">
         <template #left>
           <van-icon name="flag-o" size="24" color="grey" />
         </template>
@@ -266,8 +266,8 @@ export default {
       verseonexplain: "", //更新内容
       myversion: "", //当前版本号
       flag: true,
-      username:"",
-      realName:''
+      username: "",
+      realName: "",
     };
   },
   methods: {
@@ -276,12 +276,32 @@ export default {
       this.$router.push(url);
     },
     //去推出页
-    logoto(){
-      this.$router.push('/exit')
+    logoto() {
+      this.$router.push("/exit");
     },
     //弹窗
     Popup() {
       this.show = true;
+    },
+    //左划
+    goright() {
+      this.$dialog
+        .confirm({
+          message: "你确认要退出吗",
+        })
+        .then((res) => {
+          localStorage.removeItem("user");
+          this.$router.push("login");
+          this.$toast({
+            message: "退出成功",
+          })
+        })
+        .catch((err) => {
+          this.$toast({
+            message: "你已取消",
+          });
+          console.log(err);
+        });
     },
     getdata() {
       this.$api
@@ -289,7 +309,7 @@ export default {
         .then((res) => {
           this.myversion = plus.runtime.version;
           this.website = res.data.annex;
-          console.log(`http://211.149.157.5:83${this.website}`)
+          console.log(`http://211.149.157.5:83${this.website}`);
           this.verseonexplain = res.data.content;
           if (this.myversion !== res.data.version) {
             this.flag = true;
@@ -311,10 +331,10 @@ export default {
   },
   mounted() {
     this.getdata();
-  let goto = {}
-   goto = JSON.parse(localStorage.getItem('user'))
-    this.username = goto.userName
-    this.realName = goto.realName
+    let goto = {};
+    goto = JSON.parse(localStorage.getItem("user"));
+    this.username = goto.userName;
+    this.realName = goto.realName;
   },
 };
 // }

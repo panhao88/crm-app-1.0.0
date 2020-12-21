@@ -1,10 +1,10 @@
 <template>
-  <div id="box">
+  <div v-touch:right="goright"  v-touch:left="goleft">
     <div class="headdd">
       <div id="top">
         <!-- 头部导航 -->
         <div>
-          <van-nav-bar :fixed="true" :z-index="3" class="vanbar">
+          <van-nav-bar :fixed="true" class="vanbar">
             <template #left>
               <van-icon
                 name="arrow-left"
@@ -428,6 +428,13 @@ export default {
         });
       }
     },
+    // 滑动事件
+    goright(){
+      this.$router.go(-1)
+    },
+    goleft(){
+      this.$router.go(1)
+    },
     //联系人跳转
     hecontact(index) {
       this.$router.push({
@@ -465,31 +472,21 @@ export default {
         pageNum: this.currentPage,
         pageSize: this.pageSize,
       });
-
       let topHeight = document.getElementById("top").offsetHeight;
+      console.log(document.documentElement.scrollTop)
       let timer = setInterval(() => {
-        if (document.documentElement && document.documentElement.scrollTop) {
           let height = document.documentElement.scrollTop % 500;
           if (height !== topHeight) {
-            document.documentElement.scrollTop =
-              document.documentElement.scrollTop - 500;
-            if (
-              document.documentElement.scrollTop >= 500 &&
-              document.documentElement.scrollTop < 1000
-            ) {
+            document.documentElement.scrollTop = document.documentElement.scrollTop - 500;
+            if (document.documentElement.scrollTop >= 500 && document.documentElement.scrollTop < 1000) {
               let reduce = height + 500 - topHeight;
+              console.log(reduce)
               document.documentElement.scrollTop =
                 document.documentElement.scrollTop - reduce;
-              clearInterval(timer);
-            }
-          } else {
-            document.documentElement.scrollTop =
-              document.documentElement.scrollTop - 500;
-            if (document.documentElement.scrollTop === topHeight) {
+                console.log(document.documentElement.scrollTop,99)
               clearInterval(timer);
             }
           }
-        }
       }, 30);
     },
     // 全选

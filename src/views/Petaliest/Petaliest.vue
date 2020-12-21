@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div v-touch:right="goright"  v-touch:left="goleft" class="topcenteh">
     <!-- 头部导航 -->
     <div>
       <van-nav-bar :fixed="true" :z-index="3" title="跟单详情">
@@ -83,6 +83,13 @@ export default {
         query: { name: item },
       });
     },
+     // 滑动事件
+    goright(){
+      this.$router.go(-1)
+    },
+    goleft(){
+      this.$router.go(1)
+    },
     //结束跟单
     Theendpl(item) {
       let customerId = this.ids;
@@ -139,5 +146,8 @@ export default {
   border-radius: 6px;
   padding: 0px 6px;
   color: #fff;
+}
+.topcenteh{
+  height: 100vh;
 }
 </style>

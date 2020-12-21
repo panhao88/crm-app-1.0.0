@@ -1,6 +1,6 @@
 <template>
   <!-- 修改 -->
-  <div>
+  <div v-touch:right="goright">
     <!-- 头部导航 -->
     <div>
       <van-nav-bar :fixed="true" :z-index="3" class="vanbar" title="编辑客户">
@@ -192,6 +192,10 @@ export default {
     //返回上一页
     goto() {
       this.$router.push("/Customer");
+    },
+    // 滑动事件
+    goright(){
+      this.$router.go(-1)
     },
     //保存编辑
     save() {

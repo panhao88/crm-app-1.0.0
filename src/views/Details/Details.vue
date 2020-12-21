@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div   v-touch:right="goright"  v-touch:left="goleft">
     <!-- 头部导航 -->
     <div>
       <van-nav-bar :fixed="true" :z-index="3" title="数据操纵" class="vanbar">
@@ -150,7 +150,13 @@ export default {
     retreat() {
       this.$router.push("/home");
     },
-
+      // 滑动事件
+    goright(){
+      this.$router.go(-1)
+    },
+    goleft(){
+      this.$router.go(1)
+    },
     // 头部返回
     page() {
       this.$router.go(-1);

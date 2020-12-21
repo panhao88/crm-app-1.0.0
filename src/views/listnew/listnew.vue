@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div v-touch:right="goright"  v-touch:left="goleft">
     <!-- 新增跟单 -->
     <!-- 头部导航 -->
     <div>
@@ -126,7 +126,6 @@
 </template>
 
 <script>
-import upLoaderImg from "../../http/upLoaderImg";
 import { createNamespacedHelpers } from "vuex";
 const userModule = createNamespacedHelpers("documentary");
 const { mapState: userState, mapActions: userActions } = userModule;
@@ -203,6 +202,13 @@ export default {
           contactsId: this.contacts,
           customer:this.id
         });
+    },
+    // 滑动事件
+    goright(){
+      this.$router.go(-1)
+    },
+    goleft(){
+      this.$router.go(1)
     },
     //跟单对象
     didi() {

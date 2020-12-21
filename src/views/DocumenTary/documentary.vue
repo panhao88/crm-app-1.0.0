@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div v-touch:right="goright"  v-touch:left="goleft">
     <!-- 头部导航 -->
     <div>
       <van-nav-bar :fixed="true" :z-index="3" class="vanbar">
@@ -166,7 +166,13 @@ export default {
     guanbip() {
       this.current = 1;
     },
-   
+     // 滑动事件
+    goright(){
+      this.$router.go(-1)
+    },
+    goleft(){
+      this.$router.go(1)
+    },
     //名字点击
     godetails(index) {
       this.ids = this.genlist[index].customerId;

@@ -1,6 +1,6 @@
 
 <template>
-  <div>
+  <div v-touch:right="goright"  v-touch:left="goleft">
     <!-- 头部面包屑 -->
     <div>
       <van-nav-bar :fixed="true" :z-index="3">
@@ -204,6 +204,13 @@ export default {
       this.listseas.map((item) => {
         item.flag = this.checked;
       });
+    },
+        // 滑动事件
+    goright(){
+      this.$router.go(-1)
+    },
+    goleft(){
+      this.$router.go(1)
     },
     //获取公海信息
     obtain(item) {

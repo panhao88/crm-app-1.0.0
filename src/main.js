@@ -7,8 +7,9 @@ import api from './http/api'
 import 'vant/lib/index.css';
 import dayjs from 'dayjs'
 import VueParticles from 'vue-particles'  
+import touch from 'vue-directive-touch';
 
-
+Vue.use(touch);
 Vue.use(VueParticles)  
 Vue.prototype.$api = api
 Vue.prototype.$dayjs = dayjs

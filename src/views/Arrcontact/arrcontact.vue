@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div v-touch:right="goright" class="topcenteh">
     <!-- 联系人 -->
     <!-- 头部导航 -->
     <div>
@@ -63,6 +63,10 @@ export default {
     goto() {
       this.$router.go(-1);
     },
+      // 滑动事件
+    goright(){
+      this.$router.go(-1)
+    },
     //保存联系人
     save() {
         this.Addcntacts({
@@ -86,5 +90,8 @@ export default {
 <style scoped lang='scss'>
 .van-cell {
   padding: 0px;
+}
+.topcenteh{
+  height: 100vh;
 }
 </style>

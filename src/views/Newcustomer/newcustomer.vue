@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div v-touch:right="goright">
     <!-- 新增客户 -->
     <!-- 头部导航 -->
     <div>
@@ -176,6 +176,10 @@ export default {
     //返回上一页
     goto() {
         this.$router.go(-1)
+    },
+      // 滑动事件
+    goright(){
+      this.$router.go(-1)
     },
     //保存
     save() {
