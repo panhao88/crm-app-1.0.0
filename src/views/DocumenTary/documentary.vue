@@ -1,5 +1,5 @@
 <template>
-  <div v-touch:right="goright"  v-touch:left="goleft">
+  <div v-touch:right="goright" v-touch:left="goleft">
     <!-- 头部导航 -->
     <div>
       <van-nav-bar :fixed="true" :z-index="3" class="vanbar">
@@ -39,55 +39,46 @@
         /><button @click="search">搜索</button>
       </div>
       <div>
-        <div class="m-list">
-          <div
-            class="m-list-e clearfix"
-            v-for="(item, index) in genlist"
-            :key="index"
-          >
-            <div class="m-list-title clearfix">
-              <span @click="godetails(index)">{{ item.customerName }}</span>
-            </div>
-            <div class="m-list-con clearfix">
-              <span> 跟单方式:{{ item.modeName }}</span>
-              <span> 跟单状态:{{ item.statusName }}</span>
-              <span>跟单对象:<a class="tu2 iconfont icon-dianhua"></a></span>
-              <span>跟单人:{{item.realName}}</span>
-              <span></span>
-              <div  class="note clearfix">跟单时间:{{item.createAt}}</div>
-              <div class="note clearfix"> 下次联系时间:{{item.lastAt}} </div>
-              <span></span>
-              <div class="note">跟单内容:{{ item.remark }}</div>
-              <div class="clear"></div>
-            </div>
-          </div>
-          <!-- 分页 -->
-          <div class="fenye">
-            <van-pagination
-              v-model="currentPage"
-              :total-items="totalRow"
-              :show-page-size="5"
-              :items-per-page="pageSize"
-              @change="paging"
-            />
-          </div>
-        </div>
+        <mocuList
+          v-if="current === 1"
+          :genlist="genlist"
+          :totalRow="totalRow"
+          :usernameId="usernameId"
+        ></mocuList>
+        <todayList
+          v-if="current === 2"
+          :podaylist="podaylist"
+          :listrow="listrow"
+          :usernameId="usernameId"
+        ></todayList>
+        <phisweek
+          v-if="current === 3"
+          :weeklist="weeklist"
+          :weekrowlist="weekrowlist"
+          :usernameId="usernameId"
+        ></phisweek>
       </div>
     </div>
   </div>
 </template>
 
 <script>
+import MocuList from "../../components/docuList/MocuList";
+import TodayList from "../../components/docuList/TodayList";
+import Phisweek from "../../components/docuList/Phisweek";
 import { createNamespacedHelpers } from "vuex";
 const userModule = createNamespacedHelpers("documentary");
 const { mapState: userState, mapActions: userActions } = userModule;
 export default {
   name: "documentary",
   props: {},
-  components: {},
+  components: {
+    MocuList, //跟单列表
+    TodayList, //今日跟单
+    Phisweek, //本周跟单
+  },
   data() {
     return {
-     
       titlelist: [
         {
           name: "跟单列表",
@@ -126,32 +117,34 @@ export default {
           LangthNum: "",
         },
       ],
-      currentPage: 1, // 分页
       values1: "", //输入框
-      // value_a: 1,
+      value_a: 1,
       current: 1, //判断客户高亮
-      usernameId: "", //用户id
-      pageNum: 1,
-      pageSize: 10,
+      usernameId: 0, //用户id
       ids: "", //跟单详情列表
       todo: [],
     };
   },
   methods: {
-    ...userActions(["documentary", "Theend"]),
+    ...userActions(["documentary", "Theend", "Today", "Thiswe"]),
     //  点击状态
     qblist(value_a) {
-      // this.current = value_a;
-      if(this.current === 0){
+      this.current = value_a;
+      if (this.current === 1) {
         this.current = value_a;
-      }else if(this.current === 1){
-        this.$toast.success("该功能暂未开通")
-      }else if(this.current === 2){
-        this.$toast.success("该功能暂未开通")
-      }else if(this.current === 3){
-        this.$toast.success("该功能暂未开通")
-      }else if(this.current === 4){
-        this.$toast.success("该功能暂未开通")
+      } else if (this.current === 2) {
+        this.current = value_a;
+      } else if (this.current === 3) {
+        this.current = value_a;
+      } else if (this.current === 4) {
+        this.$toast.success("该功能暂未开通");
+        this.current = 3;
+      } else if (this.current === 5) {
+        this.$toast.success("该功能暂未开通");
+        this.current = 3;
+      } else if (this.current === 6) {
+        this.$toast.success("该功能暂未开通");
+        this.current = 3;
       }
     },
     //  返回主页
@@ -160,49 +153,31 @@ export default {
     },
     // 返回上一页
     goto() {
-      this.$router.push('/');
+      this.$router.push("/");
     },
     //联系人关闭
     guanbip() {
       this.current = 1;
     },
-     // 滑动事件
-    goright(){
-      this.$router.go(-1)
+    // 滑动事件
+    goright() {
+      this.$router.go(-1);
     },
-    goleft(){
-      this.$router.go(1)
-    },
-    //名字点击
-    godetails(index) {
-      this.ids = this.genlist[index].customerId;
-       this.$router.push({
-        path: "/Petaliest",
-        query: { idb: this.ids },
-      });
+    goleft() {
+      this.$router.go(1);
     },
     // 搜索
     search() {
       this.$store.dispatch("documentary/documentary", {
-         accountId: this.usernameId,
-      name: this.values1,
-      pageNum: this.pageNum,
-      pageSize: this.pageSize,
+        accountId: this.usernameId,
+        name: this.values1,
+        pageNum: this.pageNum,
+        pageSize: this.pageSize,
       });
     },
     //回车搜索
     kenter() {
       this.search();
-    },
-    //分页
-    paging(e) {
-      this.pageNum = e;
-      this.$store.dispatch("documentary/documentary", {
-        accountId: this.usernameId,
-      name: this.values1,
-      pageNum: this.pageNum,
-      pageSize: this.pageSize,
-      });
     },
   },
   mounted() {
@@ -214,10 +189,19 @@ export default {
       pageNum: this.pageNum,
       pageSize: this.pageSize,
     });
-    
+    this.Today({
+      accountId: this.usernameId,
+      pageNum: this.pageNum,
+      pageSize: this.pageSize,
+    });
+    this.Thiswe({
+      accountId: this.usernameId,
+      pageNum: this.pageNum,
+      pageSize: this.pageSize,
+    });
   },
   watch: {
-     // 监听输入框事件
+    // 监听输入框事件
     values1(val) {
       if (this.values1 === "") {
         this.search();
@@ -225,7 +209,15 @@ export default {
     },
   },
   computed: {
-    ...userState(["genlist", "totalRow", "setlist"]),
+    ...userState([
+      "genlist",
+      "totalRow",
+      "setlist",
+      "podaylist",
+      "weeklist",
+      "listrow",
+      "weekrowlist",
+    ]),
   },
 };
 </script>
@@ -246,5 +238,4 @@ export default {
   color: #fff;
   margin-right: 10px;
 }
-
 </style>

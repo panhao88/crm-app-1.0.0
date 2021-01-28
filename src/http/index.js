@@ -17,7 +17,7 @@ const service = axios.create({
   // baseURL: isProduction ? 'http://211.149.157.5:85' : '/api'
   // baseURL: isProduction ? 'http://211.149.157.5:83' : '/api'
   // baseURL: isProduction ? 'http://ce.96291.club:82' : '/api'
-  baseURL: isProduction ? 'http://192.168.0.25:82' : '/api'
+  baseURL: isProduction ? 'http://192.168.10.9' : '/api'
 })
 
 // 响应拦截器

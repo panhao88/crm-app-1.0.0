@@ -10,11 +10,31 @@ export default {
     return service.get(`/api/login/doLogin?userName=${userName}&password=${password}`)
   },
   // 2.客户列表
-  recommend({ accountId, state, serarchPara, pageNum, pageSize, }) {
+  recommend({ accountId, serarchPara,pageNum, pageSize, }) {
     return service.post("/api/customer/customerPage", qs.stringify({
-      accountId, state, serarchPara, pageNum, pageSize,
+      accountId, serarchPara, pageNum, pageSize
     }))
   },
+  //客户来源
+Customer_source(){
+  return service.post("/api/share/customerSource")
+},
+//业务员，录入员
+salesman(){
+  return service.post("/api/share/staffList")
+},
+// 校区信息
+Campus_information(){
+  return service.post("/api/share/campusList")
+},
+// 团队信息
+Team_information(){
+  return service.post("/api/share/teamList")
+},
+// 客户类型
+Customer_type(){
+  return service.post("/api/share/customerTypeList")
+},
   //3.客户详情页
   setter({ id }) {
     return service.get(`/api/customer/findCustomerById?customerId=${id}`)
@@ -117,6 +137,22 @@ export default {
   storage({accountId,customerId, name, visitortype, modelId, mobile, wechatCode, qqCode, sex, age, sourceId, searchTerms}) {
     return service.post("/api/customer/updateCustomer",qs.stringify({
       accountId,customerId, name, visitortype, modelId, mobile, wechatCode, qqCode, sex, age, sourceId, searchTerms
+    }))
+  },
+  //23.今日需跟进列表
+  Today({accountId,pageNum,pageSize}){
+    return service.post("/api/follow/orderToday",qs.stringify({
+      accountId,pageNum,pageSize
+    }))
+  },
+  //24.本周跟单
+  Thiswe({accountId,pageNum,pageSize}){
+    return service.post("/api/follow/orderWeek",qs.stringify({accountId,pageNum,pageSize}))
+  },
+  //获取客户公海列表
+  getcustomerSeasPage({pageNum,pageSize}){
+    return service.post("/api/customer/customerSeasPage",qs.stringify({
+      pageNum,pageSize
     }))
   }
 }

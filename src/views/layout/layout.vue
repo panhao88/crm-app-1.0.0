@@ -4,15 +4,15 @@
         <router-view></router-view>
     </div>
     <van-tabbar v-model="active">
-      <van-tabbar-item icon="home-o" to="Home">首页</van-tabbar-item>
+      <van-tabbar-item icon="home-o" to="Home" >首页</van-tabbar-item>
       <van-tabbar-item
         icon="comment"
         to="news"
         v-if="username !== ''"
-        :badge="setNumber"
+        :badge="20"
         >消息</van-tabbar-item
       >
-      <van-tabbar-item icon="comment" to="news" v-if="username === ''"
+      <van-tabbar-item icon="comment" to="news" v-if="username === ''" :badge="20"
         >消息</van-tabbar-item
       >
       <van-tabbar-item icon="friends" to="maillist">通讯录</van-tabbar-item>
@@ -56,9 +56,7 @@ export default {
     },
   },
   computed: {
-    setNumber() {
-      return this.$store.state.num;
-    },
+   
   },
 };
 </script>

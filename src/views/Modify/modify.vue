@@ -199,6 +199,7 @@ export default {
     },
     //保存编辑
     save() {
+      console.log( this.Theeditor.modeId)
       this.storage({
         accountId: this.id,
         customerId: this.ids,
@@ -224,6 +225,7 @@ export default {
     },
   },
   mounted() {
+    console.log(this.Theeditor,"Theeditor")
     this.username = JSON.parse(localStorage.getItem("user"));
     this.usernameId = this.username.id;
     this.ids = this.$route.query.id;

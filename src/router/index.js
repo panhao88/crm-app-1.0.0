@@ -102,15 +102,8 @@ const routes = [
     name: "Finance",
     component: () => import('../views/Finance/Finance.vue')
   },
-  // 客户公海
-  {
-    path: "/InternaTionalWaters",
-    name: "InternaTionalWaters",
-    component: () => import('../views/InternaTionalWaters/internationalwaters.vue')
-  },
   // 回收站
   {
-
     path: "/RecycLebin",
     name: "RecycLebin",
     component: () => import('../views/RecycLebin/RecycLebin.vue')

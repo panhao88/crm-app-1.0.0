@@ -71,15 +71,6 @@
               </div>
               <div class="f-s-12">{{ WageControl.way }}</div>
             </van-grid-item>
-            <!-- 客户公海 -->
-            <van-grid-item>
-              <div class="box1 b-n" @click="goto(SingControl.url)">
-                <div>
-                  <img src="../assets/gonghai.png" alt="" class="img" />
-                </div>
-              </div>
-              <div class="f-s-12">{{ SingControl.way }}</div>
-            </van-grid-item>
             <!-- 回收站 -->
             <van-grid-item>
               <div class="box1 b-h" @click="goto(recycle.url)">
@@ -159,6 +150,9 @@
           <van-grid-item>
             <div class="box1 b-h" @click="goto(Internalannouncement.url)">
               <div><img src="../assets/gongao.png" alt="" class="img" /></div>
+               <div class="bordd">
+                 <div>8</div>
+               </div>
             </div>
             <div class="f-s-12">{{ Internalannouncement.way }}</div>
           </van-grid-item>
@@ -244,7 +238,6 @@ export default {
       VisitControl: { way: "校区合同管理", url: "/campus" },
       TarControl: { way: "售后管理", url: "/Aftersale" },
       WageControl: { way: "财务管理", url: "/Finance" },
-      SingControl: { way: "客户公海", url: "/internationalwaters" },
       recycle: { way: "回收站", url: "/recyclebin" },
       invite: { way: "客户名片夹", url: "/businesscard" },
       reception: { way: "客户生日提醒", url: "/birthday" },
@@ -294,7 +287,9 @@ export default {
           this.$router.push("login");
           this.$toast({
             message: "退出成功",
-          })
+          });
+          // 震动
+          // plus.device.vibrate(500);
         })
         .catch((err) => {
           this.$toast({
@@ -309,7 +304,6 @@ export default {
         .then((res) => {
           this.myversion = plus.runtime.version;
           this.website = res.data.annex;
-          console.log(`http://211.149.157.5:83${this.website}`);
           this.verseonexplain = res.data.content;
           if (this.myversion !== res.data.version) {
             this.flag = true;
@@ -326,7 +320,7 @@ export default {
     },
     //前往升级
     previous() {
-      plus.runtime.openURL(`http://211.149.157.5:83${this.website}`);
+      plus.runtime.openURL(`http://211.149.157.5:86${this.website}`);
     },
   },
   mounted() {
@@ -359,6 +353,7 @@ export default {
   height: 35px;
 }
 .box1 {
+  position: relative;
   width: 50px;
   height: 50px;
   display: flex;
@@ -369,9 +364,6 @@ export default {
 .iconfont {
   font-size: 22px;
 }
-// /deep/ .van-nav-bar__content{
-//   height:50px;
-// }
 //弹窗
 .van-popup {
   text-align: center;
@@ -399,5 +391,16 @@ export default {
   font-size: 16px;
   border: none;
   border-radius: 10px;
+}
+.bordd {
+  position: absolute;
+  right: -6px;
+  top: -8px;
+  width: 20px;
+  height: 20px;
+  background: red;
+  border-radius: 50%;
+  color: #fff;
+  text-align: center;
 }
 </style>

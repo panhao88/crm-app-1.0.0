@@ -18,8 +18,9 @@
         </tr>
         <tr>
           <td class="boedee-a">联系人:</td>
+         
           <td class="boedee-b" v-if="details.contactsNum === 0" >没有联系人</td>
-          <td class="boedee-b" v-if="details.contactsNum > 0" @click="godetaild">有{{details.contactsNum}}位联系人<button class="gendna">查看联系人</button></td>
+          <td class="boedee-b" v-if="details.contactsNum > 0" >有{{details.contactsNum}}位联系人<button class="bootn" @click="godetaild">查看联系人</button></td>
         </tr>
         <tr>
           <td class="boedee-a">手机号码:</td>
@@ -32,10 +33,6 @@
         <tr>
           <td class="boedee-a">咨询方式:</td>
           <td class="boedee-b">{{details.modeName}}</td>
-        </tr>
-        <tr>
-          <td class="boedee-a">访客标识符:</td>
-          <td class="boedee-b">{{details.visitorIdentifier}}</td>
         </tr>
         <tr>
           <td class="boedee-a">客户类型:</td>
@@ -165,5 +162,14 @@ export default {
   padding: 4px 6px;
   color: #fff;
   margin-left: 10px;
+}
+.bootn{
+  background: green ;
+  border: none;
+  color: #fff;
+  border-radius: 4px;
+  padding: 3px;
+  margin-left: 10px;
+  
 }
 </style>

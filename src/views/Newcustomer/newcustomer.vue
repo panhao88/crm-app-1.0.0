@@ -131,7 +131,6 @@ export default {
   components: {},
   data() {
     return {
-      person: "", // 登录人id
       name: "", //客户名称
       schooling: "", //学历
       schoolingId: "", //学历id
@@ -184,7 +183,7 @@ export default {
     //保存
     save() {
         this.listadd({
-          accountId: this.person,
+          accountId: this.usernameId,
           name: this.name,
           visitortype: this.schoolingId,
           modelId: this.consultingId,
@@ -236,5 +235,4 @@ export default {
 .van-cell {
   padding: 0px;
 }
-
 </style>

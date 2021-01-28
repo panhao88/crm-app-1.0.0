@@ -1,5 +1,5 @@
 <template>
-  <div v-touch:right="goright"  v-touch:left="goleft">
+  <div v-touch:right="goright" v-touch:left="goleft">
     <div class="headdd">
       <div id="top">
         <!-- 头部导航 -->
@@ -21,13 +21,6 @@
         <!-- 客户分类 -->
         <div class="Heels central">
           <div
-            class="bot1"
-            :class="akp === -1 ? 'bgggColors' : ''"
-            @click="kehu"
-          >
-            <div class="bot2">客户列表</div>
-          </div>
-          <div
             class="Heel_a"
             v-for="(item, index) in titlelist"
             :key="index"
@@ -41,273 +34,135 @@
           <div class="Heel_a backF5" @click="retreat">返回系统主页</div>
         </div>
         <!-- 搜索框33 -->
-
         <div class="Heel_c">
           <input
             type="text"
             v-model="values1"
-            placeholder="客户名称、手机号码"
+            placeholder="客户名称"
             @keydown.enter="kenter"
           /><button @click="search">搜索</button>
         </div>
       </div>
-      <!-- 客户列表 -->
-      <div>
-        <!-- 客户数量限制： -->
-        <div class="maxnumtip">
-          <span class="iconfont icon-icon-test2"
-            >客户数量：(<small class="f-c-hong"> {{ total }}</small
-            >)条数据</span
-          >
-        </div>
-        <div class="m-list">
-          <div
-            class="m-list-e clearfix"
-            v-for="(item, index) in listing"
-            :key="index"
-          >
-            <div class="m-list-title clearfix goto">
-              <span @click="godetails(index)">{{ item.name }}</span>
-            </div>
-            <div class="m-list-con clearfix">
-              <span>
-                客户类型:
-                {{ item.statusName }}
-              </span>
-              <!--              <span> 校区分类:</span>-->
-              <span>
-                客户来源:
-                <small v-if="item.state == 0">网络</small>
-                <small v-if="item.state == 1">拓展</small>
-                <small v-if="item.state == 2">公海数据</small>
-              </span>
-              <span>微信号:{{ item.wechatCode }}</span>
-              <span>
-                QQ: <small>{{ item.qqCode }}</small>
-              </span>
-
-              <span> 咨询方式:{{ item.modelName }}</span>
-
-              <span>
-                电话:
-                <a class="tu3" :href="'tel:' + item.mobile">{{
-                  item.mobile
-                }}</a>
-                <a class="tu2 iconfont icon-dianhua"></a>
-              </span>
-
-              <span> 录入者:{{ item.reporterName }} </span>
-              <span> 业务员:{{ item.salemanName }} </span>
-              <div class="note clearfix">录入时间: {{ item.entryTime }}</div>
-              <div class="note clearfix">搜索词:{{ item.searchTerms }}</div>
-              <span>
-                最后更新:
-                <small v-if="item.minC >= 1 && item.minC < 60">
-                  {{ Math.ceil(item.minC) }}分钟前
-                </small>
-                <small v-if="item.hourC >= 1 && item.hourC < 24">
-                  {{ Math.ceil(item.hourC) }}小时前
-                </small>
-                <small v-if="item.dayC >= 1 && item.dayC < 30">
-                  {{ Math.ceil(item.dayC) }}天前
-                </small>
-                <small v-if="item.year >= 1">
-                  {{ Math.ceil(item.year) }}年前
-                </small>
-              </span>
-              <span></span>
-
-              <div class="note clearfix">
-                <div class="gonghaiyy">
-                  <div>
-                    <van-checkbox
-                      v-model="item.flag"
-                      shape="square"
-                      class="todo"
-                      @change="radio"
-                    ></van-checkbox>
-                  </div>
-                  <div>
-                    <button class="gonghaipp" @click="gonghai(item)">
-                      加入公海
-                    </button>
-                  </div>
-                  <div>
-                    <button class="gonghaipp" @click="contact(item)">
-                      增加联系人
-                    </button>
-                  </div>
-                  <div>
-                    <button class="gonghaipp" @click="Modify(item)">
-                      修改
-                    </button>
-                  </div>
-                </div>
-              </div>
-              <!-- (编号: {{ item.id }} ) -->
-            </div>
-            <div class="m-list-bottom">
-              <span class="m-l-b-num">
-                <span
-                  class="lianxi"
-                  @click="hecontact(index)"
-                  v-if="item.contactsNum === null"
-                  >联系人<span class="f-c-hong"> (0)</span></span
-                >
-                <span
-                  class="lianxi"
-                  @click="hecontact(index)"
-                  v-if="item.contactsNum > 0"
-                  >联系人<span class="f-c-hong">
-                    ({{ item.contactsNum }})</span
-                  ></span
-                >
-              </span>
-              <span class="m-l-b-num" @click="Thedocumentary(item)">
-                <span class="lianxi">跟单管理 </span>
-                <span class="f-c-hong">(0)</span>
-              </span>
-              <!-- <span class="m-l-b-num">
-                <span class="lianxi">订单管理 </span><span>(0) </span>
-              </span>
-              <span class="m-l-b-num">
-                <span class="lianxi">合同管理 </span> <span>(0)</span>
-              </span> -->
-            </div>
-          </div>
-        </div>
-      </div>
-      <!-- 全选 -->
-      <div class="backgr">
-        <van-checkbox
-          v-model="checked"
-          checked-color="#07c160"
-          icon-size="22px"
-          @click="checkAllfalse"
-          >你可以将选中信息:
-          <div v-if="checked === false"></div>
-          <div v-if="checked === true"></div>
-        </van-checkbox>
-        <div class="zhuanyi"></div>
-        <div class="zhuanyi">
-          <van-button type="info" size="mini">转移</van-button>
-          <van-button type="primary" size="mini" @click="Thesea"
-            >转入公海</van-button
-          >
-        </div>
-      </div>
-      <!-- 转入公海 -->
-      <div class="gonghai">
-        <van-button type="primary" icon="share-o" size="mini"
-          >保护期设置</van-button
-        >
-      </div>
-      <!-- 分页 -->
-      <van-pagination
-        v-model="currentPage"
-        :total-items="total"
-        :show-page-size="5"
-        :items-per-page="pageSize"
-        @change="paging"
-      />
+    </div>
+    <!-- 客户列表 -->
+    <div>
+      <customerlist
+        v-if="akp === 0"
+        :listing="listing"
+        :total="total"
+        :usernameId="usernameId"
+        :Source="Source"
+        :salesmanlist="salesmanlist"
+        :campuslist="campuslist"
+        :teamlist="teamlist"
+        :typelist="typelist"
+      ></customerlist>
+      <internationalwaters
+        :internationalist="internationalist"
+        :Seatotal="Seatotal"
+        :usernameId="usernameId"
+        v-if="akp === 1"
+      >
+      </internationalwaters>
     </div>
   </div>
 </template>
 
 <script>
+import Customerlist from "../../components/customer/Customerlist";
+import Internationalwaters from "../../components/customer/International_waters";
 import { createNamespacedHelpers } from "vuex";
 const userModule = createNamespacedHelpers("user");
 const { mapState: userState, mapActions: userActions } = userModule;
-import dayjs from "dayjs";
 export default {
   name: "Customer",
   props: {},
-  components: {},
+  components: {
+    Customerlist, //客户列表
+    Internationalwaters, //公海客户
+  },
   data() {
     return {
       titlelist: [
         {
-          name: "网络客户",
+          name: "客户列表",
           start: "",
           bacolor: 0,
           LangthNum: "",
         },
         {
-          name: "扩展客户",
+          name: "公海客户",
           start: "",
           bacolor: 1,
           LangthNum: "",
         },
         {
-          name: "公海客户",
-          start: "",
-          bacolor: 2,
-          LangthNum: "",
-        },
-        {
           name: "我的共享",
           visit: "-1",
-          bacolor: 3,
+          bacolor: 2,
           LangthNum: "",
         },
         {
           name: "共享给我",
           visit: "0",
-          bacolor: 4,
+          bacolor: 3,
           LangthNum: "",
         },
         {
           name: "今日新增",
           visit: "1",
-          bacolor: 5,
+          bacolor: 4,
           LangthNum: "",
         },
         {
           name: "本周新增",
           foll: "0",
-          bacolor: 6,
+          bacolor: 5,
           LangthNum: "",
         },
         {
           name: "本月新增",
           foll: "1",
-          bacolor: 7,
+          bacolor: 6,
           LangthNum: "",
         },
         {
           name: "撞单查询",
           deal: "0",
-          bacolor: 8,
+          bacolor: 7,
           LangthNum: "",
         },
         {
           name: "新增客户",
           deal: "1",
-          bacolor: 9,
+          bacolor: 8,
           LangthNum: "",
         },
       ],
-      akp: -1,
+      akp: 0,
       values1: "", // 输入框数据
-      checked: false, //选择框
-      currentPage: 1, //当前页数
       value1: "", //点击变色高亮
       username: {}, //获取用户信息
       usernameId: 0, //获取用户id
-      pageSize: 10, //
+      pageSize: 10,
       mobile: "",
-      article: [], //筛选出的数据
-      list: [], //筛选出的id
-      separate: [], //删除单个
     };
   },
   methods: {
-    ...userActions(["recommend", "intoSeasCustomer", "recommend111"]),
+    ...userActions([
+      "recommend",
+      "intoSeasCustomer",
+      "Customer_source",
+      "salesman",
+      "Campus_information",
+      "Team_information",
+      "Customer_type",
+      "getcustomerSeasPage",
+    ]),
     // 搜索
     search() {
       this.recommend({
         accountId: this.usernameId,
-        state: this.akp,
         serarchPara: this.values1,
         pageNum: this.currentPage,
         pageSize: this.pageSize,
@@ -329,13 +184,12 @@ export default {
     logoto() {},
     //导航点击分类
     qblist(value111) {
-      // this.akp = value111;
       if (value111 === 0) {
         this.akp = value111;
       } else if (value111 === 1) {
         this.akp = value111;
       } else if (value111 === 2) {
-        this.akp = value111;
+        this.$toast.success("该功能暂未开通");
       } else if (value111 === 3) {
         this.$toast.success("该功能暂未开通");
       } else if (value111 === 4) {
@@ -347,179 +201,37 @@ export default {
       } else if (value111 === 7) {
         this.$toast.success("该功能暂未开通");
       } else if (value111 === 8) {
-        this.$toast.success("该功能暂未开通");
-      } else if (value111 === 9) {
         this.$router.push("/Newcustomer");
       }
       this.recommend({
         accountId: this.usernameId,
-        state: this.akp,
         serarchPara: this.values1,
         pageNum: this.currentPage,
         pageSize: this.pageSize,
       });
-    },
-    //去详情页
-    godetails(index) {
-      this.$router.push({
-        path: "/details",
-        query: { id: this.listing[index].id },
-      });
-    },
-    //客户列表
-    kehu() {
-      this.akp = -1;
-      this.recommend({
-        accountId: this.usernameId,
-        state: this.akp,
-        serarchPara: this.values1,
-        pageNum: this.currentPage,
-        pageSize: this.pageSize,
-      });
-    },
-    //列表内放入公海
-    gonghai(item) {
-      this.separate = item.id;
-      this.$dialog
-        .confirm({
-          message: "你确认放入公海数据吗",
-        })
-        .then((res) => {
-          this.intoSeasCustomer({
-            ids: this.separate,
-            accountId: this.usernameId,
-            state: this.akp,
-            serarchPara: this.values1,
-            pageNum: this.currentPage,
-            pageSize: this.pageSize,
-          });
-        })
-        .catch((err) => {
-          this.$toast({
-            message: "你已取消",
-          });
-          console.log(err);
-        });
-    },
-    //底部放入公海
-    Thesea() {
-      if (this.list.length > 0) {
-        this.$dialog
-          .confirm({
-            message: "你确认放入公海数据吗",
-          })
-          .then((res) => {
-            this.intoSeasCustomer({
-              ids: this.list,
-              accountId: this.usernameId,
-              state: this.akp,
-              serarchPara: this.values1,
-              pageNum: this.currentPage,
-              pageSize: this.pageSize,
-            });
-            this.list = [];
-          })
-          .catch((err) => {
-            console.log(err);
-          });
-      } else {
-        this.$toast({
-          message: "你还没有选择要放入的内容",
-        });
-      }
     },
     // 滑动事件
-    goright(){
-      this.$router.go(-1)
+    goright() {
+      this.$router.go(-1);
     },
-    goleft(){
-      this.$router.go(1)
-    },
-    //联系人跳转
-    hecontact(index) {
-      this.$router.push({
-        path: "/details",
-        query: { idb: this.listing[index].id },
-      });
-    },
-    //跳转到跟单管理
-    Thedocumentary(item) {
-      this.$router.push({
-        path: "/Petaliest",
-        query: { idb: item.id },
-      });
-    },
-    //添加联系人
-    contact(item) {
-      let id = item.id;
-      this.$router.push({ path: "/arrcontact", query: { id: id } });
-    },
-    //修改客户详情
-    Modify(item) {
-      let idp = item.id;
-      this.$router.push({
-        path: "/Modify",
-        query: { id: idp },
-      });
-    },
-    // 分页
-    paging(e) {
-      this.currentPage = e;
-      this.$store.dispatch("user/recommend", {
-        accountId: this.usernameId,
-        state: this.akp,
-        serarchPara: this.values1,
-        pageNum: this.currentPage,
-        pageSize: this.pageSize,
-      });
-      let topHeight = document.getElementById("top").offsetHeight;
-      console.log(document.documentElement.scrollTop)
-      let timer = setInterval(() => {
-          let height = document.documentElement.scrollTop % 500;
-          if (height !== topHeight) {
-            document.documentElement.scrollTop = document.documentElement.scrollTop - 500;
-            if (document.documentElement.scrollTop >= 500 && document.documentElement.scrollTop < 1000) {
-              let reduce = height + 500 - topHeight;
-              console.log(reduce)
-              document.documentElement.scrollTop =
-                document.documentElement.scrollTop - reduce;
-                console.log(document.documentElement.scrollTop,99)
-              clearInterval(timer);
-            }
-          }
-      }, 30);
-    },
-    // 全选
-    checkAllfalse() {
-      this.listing.map((item) => {
-        item.flag = this.checked;
-      });
-      if (this.checked === true) {
-        this.article = this.listing.filter((item) => {
-          return item.flag === true;
-        });
-        this.article.map((item) => {
-          this.list.push(item.id);
-        });
-        console.log(this.list);
-      } else {
-        this.list = [];
-        this.checked = false;
-      }
-    },
-    //单选
-    radio() {
-      this.checked = this.listing.every((item) => {
-        return item.flag === true;
-      });
+    goleft() {
+      this.$router.go(1);
     },
   },
   mounted() {
     this.username = JSON.parse(localStorage.getItem("user"));
     this.usernameId = this.username.id;
+    this.Customer_source();
+    this.salesman();
+    this.Campus_information();
+    this.Customer_type();
+    this.Team_information();
+    this.getcustomerSeasPage({
+      pageNum: this.currentPage,
+      pageSize: this.pageSize,
+    }); //客户公海列表
     this.recommend({
       accountId: this.usernameId,
-      state: this.akp,
       serarchPara: this.values1,
       pageNum: this.currentPage,
       pageSize: this.pageSize,
@@ -534,57 +246,20 @@ export default {
     },
   },
   computed: {
-    ...userState(["listing", "total"]),
+    ...userState([
+      "listing",
+      "total",
+      "Source",
+      "salesmanlist",
+      "campuslist",
+      "teamlist",
+      "typelist",
+      "internationalist",
+      "Seatotal",
+    ]),
   },
 };
 </script>
 
 <style scoped lang='scss'>
-// 分页
-.fenye {
-  margin-top: 20px;
-}
-// 全选
-.backgr {
-  border: 1px solid #e1e2e4;
-  display: flex;
-  align-items: center;
-  justify-content: space-around;
-  background: #eff0ef;
-}
-.gonghai {
-  padding: 10px;
-}
-.bot1 {
-  width: 33.3%;
-  height: 30px;
-  border: 0.1px solid #fff;
-  color: #fff;
-  line-height: 30px;
-  font-size: 14px;
-  background-color: #488dc9;
-}
-.bgggColors {
-  background-color: #f56659;
-}
-.bgColors {
-  background-color: #f56659 !important;
-}
-.gonghaipp {
-  background-color: #096;
-  border: none;
-  color: #fff;
-  border-radius: 3px;
-  font-size: 12px;
-  padding: 0px 10px;
-  margin-left: 10px;
-}
-.gonghaiyy {
-  height: 40px;
-  display: flex;
-  align-items: center;
-}
-.bot2 {
-  text-align: center;
-}
 </style>
