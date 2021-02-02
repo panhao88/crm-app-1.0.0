@@ -14,8 +14,8 @@ export default {
         Documentary: [], //跟单对象
         podaylist: [],//今日跟单
         weeklist: [] ,//本周跟单
-        listrow:[] ,//今日跟单总数
-        weekrowlist:[] //本周跟进
+        listrow:0 ,//今日跟单总数
+        weekrowlist:0 //本周跟进
     },
     mutations: {
         //跟单列表
@@ -79,7 +79,7 @@ export default {
         async thedetalils({ commit }, { customer }) {
             try {
                 let res = await api.thedetalils({ customer })
-                console.log(res, "跟单详情列表")
+                console.log(res.list, "跟单详情列表")
                 commit('setthedetalils', res.list)
             } catch (err) {
                 console.log(err)

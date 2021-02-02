@@ -64,7 +64,8 @@
     </div>
     <van-dialog v-model="show" title="跟单详情" :close-on-click-overlay="true" :show-confirm-button="false">
       <div v-if="setlist.length > 0">
-        <div v-for="item in setlist" :key="item.id">
+        <van-divider />
+          <div v-for="item in setlist" :key="item.id" >
           <div class="mername">
             <div>{{ item.customerName }}-{{ item.statusName }}</div>
             <div>{{ item.createAt }}</div>

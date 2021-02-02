@@ -1,5 +1,5 @@
 <template>
-  <div v-touch:right="goright" v-touch:left="goleft">
+  <div  >
     <div class="headdd">
       <div id="top">
         <!-- 头部导航 -->
@@ -210,13 +210,7 @@ export default {
         pageSize: this.pageSize,
       });
     },
-    // 滑动事件
-    goright() {
-      this.$router.go(-1);
-    },
-    goleft() {
-      this.$router.go(1);
-    },
+   
   },
   mounted() {
     this.username = JSON.parse(localStorage.getItem("user"));
@@ -262,4 +256,9 @@ export default {
 </script>
 
 <style scoped lang='scss'>
+.cont {
+  width: 10%;
+  height: 500px;
+  background: red;
+}
 </style>

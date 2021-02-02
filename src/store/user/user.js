@@ -283,7 +283,6 @@ export default {
                 let res = await api.Addcntacts({ accountId, customerId, name, mobile })
                 if (res.code === 200) {
                     Toast.success(res.msg)
-                    router.push("/Customer")
                     dispatch("recommend", {
                         accountId, serarchPara, pageNum, pageSize,
                     })

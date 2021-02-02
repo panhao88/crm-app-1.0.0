@@ -1,5 +1,5 @@
 <template>
-  <div v-touch:right="goright"  v-touch:left="goleft" class="topcenteh">
+  <div class="topcenteh">
     <!-- 头部导航 -->
     <div>
       <van-nav-bar :fixed="true" :z-index="3" title="跟单详情">
@@ -28,10 +28,8 @@
             <span>跟单人:{{ item.realName }}</span>
             <div class="note clearfix">跟单时间:{{ item.createAt }}</div>
             <div class="note clearfix">下次联系时间:{{ item.lastAt }}</div>
-            <span></span>
             <div class="note clearfix">备注:{{ item.remark }}</div>
-            <span></span>
-            <div class="jiesu">
+            <div class="jiesu" v-if="usernameId !== 1">
               <button class="gendna" @click="Theendpl(item)">删除跟单</button>
             </div>
             <div class="clear"></div>
@@ -82,13 +80,6 @@ export default {
         path: "/listnew",
         query: { name: item },
       });
-    },
-     // 滑动事件
-    goright(){
-      this.$router.go(-1)
-    },
-    goleft(){
-      this.$router.go(1)
     },
     //结束跟单
     Theendpl(item) {

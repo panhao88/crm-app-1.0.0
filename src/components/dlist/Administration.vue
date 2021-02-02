@@ -2,7 +2,7 @@
   <!-- 跟单管理 -->
   <div>
     <div class="boxt">
-      <div v-if="this.contact.length > 0 ">
+      <div v-if="this.contact.length > 0">
         <div v-for="item in contact" :key="item.id">
           <table>
             <tr>
@@ -10,7 +10,12 @@
               <td class="boedee-byt">职位:</td>
             </tr>
             <tr>
-              <td class="boedee-apo">电话:{{ item.mobile }}</td>
+              <td class="boedee-apo">
+                电话:<a class="tu3" :href="'tel:' + item.mobile">{{
+                  item.mobile
+                }}</a
+                ><a class="tu2 iconfont icon-dianhua"></a>
+              </td>
               <td class="boedee-byt">微信:</td>
             </tr>
             <tr>
@@ -63,8 +68,7 @@ export default {
       this.$router.push("/customer");
     },
   },
-  mounted() {
-  },
+  mounted() {},
   watch: {},
   computed: {},
   filters: {},

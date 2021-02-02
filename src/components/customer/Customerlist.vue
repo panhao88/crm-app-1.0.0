@@ -16,7 +16,9 @@
             :key="index"
           >
             <div class="m-list-title clearfix goto">
-              <span @click="godetails(index)">{{ item.name }}-({{item.id}})</span>
+              <span @click="godetails(index)"
+                >{{ item.name }}-({{ item.id }})</span
+              >
             </div>
             <div class="m-list-con clearfix">
               <span>
@@ -27,7 +29,6 @@
                   }}</small>
                 </small>
               </span>
-              <!--              <span> 校区分类:</span>-->
               <span>
                 来源:
                 <small v-for="item1 in Source" :key="item1.id">
@@ -36,19 +37,22 @@
                   }}</small>
                 </small>
               </span>
-              <span>微信号:{{ item.wechatCode }}</span>
+              <span
+                >微信号:<small>{{ item.wechatCode }}</small></span
+              >
               <span>
                 QQ: <small>{{ item.qqCode }}</small>
               </span>
 
-              <span> 咨询方式:{{ item.modelName }}</span>
+              <span>
+                咨询方式:<small>{{ item.consultationType }}</small></span
+              >
 
               <span>
                 电话:
                 <a class="tu3" :href="'tel:' + item.mobile">{{
                   item.mobile
                 }}</a>
-                <a class="tu2 iconfont icon-dianhua"></a>
               </span>
               <span>
                 录入者:
@@ -82,8 +86,12 @@
                   }}</small>
                 </small>
               </span>
-              <div class="note clearfix">录入时间: {{ item.entryTime }}</div>
-              <div class="note clearfix">搜索词:{{ item.searchTerms }}</div>
+              <div class="note clearfix">
+                录入时间: <small>{{ item.entryTime }}</small>
+              </div>
+              <div class="note clearfix">
+                搜索词:<small>{{ item.searchTerms }}</small>
+              </div>
               <span>
                 最后更新:
                 <small v-if="item.minC >= 1 && item.minC < 59">
@@ -140,7 +148,7 @@
                 >
                 <span
                   class="lianxi"
-                  @click="hecontact(index)"
+                  @click="hecontact(item)"
                   v-if="item.contactsNum > 0"
                   >联系人<span class="f-c-hong">
                     ({{ item.contactsNum }})</span
@@ -195,6 +203,43 @@
         @change="paging"
       />
     </div>
+    <!-- 查看联系人 -->
+    <div>
+      <van-dialog
+        v-model="show"
+        title="联系人"
+        show-cancel-button
+        :close-on-click-overlay="true"
+        :show-confirm-button="false"
+      >
+          <div v-for="item in conlist" :key="item.id">
+            <div class="dialog" v-if="conlist.length > 0">
+              <div>姓名：{{ item.name }}</div>
+              <div>
+                电话：
+                <a class="tu3" :href="'tel:' + item.mobile">{{ item.mobile }}</a
+                ><a class="tu2 iconfont icon-dianhua"></a>
+              </div>
+            </div>
+            <van-divider />
+          </div>
+      </van-dialog>
+    </div>
+    <!-- 新增联系人 -->
+    <div>
+      <van-dialog
+        v-model="toshow"
+        title="新增联系人"
+        show-cancel-button
+        :close-on-click-overlay="true"
+        @confirm="ok"
+      >
+        <van-cell-group>
+          <van-field v-model="name" label="姓名" placeholder="请输入姓名" />
+          <van-field v-model="phone" label="电话" placeholder="请输入电话" />
+        </van-cell-group>
+      </van-dialog>
+    </div>
   </div>
 </template>
 
@@ -238,6 +283,8 @@ export default {
   components: {},
   data() {
     return {
+      show: false, //联系人弹窗
+      toshow: false, //新增联系人
       currentPage: 1, // 分页
       pageNum: 1,
       pageSize: 10,
@@ -245,10 +292,14 @@ export default {
       article: [], //筛选出的数据
       list: [], //筛选出的id
       separate: [], //删除单个
+      conlist: [], //联系人列表
+      name: "",
+      phone: "",
+      id: "",
     };
   },
   methods: {
-    ...userActions(["intoSeasCustomer"]),
+    ...userActions(["intoSeasCustomer", "Addcntacts"]),
     //去详情页
     godetails(index) {
       this.$router.push({
@@ -297,39 +348,45 @@ export default {
         });
       }
     },
-    //联系人跳转
-    hecontact(index) {
-      this.$router.push({
-        path: "/details",
-        query: { idb: this.listing[index].id },
-      });
+    //联系人
+    hecontact(item) {
+      let id = item.id;
+      this.show = true;
+      this.$api
+        .Thecontact({ id: id })
+        .then((res) => {
+          this.conlist = res.list;
+          console.log(res, "联系人");
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     },
     //添加联系人
     contact(item) {
-      let id = item.id;
-      this.$router.push({ path: "/arrcontact", query: { id: id } });
+      this.id = item.id;
+      this.toshow = true;
+    },
+    ok() {
+      this.Addcntacts({
+        accountId: this.usernameId,
+        customerId: this.id,
+        name: this.name,
+        mobile: this.phone,
+      });
+      this.toshow = false;
+      this.name = "";
+      this.phone = "";
     },
     //列表内放入公海
     gonghai(item) {
       this.separate = item.id;
-      this.$dialog
-        .confirm({
-          message: "你确认放入公海数据吗",
-        })
-        .then((res) => {
-          this.intoSeasCustomer({
-            ids: this.separate,
-            accountId: this.usernameId,
-            pageNum: this.currentPage,
-            pageSize: this.pageSize,
-          });
-        })
-        .catch((err) => {
-          this.$toast({
-            message: "你已取消",
-          });
-          console.log(err);
-        });
+      this.intoSeasCustomer({
+        ids: this.separate,
+        accountId: this.usernameId,
+        pageNum: this.currentPage,
+        pageSize: this.pageSize,
+      });
     },
     // 分页
     paging(e) {
@@ -436,5 +493,8 @@ export default {
 }
 .bot2 {
   text-align: center;
+}
+.dialog {
+  padding-left: 10px;
 }
 </style>

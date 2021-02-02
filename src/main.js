@@ -6,11 +6,15 @@ import Vant from 'vant';
 import api from './http/api'
 import 'vant/lib/index.css';
 import dayjs from 'dayjs'
-import VueParticles from 'vue-particles'  
-import touch from 'vue-directive-touch';
+import VueParticles from 'vue-particles'
+import VueTouch from 'vue-touch'
 
-Vue.use(touch);
-Vue.use(VueParticles)  
+
+Vue.use(VueTouch, { name: 'v-touch' })
+VueTouch.config.swipe = {
+  threshold: 100 //手指左右滑动距离
+}
+Vue.use(VueParticles)
 Vue.prototype.$api = api
 Vue.prototype.$dayjs = dayjs
 Vue.use(Vant);

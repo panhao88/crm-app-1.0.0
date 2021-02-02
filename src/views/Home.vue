@@ -1,5 +1,5 @@
 <template>
-  <div v-touch:right="goright">
+  <div>
     <!-- 头部导航1111111 -->
     <div id="_nav">
       <van-nav-bar :fixed="true" :z-index="3" :title="realName">
@@ -277,27 +277,27 @@ export default {
       this.show = true;
     },
     //左划
-    goright() {
-      this.$dialog
-        .confirm({
-          message: "你确认要退出吗",
-        })
-        .then((res) => {
-          localStorage.removeItem("user");
-          this.$router.push("login");
-          this.$toast({
-            message: "退出成功",
-          });
-          // 震动
-          // plus.device.vibrate(500);
-        })
-        .catch((err) => {
-          this.$toast({
-            message: "你已取消",
-          });
-          console.log(err);
-        });
-    },
+    // goright() {
+    //   this.$dialog
+    //     .confirm({
+    //       message: "你确认要退出吗",
+    //     })
+    //     .then((res) => {
+    //       localStorage.removeItem("user");
+    //       this.$router.push("login");
+    //       this.$toast({
+    //         message: "退出成功",
+    //       });
+    //       // 震动
+    //       // plus.device.vibrate(500);
+    //     })
+    //     .catch((err) => {
+    //       this.$toast({
+    //         message: "你已取消",
+    //       });
+    //       console.log(err);
+    //     });
+    // },
     getdata() {
       this.$api
         .update()
@@ -320,7 +320,7 @@ export default {
     },
     //前往升级
     previous() {
-      plus.runtime.openURL(`http://211.149.157.5:86${this.website}`);
+      plus.runtime.openURL(`http://192.168.10.9${this.website}`);
     },
   },
   mounted() {

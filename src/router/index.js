@@ -211,12 +211,6 @@ const routes = [
     name: 'Newcustomer',
     component: () => import('../views/Newcustomer/newcustomer.vue')
   },
-  //新增联系人
-  {
-    path: '/Arrcontact',
-    name: 'Arrcontact',
-    component: () => import('../views/Arrcontact/arrcontact.vue')
-  },
   //编辑客户
   {
     path: '/Modify',
@@ -241,9 +235,21 @@ const router = new VueRouter({
 router.beforeEach((to, from, next) => {
   document.title = to.meta.title
   next()
-  let user = JSON.parse(localStorage.getItem('user'))
-  if (to.path === '/login') next()
-  else user ? next() : next('/login')
+  // let user = JSON.parse(localStorage.getItem('user'))
+  // if (to.path === '/login') {
+  //   next()
+  // } else { user ? next() : next('/login') }
+   //获取登录状态
+  let isLogin = JSON.parse(localStorage.getItem('user')) ? true : false
+  if (isLogin) {
+    next()
+  } else {
+    if (to.path === '/login') {
+      next()
+    } else {
+      next('/login')
+    }
+  }
 })
 
 

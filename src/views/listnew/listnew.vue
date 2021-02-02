@@ -1,5 +1,5 @@
 <template>
-  <div v-touch:right="goright"  v-touch:left="goleft">
+  <div>
     <!-- 新增跟单 -->
     <!-- 头部导航 -->
     <div>
@@ -203,13 +203,7 @@ export default {
           customer:this.id
         });
     },
-    // 滑动事件
-    goright(){
-      this.$router.go(-1)
-    },
-    goleft(){
-      this.$router.go(1)
-    },
+  
     //跟单对象
     didi() {
       this.type = this.valuesrrot.type;

@@ -1,5 +1,5 @@
 <template>
-  <div v-touch:right="goright" v-touch:left="goleft">
+  <div >
     <!-- 头部导航 -->
     <div>
       <van-nav-bar :fixed="true" :z-index="3" class="vanbar">
@@ -22,7 +22,6 @@
       >
         <div class="box1">
           <div class="box2">{{ item.name }}</div>
-          <!-- <div class="box3"></div> -->
         </div>
       </div>
       <div class="Heel_a backF5" @click="retreat">返回系统主页</div>
@@ -159,13 +158,6 @@ export default {
     guanbip() {
       this.current = 1;
     },
-    // 滑动事件
-    goright() {
-      this.$router.go(-1);
-    },
-    goleft() {
-      this.$router.go(1);
-    },
     // 搜索
     search() {
       this.$store.dispatch("documentary/documentary", {
@@ -221,7 +213,6 @@ export default {
   },
 };
 </script>
-
 <style scoped lang='scss'>
 .note {
   width: 100%;

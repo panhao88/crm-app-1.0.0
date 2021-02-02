@@ -1,5 +1,5 @@
 <template>
-  <div   v-touch:right="goright"  v-touch:left="goleft">
+  <div>
     <!-- 头部导航 -->
     <div>
       <van-nav-bar :fixed="true" :z-index="3" title="数据操纵" class="vanbar">
@@ -150,13 +150,7 @@ export default {
     retreat() {
       this.$router.push("/home");
     },
-      // 滑动事件
-    goright(){
-      this.$router.go(-1)
-    },
-    goleft(){
-      this.$router.go(1)
-    },
+    
     // 头部返回
     page() {
       this.$router.go(-1);
@@ -169,13 +163,13 @@ export default {
   mounted() {
     this.ids = this.$route.query.id;
     this.idp = this.$route.query.id
-     if(this.$route.query.idb){
-      this.current = 1
-      this.idp = this.$route.query.idb
-      this.ids = this.$route.query.idb
-      this.setter({ id: this.ids });
-      this.Thecontact({ id: this.idp });
-    }
+    //  if(this.$route.query.idb){
+    //   this.current = 1
+    //   this.idp = this.$route.query.idb
+    //   this.ids = this.$route.query.idb
+    //   this.setter({ id: this.ids });
+    //   this.Thecontact({ id: this.idp });
+    // }
      this.setter({ id: this.ids });
      this.Thecontact({ id: this.idp });   
   },
