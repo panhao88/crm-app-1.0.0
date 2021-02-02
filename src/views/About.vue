@@ -1,6 +1,6 @@
 <template>
  <div>
-   
+
  </div>
 </template>
 
@@ -13,9 +13,9 @@
 
    },
    data () {
-     return {
+	 return {
 
-     }
+	 }
    },
    methods: {
 

@@ -80,7 +80,14 @@ export default {
             try {
                 let res = await api.thedetalils({ customer })
                 console.log(res.list, "跟单详情列表")
-                commit('setthedetalils', res.list)
+                res.list.map((item,index)=> {
+                    if(index !== 0 ){
+                        delete item.customerName
+                        commit('setthedetalils', res.list)
+                    }else {
+                        commit('setthedetalils', res.list)
+                    }
+                })
             } catch (err) {
                 console.log(err)
             }

@@ -1,5 +1,5 @@
 <template>
-  <div  >
+  <div>
     <div class="headdd">
       <div id="top">
         <!-- 头部导航 -->
@@ -32,15 +32,6 @@
             </div>
           </div>
           <div class="Heel_a backF5" @click="retreat">返回系统主页</div>
-        </div>
-        <!-- 搜索框33 -->
-        <div class="Heel_c">
-          <input
-            type="text"
-            v-model="values1"
-            placeholder="客户名称"
-            @keydown.enter="kenter"
-          /><button @click="search">搜索</button>
         </div>
       </div>
     </div>
@@ -140,7 +131,6 @@ export default {
         },
       ],
       akp: 0,
-      values1: "", // 输入框数据
       value1: "", //点击变色高亮
       username: {}, //获取用户信息
       usernameId: 0, //获取用户id
@@ -159,19 +149,6 @@ export default {
       "Customer_type",
       "getcustomerSeasPage",
     ]),
-    // 搜索
-    search() {
-      this.recommend({
-        accountId: this.usernameId,
-        serarchPara: this.values1,
-        pageNum: this.currentPage,
-        pageSize: this.pageSize,
-      });
-    },
-    // 搜索
-    kenter() {
-      this.search();
-    },
     //返回首页
     retreat() {
       this.$router.push("/");
@@ -188,6 +165,11 @@ export default {
         this.akp = value111;
       } else if (value111 === 1) {
         this.akp = value111;
+        this.getcustomerSeasPage({
+          accountId: this.usernameId,
+          pageNum: this.currentPage,
+          pageSize: this.pageSize,
+        });
       } else if (value111 === 2) {
         this.$toast.success("该功能暂未开通");
       } else if (value111 === 3) {
@@ -205,12 +187,11 @@ export default {
       }
       this.recommend({
         accountId: this.usernameId,
-        serarchPara: this.values1,
+        name: this.values1,
         pageNum: this.currentPage,
         pageSize: this.pageSize,
       });
     },
-   
   },
   mounted() {
     this.username = JSON.parse(localStorage.getItem("user"));
@@ -220,24 +201,15 @@ export default {
     this.Campus_information();
     this.Customer_type();
     this.Team_information();
-    this.getcustomerSeasPage({
-      pageNum: this.currentPage,
-      pageSize: this.pageSize,
-    }); //客户公海列表
     this.recommend({
       accountId: this.usernameId,
-      serarchPara: this.values1,
+      name: this.values1,
       pageNum: this.currentPage,
       pageSize: this.pageSize,
     });
   },
   watch: {
-    // 监听输入框事件
-    values1(val) {
-      if (this.values1 === "") {
-        this.search();
-      }
-    },
+   
   },
   computed: {
     ...userState([

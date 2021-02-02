@@ -2,6 +2,15 @@
   <div>
     <div>
       <div>
+         <!-- 搜索框33 -->
+        <div class="Heel_c">
+          <input
+            type="text"
+            v-model="values1"
+            placeholder="客户名称"
+            @keydown.enter="kenter"
+          /><button @click="search">搜索</button>
+        </div>
         <!-- 客户数量限制： -->
         <div class="maxnumtip">
           <span class="iconfont icon-icon-test2"
@@ -283,6 +292,7 @@ export default {
   components: {},
   data() {
     return {
+      values1: "", // 输入框数据
       show: false, //联系人弹窗
       toshow: false, //新增联系人
       currentPage: 1, // 分页
@@ -299,7 +309,7 @@ export default {
     };
   },
   methods: {
-    ...userActions(["intoSeasCustomer", "Addcntacts"]),
+    ...userActions(["intoSeasCustomer", "Addcntacts","recommend"]),
     //去详情页
     godetails(index) {
       this.$router.push({
@@ -322,6 +332,19 @@ export default {
         query: { id: idp },
       });
     },
+     // 搜索
+    search() {
+      this.recommend({
+        accountId: this.usernameId,
+        name: this.values1,
+        pageNum: this.currentPage,
+        pageSize: this.pageSize,
+      });
+    },
+    // 搜索
+    kenter() {
+      this.search();
+    },
     //底部放入公海
     Thesea() {
       if (this.list.length > 0) {
@@ -333,7 +356,6 @@ export default {
             this.intoSeasCustomer({
               ids: this.list,
               accountId: this.usernameId,
-              serarchPara: this.values1,
               pageNum: this.currentPage,
               pageSize: this.pageSize,
             });
@@ -441,7 +463,14 @@ export default {
     },
   },
   mounted() {},
-  watch: {},
+  watch: {
+     // 监听输入框事件
+    values1(val) {
+      if (this.values1 === "") {
+        this.search();
+      }
+    },
+  },
   computed: {},
 };
 </script>

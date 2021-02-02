@@ -1,5 +1,14 @@
 <template>
   <div>
+    <!-- 搜索框33 -->
+    <div class="Heel_c">
+      <input
+        type="text"
+        v-model="serch"
+        placeholder="客户名称"
+        @keydown.enter="kenter"
+      /><button @click="search">搜索</button>
+    </div>
     <div class="backgroun">
       <div v-for="item in internationalist" :key="item.id" class="back_ground">
         <div class="name_size">
@@ -62,10 +71,15 @@
         @change="paging"
       />
     </div>
-    <van-dialog v-model="show" title="跟单详情" :close-on-click-overlay="true" :show-confirm-button="false">
+    <van-dialog
+      v-model="show"
+      title="跟单详情"
+      :close-on-click-overlay="true"
+      :show-confirm-button="false"
+    >
       <div v-if="setlist.length > 0">
         <van-divider />
-          <div v-for="item in setlist" :key="item.id" >
+        <div v-for="item in setlist" :key="item.id">
           <div class="mername">
             <div>{{ item.customerName }}-{{ item.statusName }}</div>
             <div>{{ item.createAt }}</div>
@@ -112,10 +126,11 @@ export default {
       article: [], //筛选出的数据
       list: [], //筛选出的id
       show: false,
+      serch:''
     };
   },
   methods: {
-    ...userActions(["obtain"]),
+    ...userActions(["obtain","getcustomerSeasPage"]),
     ...listActions(["thedetalils"]),
     //获取客户信息
     gonghai(item) {
@@ -167,6 +182,19 @@ export default {
         return item.flag === true;
       });
     },
+    // 搜索
+    search() {
+      this.getcustomerSeasPage({
+        accountId: this.usernameId,
+        name: this.serch,
+        pageNum: this.currentPage,
+        pageSize: this.pageSize,
+      });
+    },
+    // 搜索
+    kenter() {
+      this.search();
+    },
     //全选
     checkAllfalse() {
       this.internationalist.map((item) => {
@@ -193,7 +221,14 @@ export default {
     },
   },
   mounted() {},
-  watch: {},
+  watch: {
+     // 监听输入框事件
+    serch(val) {
+      if (this.serch === "") {
+        this.search();
+      }
+    },
+  },
   computed: {
     ...listState(["setlist"]),
   },
@@ -289,7 +324,7 @@ export default {
   height: 55vh;
   overflow: auto;
 }
-.van-button::before{
+.van-button::before {
   bottom: 0px;
 }
 </style>

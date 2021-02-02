@@ -93,10 +93,10 @@ export default {
     },
     // 获取客户列表
     actions: {
-        async recommend({ commit }, { accountId, serarchPara, pageNum, pageSize }) {
+        async recommend({ commit }, { accountId, serarchPara, pageNum, pageSize,name }) {
             try {
                 let res = await api.recommend({
-                    accountId, serarchPara, pageNum, pageSize
+                    accountId, serarchPara, pageNum, pageSize,name
                 })
                 console.log(res, "列表");
                 if (res.code === 200) {
@@ -227,7 +227,7 @@ export default {
                 if (res.code === 200) {
                     Toast.success(res.msg)
                     dispatch("getcustomerSeasPage",{
-                        pageNum, pageSize
+                        pageNum, pageSize,accountId
                     })
                 } else if (res.code === 401) {
                     Toast.fail(res.msg)
@@ -325,9 +325,9 @@ export default {
             }
         },
         //获取客户公海列表
-        async getcustomerSeasPage({ commit }, { pageNum, pageSize }) {
+        async getcustomerSeasPage({ commit }, {accountId, pageNum, pageSize,name }) {
             try {
-                    let res = await api.getcustomerSeasPage({ pageNum, pageSize })
+                    let res = await api.getcustomerSeasPage({accountId, pageNum, pageSize,name })
                     res.list.map(item => {
                         Vue.set(item, "flag", false);
                     })

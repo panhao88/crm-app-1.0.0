@@ -10,9 +10,9 @@ export default {
     return service.get(`/api/login/doLogin?userName=${userName}&password=${password}`)
   },
   // 2.客户列表
-  recommend({ accountId, serarchPara,pageNum, pageSize, }) {
+  recommend({ accountId, serarchPara,pageNum, pageSize,name }) {
     return service.post("/api/customer/customerPage", qs.stringify({
-      accountId, serarchPara, pageNum, pageSize
+      accountId, serarchPara, pageNum, pageSize,name
     }))
   },
   //客户来源
@@ -150,9 +150,9 @@ Customer_type(){
     return service.post("/api/follow/orderWeek",qs.stringify({accountId,pageNum,pageSize}))
   },
   //获取客户公海列表
-  getcustomerSeasPage({pageNum,pageSize}){
+  getcustomerSeasPage({accountId,pageNum,pageSize,name}){
     return service.post("/api/customer/customerSeasPage",qs.stringify({
-      pageNum,pageSize
+      accountId,pageNum,pageSize,name
     }))
   }
 }

@@ -264,11 +264,11 @@ export default {
     };
   },
   methods: {
-    //去内战
+
     goto(url) {
       this.$router.push(url);
     },
-    //去推出页
+    //去退出页
     logoto() {
       this.$router.push("/exit");
     },
@@ -302,17 +302,16 @@ export default {
       this.$api
         .update()
         .then((res) => {
+          console.log(res, "版本更新");
           this.myversion = plus.runtime.version;
           this.website = res.data.annex;
           this.verseonexplain = res.data.content;
           if (this.myversion !== res.data.version) {
             this.flag = true;
-            // this.show = true
           }
           if (this.myversion === res.data.version) {
             this.flag = false;
           }
-          console.log(res, "版本更新");
         })
         .catch((err) => {
           console.log(err);
@@ -320,7 +319,7 @@ export default {
     },
     //前往升级
     previous() {
-      plus.runtime.openURL(`http://192.168.10.9${this.website}`);
+      plus.runtime.openURL(`http://211.149.157.5:86${this.website}`);
     },
   },
   mounted() {
