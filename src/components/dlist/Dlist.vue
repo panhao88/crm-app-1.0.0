@@ -18,25 +18,39 @@
         </tr>
         <tr>
           <td class="boedee-a">联系人:</td>
-         
-          <td class="boedee-b" v-if="details.contactsNum === 0" >没有联系人</td>
-          <td class="boedee-b" v-if="details.contactsNum > 0" >有{{details.contactsNum}}位联系人<button class="bootn" @click="godetaild">查看联系人</button></td>
+          <td class="boedee-b" v-if="details.contactsNum === null">
+            暂无联系人
+          </td>
+          <td class="boedee-b" v-if="details.contactsNum !== null">
+            有{{ details.contactsNum }}位联系人<button
+              class="bootn"
+              @click="godetaild"
+            >
+              查看联系人
+            </button>
+          </td>
         </tr>
         <tr>
           <td class="boedee-a">手机号码:</td>
-          <td class="boedee-b">{{ details.mobile }}</td>
+          <td class="boedee-b" v-if="details.mobile === null || details.mobile === ''">暂无手机号码</td>
+          <td class="boedee-b" v-if="details.mobile !== '' && details.mobile !== null">
+            <a class="tu3" :href="'tel:' + details.mobile">{{
+              details.mobile
+            }}</a
+            ><a class="tu2 iconfont icon-dianhua"></a>
+          </td>
         </tr>
         <tr>
           <td class="boedee-a">QQ:</td>
-          <td class="boedee-b">{{details.qqCode}}</td>
+          <td class="boedee-b">{{ details.qqCode }}</td>
         </tr>
         <tr>
           <td class="boedee-a">咨询方式:</td>
-          <td class="boedee-b">{{details.modeName}}</td>
+          <td class="boedee-b">{{ details.modeName }}</td>
         </tr>
         <tr>
           <td class="boedee-a">客户类型:</td>
-          <td class="boedee-b">{{details.statusName}}</td>
+          <td class="boedee-b">{{ details.statusName }}</td>
         </tr>
         <tr>
           <td class="boedee-a">校区分类:</td>
@@ -44,7 +58,7 @@
         </tr>
         <tr>
           <td class="boedee-a">客户来源:</td>
-          <td class="boedee-b">{{details.code}}</td>
+          <td class="boedee-b">{{ details.code }}</td>
         </tr>
         <tr>
           <td class="boedee-a">当前学历:</td>
@@ -53,11 +67,11 @@
         </tr>
         <tr>
           <td class="boedee-a">搜索词:</td>
-          <td class="boedee-b">{{details.searchTerms}}</td>
+          <td class="boedee-b">{{ details.searchTerms }}</td>
         </tr>
         <tr>
           <td class="boedee-a">微信号:</td>
-          <td class="boedee-b">{{details.wechatCode}}</td>
+          <td class="boedee-b">{{ details.wechatCode }}</td>
         </tr>
         <tr>
           <td class="boedee-a">预计到校时间:</td>
@@ -69,14 +83,15 @@
           <div class="chat">聊天记录：</div>
         </div>
         <div>
-          <textarea class="comments"  id="demo" v-model="details.remark"> </textarea>
+          <textarea class="comments" id="demo" v-model="details.remark">
+          </textarea>
         </div>
       </div>
       <div class="placeholder"></div>
       <div class="kloepo">
-            <div class="xinzeng" @click="listnew">跟单管理</div>
-            <div class="guanbi" @click="previous">关闭</div>
-          </div>
+        <div class="xinzeng" @click="listnew">跟单管理</div>
+        <div class="guanbi" @click="previous">关闭</div>
+      </div>
     </div>
   </div>
 </template>
@@ -91,9 +106,7 @@ export default {
   },
   components: {},
   data() {
-    return {
-
-    };
+    return {};
   },
   methods: {
     // 关闭
@@ -101,22 +114,19 @@ export default {
       this.$router.go(-1);
     },
     //跳转到联系人
-    godetaild(){
-      this.$parent.current = 1
+    godetaild() {
+      this.$parent.current = 1;
     },
     //跳转到跟单管理
-    listnew(){
-        this.$router.push({
+    listnew() {
+      this.$router.push({
         path: "/Petaliest",
         query: { idb: this.details.id },
       });
-    }
+    },
   },
-  mounted() {
-
-  },
-  watch: {
-  },
+  mounted() {},
+  watch: {},
   computed: {},
 };
 </script>
@@ -163,13 +173,12 @@ export default {
   color: #fff;
   margin-left: 10px;
 }
-.bootn{
-  background: green ;
+.bootn {
+  background: green;
   border: none;
   color: #fff;
   border-radius: 4px;
   padding: 3px;
   margin-left: 10px;
-  
 }
 </style>

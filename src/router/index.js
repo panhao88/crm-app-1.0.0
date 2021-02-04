@@ -58,13 +58,19 @@ const routes = [
   {
     path: "/Customer",
     name: "Customer",
-    component: () => import('../views/Customer/Customer.vue')
+    component: () => import('../views/Customer/Customer.vue'),
+    meta:{
+      keepAlive: true// 需要被缓存
+    }
   },
   // 跟单管理
   {
     path: "/DocumenTary",
     name: "DocumenTary",
-    component: () => import('../views/DocumenTary/documentary.vue')
+    component: () => import('../views/DocumenTary/documentary.vue'),
+    meta:{
+      keepAlive: true// 需要被缓存
+    }
   },
   //客户跟单列表
   {
@@ -235,21 +241,10 @@ const router = new VueRouter({
 router.beforeEach((to, from, next) => {
   document.title = to.meta.title
   next()
-  // let user = JSON.parse(localStorage.getItem('user'))
-  // if (to.path === '/login') {
-  //   next()
-  // } else { user ? next() : next('/login') }
-   //获取登录状态
-  let isLogin = JSON.parse(localStorage.getItem('user')) ? true : false
-  if (isLogin) {
+  let user = JSON.parse(localStorage.getItem('user'))
+  if (to.path === '/login') {
     next()
-  } else {
-    if (to.path === '/login') {
-      next()
-    } else {
-      next('/login')
-    }
-  }
+  } else { user ? next() : next('/login') }
 })
 
 

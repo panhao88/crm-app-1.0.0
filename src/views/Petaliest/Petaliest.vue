@@ -25,11 +25,12 @@
             <span> 跟单方式:{{ item.modeName }}</span>
             <span> 跟单状态:{{ item.statusName }}</span>
             <span>跟单对象:<a class="tu2 iconfont icon-dianhua"></a></span>
-            <span>跟单人:{{ item.realName }}</span>
+            <span v-if="usernameId === item.createAc">跟单人:{{ item.realName }}</span>
+            <span v-else>跟单人:{{ item.userName }}</span>
             <div class="note clearfix">跟单时间:{{ item.createAt }}</div>
             <div class="note clearfix">下次联系时间:{{ item.lastAt }}</div>
             <div class="note clearfix">备注:{{ item.remark }}</div>
-            <div class="jiesu" v-if="usernameId !== 1">
+            <div class="jiesu" v-if="usernameId === 1">
               <button class="gendna" @click="Theendpl(item)">删除跟单</button>
             </div>
             <div class="clear"></div>

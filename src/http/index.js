@@ -13,7 +13,7 @@ const isProduction = process.env.NODE_ENV === "production"
 // 创建axios配置对象
 const service = axios.create({
   timeout: 10000,
-  baseURL: isProduction ? 'http://192.168.10.9' : '/api'
+  baseURL: isProduction ? 'http://192.168.123.67' : '/api'
   // baseURL: isProduction ? 'http://211.149.157.5:86' : '/api'
 })
 

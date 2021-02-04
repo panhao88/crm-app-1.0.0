@@ -216,6 +216,8 @@ export default {
       this.currentPage = e;
       this.$store.dispatch("user/getcustomerSeasPage", {
         pageNum: this.currentPage,
+        accountId: this.usernameId,
+         name: this.serch,
         pageSize: this.pageSize,
       });
     },

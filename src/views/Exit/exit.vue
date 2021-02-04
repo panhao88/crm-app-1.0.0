@@ -27,8 +27,8 @@ export default {
     },
       // 注销登录
     cancellation() {
-      localStorage.removeItem("user");
       this.$router.push("login");
+       localStorage.removeItem("user");
     },
   },
   mounted() {},

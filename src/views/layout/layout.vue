@@ -12,7 +12,7 @@
         :badge="20"
         >消息</van-tabbar-item
       >
-      <van-tabbar-item icon="comment" to="news" v-if="username === ''" :badge="20"
+      <van-tabbar-item icon="comment" to="news" v-if="username === ''" 
         >消息</van-tabbar-item
       >
       <van-tabbar-item icon="friends" to="maillist">通讯录</van-tabbar-item>
@@ -62,4 +62,5 @@ export default {
 </script>
 
 <style scoped lang='scss'>
+
 </style>

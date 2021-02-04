@@ -8,8 +8,11 @@ import 'vant/lib/index.css';
 import dayjs from 'dayjs'
 import VueParticles from 'vue-particles'
 import VueTouch from 'vue-touch'
-
-
+//进入页面时头部
+router.afterEach((to, from) => {
+  window.scrollTo(0,0);
+})
+//手机左右滑动插件
 Vue.use(VueTouch, { name: 'v-touch' })
 VueTouch.config.swipe = {
   threshold: 100 //手指左右滑动距离
